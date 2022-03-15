@@ -8,7 +8,9 @@ import {
 import { SignIn } from "@screens/SignIn";
 import { PhoneSignIn } from "@screens/SignIn/phoneSignIn";
 
-const { Navigator, Screen } = createStackNavigator()
+import { AuthRoutesParams } from 'src/types/routes';
+
+const { Navigator, Screen } = createStackNavigator<AuthRoutesParams>()
 
 export function AuthRoutes() {
   return (

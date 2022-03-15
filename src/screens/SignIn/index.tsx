@@ -3,6 +3,8 @@ import AnimatedLottieView from 'lottie-react-native'
 import { RFPercentage } from 'react-native-responsive-fontsize'
 
 import { Container } from '@components/Container'
+import { Button } from '@components/Button'
+
 import {
   Header,
   Title,
@@ -11,9 +13,10 @@ import {
   SubTitleLine,
   SubTitleText
 } from './styles'
-import { Button } from '@components/Button'
 
-export function SignIn(){
+import { SignInScreenProps } from 'src/types/routes'
+
+export function SignIn({ navigation: { navigate } } : SignInScreenProps){
   return (
     <Container>
       <Header>
@@ -40,6 +43,7 @@ export function SignIn(){
         <Button 
           title='Número de telefone'
           icon='phone'
+          onPress={() => navigate('phone')}
         />
       </Footer>
     </Container>

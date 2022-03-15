@@ -1,9 +1,10 @@
 import React from 'react'
-import {
-  Container
-} from '@components/Container'
 
-export function PhoneSignIn(){
+import { Container } from '@components/Container'
+
+import { PhoneSignInScreenProps } from 'src/types/routes'
+
+export function PhoneSignIn({  } : PhoneSignInScreenProps){
   return (
     <Container>
 
