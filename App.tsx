@@ -12,6 +12,7 @@ import AppLoading from 'expo-app-loading';
 import { Routes } from './src/routes';
 
 import themes from './src/themes';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 export default function App() {
  
@@ -27,7 +28,9 @@ export default function App() {
  
   return (
     <ThemeProvider theme={themes}>
-      <Routes />
+      <GestureHandlerRootView style={{flex: 1}}>
+        <Routes />
+      </GestureHandlerRootView>
     </ThemeProvider>
   );
 }
