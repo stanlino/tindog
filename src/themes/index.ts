@@ -6,6 +6,7 @@ export default {
     TEXT: '#000000',
 
     GRADIENT: ['#CEC6FF', '#FFFFFF'],
+    
   },
 
   FONTS: {
