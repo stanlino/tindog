@@ -1,5 +1,5 @@
 import React from 'react'
-import { RectButtonProps } from 'react-native-gesture-handler'
+import { TouchableOpacityProps } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons'; 
 
 import {
@@ -7,7 +7,7 @@ import {
   Title
 } from './styles'
 
-interface ButtonProps extends RectButtonProps {
+interface ButtonProps extends TouchableOpacityProps {
   title: string
   icon?: React.ComponentProps<typeof FontAwesome>['name']
 }
