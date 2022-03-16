@@ -7,3 +7,9 @@ export type AuthRoutesParams = {
 
 export type SignInScreenProps = StackScreenProps<AuthRoutesParams, 'index'>
 export type PhoneSignInScreenProps = StackScreenProps<AuthRoutesParams, 'phone'>
+
+export type AppRoutesParams = {
+  profile: undefined
+}
+
+export type ProfileScreenProps = StackScreenProps<AppRoutesParams, 'profile'>
