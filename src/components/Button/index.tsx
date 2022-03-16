@@ -25,7 +25,7 @@ export function Button({
           name={icon} 
         />
       )}
-      <Title>
+      <Title numberOfLines={1} adjustsFontSizeToFit>
         {title}
       </Title>
     </Container>

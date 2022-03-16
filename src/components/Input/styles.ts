@@ -3,7 +3,8 @@ import styled, { css } from 'styled-components/native'
 
 export const Container = styled.TextInput`
   flex: 1;
-  height: 55px;
+  max-height: 55px;
+  min-height: 55px;
   
   border-radius: 8px;
 
