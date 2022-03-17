@@ -11,7 +11,9 @@ export type PhoneSignInScreenProps = StackScreenProps<AuthRoutesParams, 'phone'>
 export type AppRoutesParams = {
   profile: undefined
   matches: undefined
+  home: undefined
 }
 
 export type ProfileScreenProps = StackScreenProps<AppRoutesParams, 'profile'>
 export type MatchesScreenProps = StackScreenProps<AppRoutesParams, 'matches'>
+export type HomeScreenProps = StackScreenProps<AppRoutesParams, 'home'>

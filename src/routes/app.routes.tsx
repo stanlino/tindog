@@ -6,6 +6,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 import { Profile } from "@screens/Profile";
 import { Matches } from '@screens/Matches';
+import { Home } from '@screens/Home';
 
 import { AppRoutesParams } from "src/types/routes";
 
@@ -27,17 +28,24 @@ export function AppRoutes() {
       tabBarHideOnKeyboard: true
     }}>
       <Screen
+        name='home' 
+        component={Home} 
+        options={{
+          tabBarIcon: ({ color }) => <MaterialCommunityIcons name="book-open-page-variant" size={RFValue(40)} color={color} />
+        }}
+      />
+      <Screen
         name='matches' 
         component={Matches} 
         options={{
-          tabBarIcon: ({ color }) => <MaterialCommunityIcons name="puzzle-heart" size={RFValue(45)} color={color} />
+          tabBarIcon: ({ color }) => <MaterialCommunityIcons name="puzzle-heart" size={RFValue(40)} color={color} />
         }}
       />
       <Screen
         name='profile' 
         component={Profile} 
         options={{
-          tabBarIcon: ({ color }) => <MaterialCommunityIcons name="cat" size={RFValue(45)} color={color} />
+          tabBarIcon: ({ color }) => <MaterialCommunityIcons name="cat" size={RFValue(40)} color={color} />
         }}
       />
     </Navigator>
