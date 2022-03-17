@@ -5,8 +5,9 @@ import { RFValue } from 'react-native-responsive-fontsize';
 import { MaterialCommunityIcons } from '@expo/vector-icons'; 
 
 import { Profile } from "@screens/Profile";
-import { Matches } from '@screens/Matches';
-import { Home } from '@screens/Home';
+
+import { HomeStack, MatchesStack } from './app.stack.routes';
+
 
 import { AppRoutesParams } from "src/types/routes";
 
@@ -28,21 +29,30 @@ export function AppRoutes() {
       tabBarHideOnKeyboard: true
     }}>
       <Screen
-        name='home' 
-        component={Home} 
+        name='home_stack' 
+        component={HomeStack} 
         options={{
           tabBarIcon: ({ color }) => <MaterialCommunityIcons name="book-open-page-variant" size={RFValue(40)} color={color} />
         }}
       />
       <Screen
-        name='matches' 
-        component={Matches} 
+        name='matches_stack' 
+        component={MatchesStack} 
         options={{
           tabBarIcon: ({ color }) => <MaterialCommunityIcons name="puzzle-heart" size={RFValue(40)} color={color} />
         }}
       />
       <Screen
-        name='profile' 
+        name='profile'
+        initialParams={{
+          isMyProfile: true,
+          photo: 'https://static1.patasdacasa.com.br/articles/7/44/7/@/1498-algumas-racas-de-cachorro-sao-mais-indep-opengraph_1200-1.jpg',
+          name: 'John',
+          sex: 'Macho',
+          age: 2019,
+          adjective: 'Carinhoso',
+          description: 'John é um cachorro legau'
+        }}
         component={Profile} 
         options={{
           tabBarIcon: ({ color }) => <MaterialCommunityIcons name="cat" size={RFValue(40)} color={color} />

@@ -1,7 +1,8 @@
 import React, { useRef, useState } from 'react'
-import Swiper, {SwiperProps} from 'react-native-deck-swiper'
+import Swiper from 'react-native-deck-swiper'
 
 import { Container } from '@components/Container'
+import { ProfileHomeStackScreenProps } from 'src/types/routes'
 
 import { 
   Title,
@@ -16,7 +17,7 @@ import {
   Icon,
 } from './styles'
 
-export function Home(){
+export function Home({ navigation } : ProfileHomeStackScreenProps){
 
   const [currentIndex, setCurrentIndex] = useState(0)
   const swiperRef = useRef<any>()
@@ -27,7 +28,10 @@ export function Home(){
 
   function handleSwipeToRight() {
     swiperRef.current.swipeRight()
-    
+  }
+
+  function handleNavigateToCurrentProfile() {
+    navigation.navigate('profile')
   }
 
   return (
@@ -43,6 +47,7 @@ export function Home(){
           onSwiped={() => setCurrentIndex(index => index + 1)}
           stackSize={4}
           stackScale={10}
+          onTapCard={handleNavigateToCurrentProfile}
           cardVerticalMargin={0}
           cardHorizontalMargin={0}
           backgroundColor='transparent'
@@ -50,10 +55,10 @@ export function Home(){
             return (
               <Profile>
                 <ProfileImage source={{ uri: 'https://static1.patasdacasa.com.br/articles/7/44/7/@/1498-algumas-racas-de-cachorro-sao-mais-indep-opengraph_1200-1.jpg' }} />
-                {/* <ProfileInfo>
+                <ProfileInfo>
                   <ProfileName>Jonh Doe</ProfileName>
                   <ProfileAdjective>Amigável</ProfileAdjective>
-                </ProfileInfo> */}
+                </ProfileInfo>
               </Profile>
             )
           }}

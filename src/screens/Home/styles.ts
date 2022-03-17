@@ -38,11 +38,13 @@ export const ProfileImage = styled.Image.attrs({
 `
 
 export const ProfileInfo = styled.View`
-  margin-top: -39px;
+  margin-top: -60px;
   background-color: ${({ theme }) => theme.COLORS.SHAPE};
 
   flex-direction: row;
+  height: 60px;
   justify-content: space-between;
+  align-items: center;
   padding: 10px;
 `
 

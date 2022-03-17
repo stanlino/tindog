@@ -42,6 +42,18 @@ export const Image = styled.Image.attrs({
   width: ${width}px;
 `
 
+export const Name = styled.Text`
+  text-align: left;
+  ${({ theme }) => css`
+    color: ${theme.COLORS.TEXT};
+    font-size: ${RFValue(30)}px;
+    font-family: ${theme.FONTS.BOLD};
+  `}
+  padding-left: ${RFValue(24)}px;
+  position: absolute;
+  top: ${RFValue(270)}px;
+`
+
 export const Form = styled.View`
   flex: 1;
 
