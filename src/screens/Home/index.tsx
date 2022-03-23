@@ -2,7 +2,6 @@ import React, { useRef, useState } from 'react'
 import Swiper from 'react-native-deck-swiper'
 
 import { Container } from '@components/Container'
-import { ProfileHomeStackScreenProps } from 'src/types/routes'
 
 import { 
   Title,
@@ -17,7 +16,7 @@ import {
   Icon,
 } from './styles'
 
-export function Home({ navigation } : ProfileHomeStackScreenProps){
+export function Home(){
 
   const [currentIndex, setCurrentIndex] = useState(0)
   const swiperRef = useRef<any>()
@@ -28,10 +27,6 @@ export function Home({ navigation } : ProfileHomeStackScreenProps){
 
   function handleSwipeToRight() {
     swiperRef.current.swipeRight()
-  }
-
-  function handleNavigateToCurrentProfile() {
-    navigation.navigate('profile')
   }
 
   return (
@@ -47,7 +42,6 @@ export function Home({ navigation } : ProfileHomeStackScreenProps){
           onSwiped={() => setCurrentIndex(index => index + 1)}
           stackSize={4}
           stackScale={10}
-          onTapCard={handleNavigateToCurrentProfile}
           cardVerticalMargin={0}
           cardHorizontalMargin={0}
           backgroundColor='transparent'

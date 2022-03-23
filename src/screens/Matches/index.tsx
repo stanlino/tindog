@@ -2,7 +2,6 @@ import React from 'react'
 import { FlatList } from 'react-native'
 
 import { Container } from '@components/Container'
-import { MatchesStackScreenProps } from 'src/types/routes'
 
 import { 
   Title,
@@ -14,12 +13,7 @@ import {
   Text
 } from './styles'
 
-export function Matches({ navigation } : MatchesStackScreenProps){
-
-  function handleNavigateToProfile() {
-    navigation.navigate('profile')
-  }
-  
+export function Matches(){
   return (
     <Container>
       <Title>Matches</Title>
@@ -35,7 +29,7 @@ export function Matches({ navigation } : MatchesStackScreenProps){
               <Avatar source={{ uri: 'https://static1.patasdacasa.com.br/articles/7/44/7/@/1498-algumas-racas-de-cachorro-sao-mais-indep-opengraph_1200-1.jpg' }} />
               <Side>
                 <Name>Jonh Doe</Name>
-                <Touchable onPress={handleNavigateToProfile}>
+                <Touchable>
                   <Text>Visualizar perfil</Text>
                 </Touchable>
               </Side>

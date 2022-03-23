@@ -11,30 +11,6 @@ export const Container = styled(ContainerRef)`
   padding: 0;
 `
 
-export const Title = styled.Text`
-  text-align: left;
-  ${({ theme }) => css`
-    color: ${theme.COLORS.TITLE};
-    font-size: ${RFValue(30)}px;
-    font-family: ${theme.FONTS.BOLD};
-  `}
-`
-
-export const Profiles = styled.View`
-  flex: 1;
-  padding-top: 20px;
-`
-
-export const AddProfileButton = styled.TouchableOpacity`
-  height: ${RFValue(100)}px;
-  width: ${RFValue(100)}px;
-
-  border-radius: 50px;
-  align-items: center;
-  justify-content: center;
-
-  border: #0004;
-`
 export const Image = styled.Image.attrs({
   resizeMode: 'cover'
 })`
