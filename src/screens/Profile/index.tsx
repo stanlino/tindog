@@ -1,9 +1,10 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import { ScrollView } from 'react-native'
 import { Feather } from '@expo/vector-icons'; 
 
 import { Button } from '@components/Button';
 import { Input } from '@components/Input';
+import SettingsModal, { SettingsModalProps } from '@screens/Settings';
 
 import { 
   Container,
@@ -21,12 +22,16 @@ import {
 } from './styles'
 
 export function Profile(){
+
+  const SettingsRef = useRef({} as SettingsModalProps)
+
   return (
     <Container>
+      <SettingsModal default={true} ref={SettingsRef} />
       <ScrollView showsVerticalScrollIndicator={false}>
         <Image source={{ uri: 'https://t1.ea.ltmcdn.com/pt/posts/7/9/4/lista_dos_cachorros_mais_bonitos_do_mundo_20497_orig.jpg' }} />
         <Name />
-        <SettingsButton>
+        <SettingsButton onPress={SettingsRef.current?.openSettingsModal}>
           <Feather name="settings" size={30} color="black" />
         </SettingsButton>
         <Form>
