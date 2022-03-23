@@ -18,16 +18,25 @@ export const Image = styled.Image.attrs({
   width: ${width}px;
 `
 
-export const Name = styled.Text`
+export const Name = styled.TextInput.attrs({
+  placeholder: 'nome'
+})`
   text-align: left;
   ${({ theme }) => css`
     color: ${theme.COLORS.TEXT};
     font-size: ${RFValue(30)}px;
     font-family: ${theme.FONTS.BOLD};
   `}
-  padding-left: ${RFValue(24)}px;
+  padding: 0 ${RFValue(24)}px;
+  width: 100%;
   position: absolute;
   top: ${RFValue(270)}px;
+`
+
+export const SettingsButton = styled.TouchableOpacity`
+  position: absolute;
+  top: ${RFValue(40)}px;
+  right: ${RFValue(20)}px;
 `
 
 export const Form = styled.View`
@@ -43,14 +52,15 @@ export const Form = styled.View`
   padding: 24px;
 `; 
 
-export const InfoRow = styled.View`
+export const Row = styled.View`
+  margin-top: 10px;
   flex-direction: row;
   justify-content: space-between;
 `
 
-export const InfoRowField = styled.View`
-  height: 55px;
-  width: 49%;
+export const Field = styled.TouchableOpacity`
+  flex: 1;
+  min-height: 55px;
   align-items: center;
   justify-content: center;
 
@@ -59,13 +69,38 @@ export const InfoRowField = styled.View`
   border-radius: 10px;
 `
 
-export const Info = styled.Text`
+export const FieldValue = styled.Text`
   text-align: center;
   ${({ theme }) => css`
     color: ${theme.COLORS.TEXT};
     font-size: ${RFValue(20)}px;
     font-family: ${theme.FONTS.REGULAR};
   `}
+`
+
+export const TextInputField = styled.TextInput.attrs({
+  maxLength: 4,
+  keyboardType: 'number-pad',
+  placeholder: '2020'
+})`
+  flex: 1;
+  min-height: 55px;
+
+  ${({ theme }) => css`
+    color: ${theme.COLORS.TEXT};
+    font-size: ${RFValue(20)}px;
+    font-family: ${theme.FONTS.REGULAR};
+  `}
+
+  text-align: center;
+
+  background-color: ${({ theme }) => theme.COLORS.GRADIENT[0]};
+
+  border-radius: 10px;
+`
+
+export const Separator = styled.View`
+  width: 10px;
 `
 
 export const Label = styled.Text`
