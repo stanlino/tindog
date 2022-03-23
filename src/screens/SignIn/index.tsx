@@ -2,6 +2,9 @@ import React from 'react'
 import AnimatedLottieView from 'lottie-react-native'
 import { RFPercentage } from 'react-native-responsive-fontsize'
 
+import { SignInScreenProps } from 'src/types/routes'
+import { useAuth } from '../../hooks/auth'
+
 import { Container } from '@components/Container'
 import { Button } from '@components/Button'
 
@@ -14,9 +17,14 @@ import {
   SubTitleText
 } from './styles'
 
-import { SignInScreenProps } from 'src/types/routes'
-
 export function SignIn({ navigation: { navigate } } : SignInScreenProps){
+
+  const { signInWithGoogle } = useAuth()
+
+  function handleSignInWithGoogle() {
+    signInWithGoogle()
+  }
+
   return (
     <Container>
       <Header>
@@ -39,6 +47,7 @@ export function SignIn({ navigation: { navigate } } : SignInScreenProps){
         <Button 
           title='Google'
           icon='google'
+          onPress={handleSignInWithGoogle}
         />
         <Button 
           title='Número de telefone'

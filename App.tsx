@@ -14,6 +14,7 @@ import AppLoading from 'expo-app-loading';
 import { Routes } from './src/routes';
 
 import themes from './src/themes';
+import { AuthProvider } from './src/hooks/auth';
 
 export default function App() {
  
@@ -29,10 +30,12 @@ export default function App() {
  
   return (
     <ThemeProvider theme={themes}>
-      <GestureHandlerRootView style={{flex: 1}}>
-        <Routes />
-        <StatusBar translucent backgroundColor={'#0003'}/>
-      </GestureHandlerRootView>
+      <AuthProvider>
+        <GestureHandlerRootView style={{flex: 1}}>
+          <Routes />
+          <StatusBar translucent backgroundColor={'#0003'}/>
+        </GestureHandlerRootView>
+      </AuthProvider>
     </ThemeProvider>
   );
 }
