@@ -1,6 +1,7 @@
 import React, { useReducer, useState } from 'react'
+import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth'
 
-import { Modal } from 'react-native'
+import { Alert, Modal } from 'react-native'
 
 import { Container } from '@components/Container'
 import { BackButton } from '@components/BackButton'
@@ -23,6 +24,8 @@ export function PhoneSignIn({ navigation: { goBack } } : PhoneSignInScreenProps)
   const [code, setCode] = useState('')
   const [modalVisible, toggleModalVisible] = useReducer(isVisible => !isVisible, false)
 
+  const [confirm, setConfirm] = useState<FirebaseAuthTypes.ConfirmationResult | null>(null)
+
   const phoneNumber = phoneNumberWithRegex.replace(/[^\d]/g, "")
 
   function handleSetPhoneNumber(text: string) {
@@ -35,8 +38,18 @@ export function PhoneSignIn({ navigation: { goBack } } : PhoneSignInScreenProps)
     }
   }
 
-  function handleSendPhoneNumber() {
+  async function handleSendPhoneNumber() {
+    const confirmation = await auth().signInWithPhoneNumber(`+55${phoneNumber}`)
+    setConfirm(confirmation)
     toggleModalVisible()
+  }
+
+  async function confirmCode() {
+    try {
+      await confirm?.confirm(code)
+    } catch (error) {
+      Alert.alert('Erro', 'Houve um erro ao enviar o número de telefone! Tente novamente mais tarde.')
+    }
   }
 
   return (
@@ -84,14 +97,14 @@ export function PhoneSignIn({ navigation: { goBack } } : PhoneSignInScreenProps)
                 placeholder='xxxxxx'
                 value={code}
                 onChangeText={setCode}
-                maxLength={5}
+                maxLength={6}
               />
             </TextInputWrapper>
 
             <Button 
               title="Enviar código de confirmação"
               disabled={phoneNumber.length < 11}
-              onPress={handleSendPhoneNumber}
+              onPress={confirmCode}
             />
 
           </Form>
