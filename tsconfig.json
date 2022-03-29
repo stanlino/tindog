@@ -6,7 +6,7 @@
       "@components/*": ["./src/components/*"],
       "@screens/*": ["./src/screens/*"],
       "@assets/*": ["./src/assets/*"],
-    }
+    },
   },
   "extends": "expo/tsconfig.base"
 }

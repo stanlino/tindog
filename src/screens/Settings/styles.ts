@@ -31,3 +31,13 @@ export const Form = styled.View`
 export const Separator = styled.View`
   height: 10px;
 `
+
+export const UserLocation = styled.Text`
+  text-align: center;
+  ${({ theme }) => css`
+    color: ${theme.COLORS.PRIMARY};
+    font-size: ${RFValue(18)}px;
+    font-family: ${theme.FONTS.REGULAR};
+  `}
+  margin-top: 10px;
+`

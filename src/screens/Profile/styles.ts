@@ -128,3 +128,11 @@ export const TextArea = styled(Input).attrs({
 
   padding: 20px;
 `
+
+export const PickImageView = styled.TouchableOpacity`
+  height: ${RFValue(350)}px;
+  width: ${width}px;
+
+  align-items: center;
+  justify-content: center;
+`;

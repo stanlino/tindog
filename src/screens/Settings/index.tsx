@@ -1,6 +1,7 @@
 import React, { 
   forwardRef, 
   ForwardRefRenderFunction, 
+  useEffect, 
   useImperativeHandle, 
   useState
 } from 'react'
@@ -14,32 +15,35 @@ import { Container } from '@components/Container'
 import { Input } from '@components/Input';
 import { Button } from '@components/Button';
 
+import { useFirestore } from '../../hooks/firestore';
+
 import { 
   Wrapper,
   Form,
   Row,
   Label,
-  Separator
+  Separator,
+  UserLocation
 } from './styles'
 
 export interface SettingsModalProps {
   openSettingsModal(): void
 }
 
-interface SettingsProps {
-  default: boolean
-}
+interface SettingsProps {}
 
 const SettingsModal: ForwardRefRenderFunction<SettingsModalProps, SettingsProps> = (
   props, 
   ref 
 ) => {
 
-  const [visible, setVisible] = useState(props.default || false)
+  const { createUserDoc, userDoc } = useFirestore()
 
-  const [userName, setUserName] = useState('')
+  const [visible, setVisible] = useState(userDoc.userName ? false : true)
+
+  const [userName, setUserName] = useState(userDoc.userName || '')
   const [userCEP, setUserCEP] = useState('')
-  const [userLocation, setUserLocation] = useState('')
+  const [userLocation, setUserLocation] = useState(userDoc.userLocation || '')
 
   function closeSettingsModal() {
     setVisible(false)
@@ -57,12 +61,31 @@ const SettingsModal: ForwardRefRenderFunction<SettingsModalProps, SettingsProps>
     }
   }
 
+  async function handleCreateUser() {
+    if (userName.length < 3) return Alert.alert('Opa', 'Insira um nome com pelo menos 3 caracteres!')
+    if (userCEP === 'undefined - undefined') return Alert.alert('Opa', 'Insira um CEP válido')
+
+    createUserDoc(userName, userLocation)
+    
+    closeSettingsModal()
+  }
+
   function handleSignOut() {
     Alert.alert('Sair da conta', 'Tem certeza que deseja sair da conta?', [
       { text: 'Não', style: 'cancel' },
       { text: 'Sim', style: 'destructive', onPress: () => auth().signOut() }
     ], { cancelable: true })
   }
+
+  useEffect(() => {
+    if (userCEP.length === 9) {
+      fetch(`https://brasilapi.com.br/api/cep/v2/${userCEP.replace(/[^\d]/g, "")}`)
+        .then(response => response.json())
+        .then(data => {
+          setUserLocation(`${data.city} - ${data.state}`)
+        })
+    }
+  },[userCEP.length === 9])
 
   useImperativeHandle(ref, () => ({
     openSettingsModal
@@ -83,12 +106,15 @@ const SettingsModal: ForwardRefRenderFunction<SettingsModalProps, SettingsProps>
             <Input autoCorrect={false} value={userName} onChangeText={setUserName} autoCapitalize='words' placeholder='Fulano Ciclano' />
 
             <Label>Seu CEP</Label>
-            <Input value={userCEP} onChangeText={handleSetCEP} keyboardType='number-pad' placeholder='xxxxx xxx' />
+            <Input maxLength={9} value={userCEP} onChangeText={handleSetCEP} keyboardType='number-pad' placeholder='xxxxx xxx' />
+            <UserLocation>
+              {userLocation != 'undefined - undefined' ? userLocation : 'CEP inexistente!'}
+            </UserLocation>
           </Form>
 
           <Button title="Realizar logout" onPress={handleSignOut} />
           <Separator />
-          <Button title="Prosseguir" />
+          <Button onPress={handleCreateUser} title="Prosseguir" />
         </Container>
       </Wrapper>
     </Modal>
