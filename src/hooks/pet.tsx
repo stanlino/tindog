@@ -6,7 +6,7 @@ import { useAuth } from "./auth";
 import { useFirestore } from "./firestore";
 import { Alert } from "react-native";
 
-interface Pet {
+export interface Pet {
   id?: string
   userUID?: string
   name: string
@@ -21,8 +21,10 @@ interface Pet {
 
 interface PetContextData {
   pets: Pet[]
-  currentPet: number
-  registerPet(pet: Pet): void
+  currentPet: Pet
+  registerPet(pet: Pet): void,
+  visualizedProfiles: string[]
+  userHasAPet: boolean
 }
 
 const PetContext = createContext({} as PetContextData)
@@ -32,8 +34,15 @@ export function PetProvider({ children } : { children: ReactNode }) {
   const { user } = useAuth()
   const { userDoc } = useFirestore()
 
+  const [recoveredPets, setRecoveredPets] = useState(false)
+  const [recoveredVisualizedProfiles, setRecoveredVisualizedProfiles] = useState(false)
+
   const [pets, setPets] = useState<Pet[]>([{}] as Pet[])
-  const [currentPet, setCurrentPet] = useState(0)
+  const [petIndex, setPetIndex] = useState(0)
+
+  const currentPet = pets[petIndex]
+
+  const userHasAPet = pets.length > 0
 
   const [visualizedProfiles, setVisualizedProfiles] = useState<string[]>([]) 
 
@@ -50,10 +59,12 @@ export function PetProvider({ children } : { children: ReactNode }) {
               })
               setVisualizedProfiles(VisualizedProfileDocs)
             })
+            .finally(() => setRecoveredVisualizedProfiles(true))
           petDocs.push({...doc.data(), id: doc.id} as Pet)
         })
         setPets(petDocs)
       })
+      .finally(() => setRecoveredPets(true))
   },[])
 
   async function registerPet(props : Pet) {
@@ -76,17 +87,23 @@ export function PetProvider({ children } : { children: ReactNode }) {
       const petsClone = pets.map(pet => ({ ...pet }))
       petsClone.push(props)
       setPets(petsClone)
-      setCurrentPet(petsClone.length - 1)
+      setPetIndex(petsClone.length - 1)
     }).catch(error => {
       Alert.alert('Ops', error)
     })
+  }
+
+  if (!recoveredPets || !recoveredVisualizedProfiles) {
+    return null
   }
 
   return (
     <PetContext.Provider value={{
       pets,
       currentPet,
-      registerPet
+      registerPet,
+      visualizedProfiles,
+      userHasAPet
     }}>
       { children }
     </PetContext.Provider>

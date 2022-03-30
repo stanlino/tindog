@@ -13,7 +13,6 @@ interface FirestoreContextData {
   userDoc: DocumentData
   createUserDoc(userName: string, userLocation: string): void
   updateUserDoc(userName: string, userLocation: string): void
-  initializing: boolean
 }
 
 const FirestoreContext = createContext({} as FirestoreContextData)
@@ -57,12 +56,15 @@ export function FirestoreProvider({ children }: { children: ReactNode }) {
     })
   },[])
 
+  if (initializing) {
+    return null
+  }
+
   return (
     <FirestoreContext.Provider value={{
       userDoc,
       createUserDoc,
       updateUserDoc,
-      initializing
     }}>
       {children}
     </FirestoreContext.Provider>

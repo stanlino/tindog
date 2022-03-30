@@ -1,7 +1,7 @@
 export default {
   COLORS: {
     SHAPE: '#FFFFFF',
-    PRIMARY: '#e36622',
+    PRIMARY: '#483e87',
     TITLE: '#594D4D',
     TEXT: '#000000',
 

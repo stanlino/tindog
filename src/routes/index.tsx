@@ -10,11 +10,7 @@ import { PetProvider } from '../hooks/pet'
 
 export function Routes() {
 
-  const { initializing, user } = useAuth()
-  
-  if (initializing) {
-    return null
-  }
+  const { user } = useAuth()
 
   return (
     <NavigationContainer>

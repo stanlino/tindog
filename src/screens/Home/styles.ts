@@ -94,3 +94,18 @@ export const Icon = styled(FontAwesome)<ButtonProps>`
   color: ${({ type, theme }) => type === 'accept' ? theme.COLORS.SHAPE : theme.COLORS.PRIMARY};
   font-size: 30px;
 `
+
+export const Content = styled.View`
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+`
+
+export const NoHaveMoreProfiles = styled.Text`
+  ${({ theme }) => css`
+    color: ${theme.COLORS.TITLE};
+    font-family: ${theme.FONTS.BOLD};
+  `}
+  font-size: ${RFValue(20)}px;
+  text-align: center;
+`

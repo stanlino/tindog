@@ -26,17 +26,17 @@ import {
 
 export function Profile(){
 
-  const { pets, currentPet, registerPet } = usePet()
+  const { currentPet, registerPet } = usePet()
 
-  const [name, setName] = useState(pets[currentPet]?.name || '')
-  const [image, setImage] = useState(pets[currentPet]?.photo)
+  const [name, setName] = useState(currentPet.name || '')
+  const [image, setImage] = useState(currentPet.photo)
   
-  const [type, setType] = useState(pets[currentPet]?.type || 'dog')
-  const [sex, setSex] = useState(pets[currentPet]?.sex || 'male')
-  const [age, setAge] = useState(pets[currentPet]?.age || 2020)
+  const [type, setType] = useState(currentPet.type || 'dog')
+  const [sex, setSex] = useState(currentPet.sex || 'male')
+  const [age, setAge] = useState(currentPet.age || 2020)
 
-  const [adjective, setAdjective] = useState(pets[currentPet]?.adjective || '')
-  const [description, setDescription] = useState(pets[currentPet]?.description || '')
+  const [adjective, setAdjective] = useState(currentPet.adjective || '')
+  const [description, setDescription] = useState(currentPet.description || '')
 
   const SettingsRef = useRef({} as SettingsModalProps)
 

@@ -9,7 +9,6 @@ import { Home } from '@screens/Home';
 import { Matches } from '@screens/Matches';
 
 import { AppRoutesParams } from "../types/routes";
-import { useFirestore } from '../hooks/firestore';
 import { usePet } from '../hooks/pet';
 
 const { Navigator, Screen } = createBottomTabNavigator<AppRoutesParams>()
@@ -17,10 +16,7 @@ const { Navigator, Screen } = createBottomTabNavigator<AppRoutesParams>()
 export function AppRoutes() {
 
   const { COLORS } = useTheme()
-  const { initializing } = useFirestore()
-  const { pets } = usePet()
-
-  if (initializing) return null
+  const { userHasAPet } = usePet()
 
   return (
     <Navigator 
@@ -34,21 +30,21 @@ export function AppRoutes() {
         tabBarShowLabel: false,
         tabBarHideOnKeyboard: true
       }}
-      initialRouteName={pets.length > 0 ? 'home' : 'profile'}
+      initialRouteName={userHasAPet ? 'home' : 'profile'}
     >
-      {pets.length > 0 && (<>
+      {userHasAPet && (<>
         <Screen
           name='home' 
           component={Home} 
           options={{
-            tabBarIcon: ({ color }) => <MaterialCommunityIcons name="book-open-page-variant" size={RFValue(40)} color={color} />
+            tabBarIcon: ({ color }) => <MaterialCommunityIcons name="book-open-page-variant" size={RFValue(35)} color={color} />
           }}
         />
         <Screen
           name='matches' 
           component={Matches} 
           options={{
-            tabBarIcon: ({ color }) => <MaterialCommunityIcons name="puzzle-heart" size={RFValue(40)} color={color} />
+            tabBarIcon: ({ color }) => <MaterialCommunityIcons name="puzzle-heart" size={RFValue(35)} color={color} />
           }}
         />
       </>)}
@@ -56,7 +52,7 @@ export function AppRoutes() {
         name='profile'
         component={Profile} 
         options={{
-          tabBarIcon: ({ color }) => <MaterialCommunityIcons name="cat" size={RFValue(40)} color={color} />
+          tabBarIcon: ({ color }) => <MaterialCommunityIcons name="cat" size={RFValue(35)} color={color} />
         }}
       />
     </Navigator>

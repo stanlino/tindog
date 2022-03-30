@@ -1,7 +1,9 @@
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import Swiper from 'react-native-deck-swiper'
+import firestore from '@react-native-firebase/firestore'
 
 import { Container } from '@components/Container'
+import { usePet, Pet } from '../../hooks/pet'
 
 import { 
   Title,
@@ -14,12 +16,20 @@ import {
   Footer,
   Button,
   Icon,
+  Content,
+  NoHaveMoreProfiles
 } from './styles'
 
 export function Home(){
 
-  const [currentIndex, setCurrentIndex] = useState(0)
+  const { pets, currentPet, visualizedProfiles } = usePet()
+
+  const [petProfiles, setPetProfiles] = useState([] as Pet[])
+
+  const [currentProfile, setCurrentProfile] = useState(0)
   const swiperRef = useRef<any>()
+
+  const excludedProfiles = visualizedProfiles.concat(pets.map(pet => pet.id!))
 
   function handleSwipeToLeft() {
     swiperRef.current.swipeLeft()
@@ -29,29 +39,96 @@ export function Home(){
     swiperRef.current.swipeRight()
   }
 
+  function handleViewProfile() {
+    firestore().collection('pets').doc(currentPet?.id).collection('visualized').add({
+      petUID: petProfiles[currentProfile].id
+    })
+  }
+
+  async function handleLikeProfile() {
+    handleViewProfile()
+    const thisMatchDontExists = (await firestore().collection('matchs').where('interesting', '==', currentPet.id).get()).empty
+    if (thisMatchDontExists) {
+      firestore().collection('matchs').add({
+        interesting: petProfiles[currentProfile].id,
+        interested: currentPet.id,
+        itsAMatch: false
+      })
+    } else {
+      firestore()
+      .collection('matchs')
+      .where('interesting', '==', currentPet.id)
+      .where('interested', '==', petProfiles[currentProfile].id)
+      .get()
+      .then(docs => {
+        docs.forEach(doc => {
+          doc.ref.update({
+            itsAMatch: true
+          })
+        })
+      })
+    }
+    
+  }
+
+  function handleRejectProfile() {
+    handleViewProfile()
+  }
+
+  useEffect(() => {
+    firestore().collection('pets')
+      .where('location', '==', currentPet?.location)
+      .where(firestore.FieldPath.documentId(), 'not-in', excludedProfiles)
+      .get()
+      .then(docs => {
+        const petList: Pet[] = []
+        docs.forEach(doc => {
+          petList.push({ ...doc.data(), id: doc.id } as Pet)
+        })
+        setPetProfiles(petList)
+      })
+  },[])
+
+  if (!petProfiles[0] || currentProfile === petProfiles.length) {
+    return (
+      <Container>
+        <Title>
+          tindog
+        </Title>
+        <Content>
+          <NoHaveMoreProfiles>
+            Não há perfis não visualizados nessa região
+          </NoHaveMoreProfiles>
+        </Content>
+      </Container>
+    )
+  }
+
   return (
     <Container>
       <Title>tindog</Title>
       <Profiles>
-        <Swiper 
+        <Swiper
           ref={swiperRef}
-          cards={[0,1,2,3,4]}
-          keyExtractor={card => String(card)}
+          cards={petProfiles}
+          keyExtractor={item => item?.id!}
           verticalSwipe={false}
-          cardIndex={currentIndex}
-          onSwiped={() => setCurrentIndex(index => index + 1)}
-          stackSize={4}
+          cardIndex={currentProfile}
+          onSwiped={() => setCurrentProfile(index => index + 1)}
+          onSwipedLeft={handleRejectProfile}
+          onSwipedRight={handleLikeProfile}
+          stackSize={petProfiles.length}
           stackScale={10}
           cardVerticalMargin={0}
           cardHorizontalMargin={0}
           backgroundColor='transparent'
-          renderCard={(card) => {
+          renderCard={(profile) => {
             return (
               <Profile>
-                <ProfileImage source={{ uri: 'https://static1.patasdacasa.com.br/articles/7/44/7/@/1498-algumas-racas-de-cachorro-sao-mais-indep-opengraph_1200-1.jpg' }} />
+                <ProfileImage source={{ uri: profile?.photo }} />
                 <ProfileInfo>
-                  <ProfileName>Jonh Doe</ProfileName>
-                  <ProfileAdjective>Amigável</ProfileAdjective>
+                  <ProfileName>{profile?.name}</ProfileName>
+                  <ProfileAdjective>{profile?.adjective}</ProfileAdjective>
                 </ProfileInfo>
               </Profile>
             )

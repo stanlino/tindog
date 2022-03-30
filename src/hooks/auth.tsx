@@ -8,7 +8,6 @@ GoogleSignin.configure({
 });
 
 interface AuthContextData {
-  initializing: boolean
   user: FirebaseAuthTypes.User | null
   signInWithGoogle(): void;
 }
@@ -39,9 +38,12 @@ export function AuthProvider({ children } : { children: ReactNode }) {
     return subscriber
   },[])
   
+  if (initializing) {
+    return null
+  }
+
   return (
     <AuthContext.Provider value={{
-      initializing,
       signInWithGoogle,
       user
     }}>
