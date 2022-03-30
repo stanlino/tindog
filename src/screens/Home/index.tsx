@@ -51,8 +51,12 @@ export function Home(){
     const thisMatchDontExists = (await firestore().collection('matchs').where('interesting', '==', currentPet.id).get()).empty
     if (thisMatchDontExists) {
       firestore().collection('matchs').add({
-        interesting: petProfiles[currentProfile].id,
-        interested: currentPet.id,
+        interestingID: petProfiles[currentProfile].id,
+        interestingName: petProfiles[currentProfile].name,
+        interestingPhoto: petProfiles[currentProfile].photo,
+        interestedID: currentPet.id,
+        interestedName: currentPet.name,
+        interestedPhoto: currentPet.photo,
         itsAMatch: false
       })
     } else {

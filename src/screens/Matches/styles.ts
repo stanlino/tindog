@@ -10,7 +10,7 @@ export const Title = styled.Text`
   `}
 `
 export const MatchView = styled.View`
-  border: 1px solid #0004;
+  background-color: #0001;
   padding: ${RFValue(15)}px;
 
   flex-direction: row;
@@ -23,7 +23,7 @@ export const Avatar = styled.Image`
   height: ${RFValue(80)}px;
   width: ${RFValue(80)}px;
 
-  border-radius: 40px;
+  border-radius: 10px;
   margin-right: 15px;
 `
 
@@ -48,8 +48,8 @@ export const Touchable = styled.TouchableOpacity`
 export const Text = styled.Text`
   text-align: left;
   ${({ theme }) => css`
-    color: ${theme.COLORS.TITLE};
+    color: ${theme.COLORS.PRIMARY};
     font-size: ${RFValue(15)}px;
-    font-family: ${theme.FONTS.LIGHT};
+    font-family: ${theme.FONTS.BOLD};
   `}
 `
