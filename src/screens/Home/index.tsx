@@ -20,6 +20,7 @@ import {
   NoHaveMoreProfiles
 } from './styles'
 
+
 export function Home(){
 
   const { pets, currentPet, visualizedProfiles } = usePet()
