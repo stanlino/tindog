@@ -1,10 +1,15 @@
 import { createContext, ReactNode, useContext, useEffect, useState } from "react";
 import firestore from '@react-native-firebase/firestore'
-import storage from '@react-native-firebase/storage';
+import storage from '@react-native-firebase/storage'
 
 import { useAuth } from "./auth";
 import { useFirestore } from "./firestore";
 import { Alert } from "react-native";
+
+interface UpdatePetProps {
+  adjective: string
+  description: string
+}
 
 export interface Pet {
   id?: string
@@ -16,13 +21,14 @@ export interface Pet {
   type: 'dog' | 'cat'
   sex: 'female' | 'male'
   adjective: string
-  description: string
+  description: string,
 }
 
 interface PetContextData {
   pets: Pet[]
   currentPet: Pet
-  registerPet(pet: Pet): void,
+  registerPet(pet: Pet): void
+  updatePet(pet: UpdatePetProps): void
   visualizedProfiles: string[]
   userHasAPet: boolean
 }
@@ -37,7 +43,7 @@ export function PetProvider({ children } : { children: ReactNode }) {
   const [recoveredPets, setRecoveredPets] = useState(false)
   const [recoveredVisualizedProfiles, setRecoveredVisualizedProfiles] = useState(false)
 
-  const [pets, setPets] = useState<Pet[]>([{}] as Pet[])
+  const [pets, setPets] = useState<Pet[]>([] as Pet[])
   const [petIndex, setPetIndex] = useState(0)
 
   const currentPet = pets[petIndex]
@@ -49,31 +55,35 @@ export function PetProvider({ children } : { children: ReactNode }) {
   useEffect(() => {
     firestore().collection('pets').where('userUID', '==', user?.uid).get()
       .then(docs => {
-        const petDocs: Pet[] = []
-        docs.forEach(doc => {
-          doc.ref.collection('visualized').get()
-            .then(profiles => {
-              const VisualizedProfileDocs: string[] = []
-              profiles.forEach(profile => {
-                VisualizedProfileDocs.push(profile.data().petUID as string)
+        if (!docs.empty) {
+          const petDocs: Pet[] = []
+          docs.forEach(doc => {
+            doc.ref.collection('visualized').get()
+              .then(profiles => {
+                const VisualizedProfileDocs: string[] = []
+                profiles.forEach(profile => {
+                  VisualizedProfileDocs.push(profile.data().petUID as string)
+                })
+                setVisualizedProfiles(VisualizedProfileDocs)
               })
-              setVisualizedProfiles(VisualizedProfileDocs)
-            })
-            .finally(() => setRecoveredVisualizedProfiles(true))
-          petDocs.push({...doc.data(), id: doc.id} as Pet)
-        })
-        setPets(petDocs)
+              .finally(() => setRecoveredVisualizedProfiles(true))
+            petDocs.push({...doc.data(), id: doc.id} as Pet)
+          })
+          setPets(petDocs)
+        } else setRecoveredVisualizedProfiles(true)
       })
       .finally(() => setRecoveredPets(true))
   },[])
 
   async function registerPet(props : Pet) {
 
-    const storageReference = storage().ref(`pets/${user?.uid}-${props.name}-${new Date()}`)
+    const petId = `${user?.uid}-${pets.length}`
+
+    const storageReference = storage().ref(`pets/${petId}`)
     await storageReference.putFile(props.photo)
     const photoURl = await storageReference.getDownloadURL()
 
-    firestore().collection('pets').doc().set({
+    const pet = {
       userUID: user?.uid,
       name: props.name,
       photo: photoURl,
@@ -82,15 +92,40 @@ export function PetProvider({ children } : { children: ReactNode }) {
       type: props.type,
       sex: props.sex,
       adjective: props.adjective,
-      description: props.description
+      description: props.description,
+    }
+
+    firestore().collection('pets').doc(petId).set({
+      ...pet
     }).then(() => {
-      const petsClone = pets.map(pet => ({ ...pet }))
-      petsClone.push(props)
-      setPets(petsClone)
-      setPetIndex(petsClone.length - 1)
+      setPets(oldPets => [...oldPets, {...pet, id: petId}])
     }).catch(error => {
       Alert.alert('Ops', error)
     })
+  }
+
+  async function updatePet(props: UpdatePetProps) {
+
+    const newPetObject: UpdatePetProps = {} as UpdatePetProps
+    const petsClone = pets.map(pet => ({ ...pet }))
+    const thisPet = petsClone.find(pet => pet.id === currentPet.id)
+
+    if (!thisPet) return
+
+    if (props.adjective != currentPet.adjective) {
+      newPetObject.adjective = props.adjective
+      thisPet.adjective = props.adjective
+    }
+    if (props.description != currentPet.description) {
+      newPetObject.description = props.description
+      thisPet.description = props.description
+    }
+
+    await firestore().collection('pets').doc(currentPet.id).update({
+      ...newPetObject
+    })
+
+    setPets(petsClone)
   }
 
   if (!recoveredPets || !recoveredVisualizedProfiles) {
@@ -103,7 +138,8 @@ export function PetProvider({ children } : { children: ReactNode }) {
       currentPet,
       registerPet,
       visualizedProfiles,
-      userHasAPet
+      userHasAPet,
+      updatePet
     }}>
       { children }
     </PetContext.Provider>
