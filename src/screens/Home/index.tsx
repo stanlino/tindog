@@ -5,6 +5,8 @@ import firestore from '@react-native-firebase/firestore'
 import { Container } from '@components/Container'
 import { usePet, Pet } from '../../hooks/pet'
 
+import ProfileModal, { ProfileModalMethods } from '@screens/ProfileModal'
+
 import { 
   Title,
   Profiles,
@@ -26,9 +28,10 @@ export function Home(){
   const { pets, currentPet, visualizedProfiles } = usePet()
 
   const [petProfiles, setPetProfiles] = useState([] as Pet[])
-
   const [currentProfile, setCurrentProfile] = useState(0)
+
   const swiperRef = useRef<any>()
+  const profileModalRef = useRef({} as ProfileModalMethods)
 
   const excludedProfiles = visualizedProfiles.concat(pets.map(pet => pet.id!))
 
@@ -80,6 +83,10 @@ export function Home(){
     handleViewProfile()
   }
 
+  function handleOpenModal() {
+    profileModalRef.current.handleOpenModal()
+  }
+
   useEffect(() => {
     firestore().collection('pets')
       .where('location', '==', currentPet?.location)
@@ -111,6 +118,9 @@ export function Home(){
 
   return (
     <Container>
+
+      <ProfileModal ref={profileModalRef} pet={petProfiles[currentProfile]} />
+
       <Title>tindog</Title>
       <Profiles>
         <Swiper
@@ -120,6 +130,7 @@ export function Home(){
           verticalSwipe={false}
           cardIndex={currentProfile}
           onSwiped={() => setCurrentProfile(index => index + 1)}
+          onTapCard={handleOpenModal}
           onSwipedLeft={handleRejectProfile}
           onSwipedRight={handleLikeProfile}
           stackSize={petProfiles.length}
