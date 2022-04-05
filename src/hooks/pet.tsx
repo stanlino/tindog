@@ -1,6 +1,7 @@
 import { createContext, ReactNode, useContext, useEffect, useState } from "react";
 import firestore from '@react-native-firebase/firestore'
 import storage from '@react-native-firebase/storage'
+import AppLoading from 'expo-app-loading';
 
 import { useAuth } from "./auth";
 import { useFirestore } from "./firestore";
@@ -121,6 +122,8 @@ export function PetProvider({ children } : { children: ReactNode }) {
       thisPet.description = props.description
     }
 
+    if (Object.keys(newPetObject).length === 0) return
+
     await firestore().collection('pets').doc(currentPet.id).update({
       ...newPetObject
     })
@@ -129,7 +132,7 @@ export function PetProvider({ children } : { children: ReactNode }) {
   }
 
   if (!recoveredPets || !recoveredVisualizedProfiles) {
-    return null
+    return <AppLoading />
   }
 
   return (

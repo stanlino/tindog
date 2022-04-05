@@ -1,5 +1,6 @@
 import auth, { FirebaseAuthTypes } from "@react-native-firebase/auth";
 import { createContext, ReactNode, useContext, useEffect, useState } from "react";
+import AppLoading from 'expo-app-loading';
 
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
 
@@ -39,7 +40,7 @@ export function AuthProvider({ children } : { children: ReactNode }) {
   },[])
   
   if (initializing) {
-    return null
+    return <AppLoading />
   }
 
   return (

@@ -4,6 +4,7 @@ import firestore from '@react-native-firebase/firestore'
 
 import { Container } from '@components/Container'
 import { usePet, Pet } from '../../hooks/pet'
+import { handleLikeProfile, handleRejectProfile } from './utils/firestore'
 
 import ProfileModal, { ProfileModalMethods } from '@screens/ProfileModal'
 
@@ -21,7 +22,6 @@ import {
   Content,
   NoHaveMoreProfiles
 } from './styles'
-
 
 export function Home(){
 
@@ -43,46 +43,6 @@ export function Home(){
     swiperRef.current.swipeRight()
   }
 
-  function handleViewProfile() {
-    firestore().collection('pets').doc(currentPet?.id).collection('visualized').add({
-      petUID: petProfiles[currentProfile].id
-    })
-  }
-
-  async function handleLikeProfile() {
-    handleViewProfile()
-    const thisMatchDontExists = (await firestore().collection('matchs').where('interesting', '==', currentPet.id).get()).empty
-    if (thisMatchDontExists) {
-      firestore().collection('matchs').add({
-        interestingID: petProfiles[currentProfile].id,
-        interestingName: petProfiles[currentProfile].name,
-        interestingPhoto: petProfiles[currentProfile].photo,
-        interestedID: currentPet.id,
-        interestedName: currentPet.name,
-        interestedPhoto: currentPet.photo,
-        itsAMatch: false
-      })
-    } else {
-      firestore()
-      .collection('matchs')
-      .where('interesting', '==', currentPet.id)
-      .where('interested', '==', petProfiles[currentProfile].id)
-      .get()
-      .then(docs => {
-        docs.forEach(doc => {
-          doc.ref.update({
-            itsAMatch: true
-          })
-        })
-      })
-    }
-    
-  }
-
-  function handleRejectProfile() {
-    handleViewProfile()
-  }
-
   function handleOpenModal() {
     profileModalRef.current.handleOpenModal()
   }
@@ -102,18 +62,10 @@ export function Home(){
   },[])
 
   if (!petProfiles[0] || currentProfile === petProfiles.length) {
-    return (
-      <Container>
-        <Title>
-          tindog
-        </Title>
-        <Content>
-          <NoHaveMoreProfiles>
-            Não há perfis não visualizados nessa região
-          </NoHaveMoreProfiles>
-        </Content>
-      </Container>
-    )
+    if (visualizedProfiles.length === 0) {
+      return <NoMoreProfiles text={`Ainda não existem perfis em ${currentPet?.location} :(`} />
+    }
+    return <NoMoreProfiles text={`Você ja visualizou todos os perfis de ${currentPet?.location}`} />
   }
 
   return (
@@ -131,8 +83,8 @@ export function Home(){
           cardIndex={currentProfile}
           onSwiped={() => setCurrentProfile(index => index + 1)}
           onTapCard={handleOpenModal}
-          onSwipedLeft={handleRejectProfile}
-          onSwipedRight={handleLikeProfile}
+          onSwipedLeft={() => handleRejectProfile(currentPet.id!, petProfiles[currentProfile].id!)}
+          onSwipedRight={() => handleLikeProfile(currentPet!, petProfiles[currentProfile])}
           stackSize={petProfiles.length}
           stackScale={10}
           cardVerticalMargin={0}
@@ -159,6 +111,21 @@ export function Home(){
           <Icon name='check' type='accept'/>
         </Button>
       </Footer>
+    </Container>
+  )
+}
+
+function NoMoreProfiles({ text } : { text: string }) {
+  return (
+    <Container>
+      <Title>
+        tindog
+      </Title>
+      <Content>
+        <NoHaveMoreProfiles>
+          {text}
+        </NoHaveMoreProfiles>
+      </Content>
     </Container>
   )
 }

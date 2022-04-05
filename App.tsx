@@ -1,6 +1,7 @@
 import React from 'react';
-import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { StatusBar } from 'react-native';
+import { ThemeProvider } from 'styled-components';
+import AppLoading from 'expo-app-loading';
 
 import { 
   useFonts, 
@@ -8,8 +9,6 @@ import {
   Montserrat_600SemiBold,
   Montserrat_300Light
 } from '@expo-google-fonts/montserrat';
-import { ThemeProvider } from 'styled-components';
-import AppLoading from 'expo-app-loading';
 
 import { Routes } from './src/routes';
 
@@ -31,10 +30,8 @@ export default function App() {
   return (
     <ThemeProvider theme={themes}>
       <AuthProvider>
-        <GestureHandlerRootView style={{flex: 1}}>
-          <Routes />
-          <StatusBar translucent backgroundColor={'#0003'}/>
-        </GestureHandlerRootView>
+        <Routes />
+        <StatusBar translucent backgroundColor={'#0003'}/>
       </AuthProvider>
     </ThemeProvider>
   );

@@ -1,12 +1,12 @@
 import { createContext, ReactNode, useContext, useEffect, useState } from "react"
 import firestore from '@react-native-firebase/firestore'
+import AppLoading from 'expo-app-loading';
 
 import { useAuth } from "./auth";
 
 interface DocumentData {
   userName: string
   userLocation: string
-  userPet: number[]
 }
 
 interface FirestoreContextData {
@@ -31,7 +31,7 @@ export function FirestoreProvider({ children }: { children: ReactNode }) {
       userName,
       userLocation,
     }).then(() => {
-      setUserDoc({ userName, userLocation, userPet: [] })
+      setUserDoc({ userName, userLocation })
     })
   }
  
@@ -40,7 +40,7 @@ export function FirestoreProvider({ children }: { children: ReactNode }) {
       userName,
       userLocation
     }).then(() => {
-      setUserDoc(oldState => ({ userName, userLocation, userPet: oldState.userPet }))
+      setUserDoc({ userName, userLocation })
     }) 
   }
 
@@ -57,7 +57,7 @@ export function FirestoreProvider({ children }: { children: ReactNode }) {
   },[])
 
   if (initializing) {
-    return null
+    return <AppLoading />
   }
 
   return (

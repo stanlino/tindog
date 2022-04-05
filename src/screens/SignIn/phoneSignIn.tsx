@@ -102,8 +102,8 @@ export function PhoneSignIn({ navigation: { goBack } } : PhoneSignInScreenProps)
             </TextInputWrapper>
 
             <Button 
-              title="Enviar código de confirmação"
-              disabled={phoneNumber.length < 11}
+              title="Confirmar código"
+              disabled={code.length < 6}
               onPress={confirmCode}
             />
 

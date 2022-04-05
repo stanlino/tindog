@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import firestore from '@react-native-firebase/firestore'
 import { FlatList } from 'react-native'
 
@@ -31,26 +31,30 @@ export function Matches(){
   const { currentPet } = usePet()
 
   const [matchs, setMatchs] = useState([] as Match[])
+  const [isLoading, setIsLoading] = useState(false)
+
+  async function getMatchs() {
+
+    setIsLoading(true)
+
+    const imInterested = await firestore().collection('matchs').where('interestedID', '==', currentPet.id).where('itsAMatch', '==', true).get()
+    const imInteresting = await firestore().collection('matchs').where('interestingID', '==', currentPet.id).where('itsAMatch', '==', true).get()
+    
+    const matchDocs: Match[] = []
+
+    imInterested.forEach(doc => {
+      matchDocs.push({ ...doc.data(), id: doc.id } as Match)
+    })
+
+    imInteresting.forEach(doc => {
+      matchDocs.push({ ...doc.data(), id: doc.id } as Match)
+    })
+
+    setMatchs(matchDocs)
+    setIsLoading(false)
+  }
 
   useEffect(() => {
-    async function getMatchs() {
-
-      const imInterested = await firestore().collection('matchs').where('interestedID', '==', currentPet.id).where('itsAMatch', '==', true).get()
-      const imInteresting = await firestore().collection('matchs').where('interestingID', '==', currentPet.id).where('itsAMatch', '==', true).get()
-      
-      const matchDocs: Match[] = []
-
-      imInterested.forEach(doc => {
-        matchDocs.push({ ...doc.data(), id: doc.id } as Match)
-      })
-
-      imInteresting.forEach(doc => {
-        matchDocs.push({ ...doc.data(), id: doc.id } as Match)
-      })
-
-      setMatchs(matchDocs)
-    }
-
     getMatchs()
   },[])
 
@@ -61,6 +65,8 @@ export function Matches(){
         contentContainerStyle={{
           paddingTop: 20
         }}
+        refreshing={isLoading}
+        onRefresh={getMatchs}
         data={matchs}
         keyExtractor={item => item.id}
         renderItem={({ item }) => {

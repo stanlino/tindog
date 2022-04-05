@@ -21,10 +21,6 @@ export function SignIn({ navigation: { navigate } } : SignInScreenProps){
 
   const { signInWithGoogle } = useAuth()
 
-  function handleSignInWithGoogle() {
-    signInWithGoogle()
-  }
-
   return (
     <Container>
       <Header>
@@ -47,7 +43,7 @@ export function SignIn({ navigation: { navigate } } : SignInScreenProps){
         <Button 
           title='Google'
           icon='google'
-          onPress={handleSignInWithGoogle}
+          onPress={signInWithGoogle}
         />
         <Button 
           title='Número de telefone'
