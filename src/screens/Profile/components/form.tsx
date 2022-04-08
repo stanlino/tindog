@@ -99,7 +99,7 @@ export function Form({
       />
 
       <Button 
-        style={{ marginTop: 15 }} 
+        style={{ marginTop: 15, marginBottom: 80 }} 
         title='Salvar alterações' 
         onPress={handleSubmit(handleUpdateProfile)} 
       />

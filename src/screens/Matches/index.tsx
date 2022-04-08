@@ -5,6 +5,8 @@ import { FlatList } from 'react-native'
 import { usePet } from '../../hooks/pet'
 import { Container } from '@components/Container'
 
+import { SvgStack } from './components/svgStack'
+
 import { 
   Title,
   MatchView,
@@ -61,9 +63,11 @@ export function Matches(){
   return (
     <Container>
       <Title>match's</Title>
+      <SvgStack />
       <FlatList 
         contentContainerStyle={{
-          paddingTop: 20
+          paddingTop: 20,
+          paddingBottom: 80
         }}
         refreshing={isLoading}
         onRefresh={getMatchs}
@@ -74,7 +78,7 @@ export function Matches(){
           const imTheInterested = item.interestedID === currentPet.id
 
           return (
-            <MatchView>
+            <MatchView style={{ elevation: 5 }}>
               <Avatar source={{ uri: imTheInterested ? item.interestingPhoto : item.interestedPhoto }} />
               <Side>
                 <Name>{imTheInterested ? item.interestingName : item.interestedName}</Name>

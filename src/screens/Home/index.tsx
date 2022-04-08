@@ -20,7 +20,8 @@ import {
   Button,
   Icon,
   Content,
-  NoHaveMoreProfiles
+  NoHaveMoreProfiles,
+  TopDetail
 } from './styles'
 
 export function Home(){
@@ -72,8 +73,11 @@ export function Home(){
     <Container>
 
       <ProfileModal ref={profileModalRef} pet={petProfiles[currentProfile]} />
-
+      
+      <TopDetail />
+      
       <Title>tindog</Title>
+      
       <Profiles>
         <Swiper
           ref={swiperRef}
@@ -86,7 +90,9 @@ export function Home(){
           onSwipedLeft={() => handleRejectProfile(currentPet.id!, petProfiles[currentProfile].id!)}
           onSwipedRight={() => handleLikeProfile(currentPet!, petProfiles[currentProfile])}
           stackSize={petProfiles.length}
-          stackScale={10}
+          stackScale={5}
+          animateCardOpacity
+          animateOverlayLabelsOpacity
           cardVerticalMargin={0}
           cardHorizontalMargin={0}
           backgroundColor='transparent'
@@ -118,6 +124,7 @@ export function Home(){
 function NoMoreProfiles({ text } : { text: string }) {
   return (
     <Container>
+      <TopDetail />
       <Title>
         tindog
       </Title>

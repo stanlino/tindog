@@ -12,10 +12,23 @@ interface ButtonProps {
 export const Title = styled.Text`
   text-align: left;
   ${({ theme }) => css`
-    color: ${theme.COLORS.TITLE};
+    color: ${theme.COLORS.SHAPE};
     font-size: ${RFValue(35)}px;
     font-family: ${theme.FONTS.BOLD};
   `}
+`
+
+export const TopDetail = styled.View`
+  height: ${(screenHeight * 2)}px;
+  width: ${(screenHeight * 2)}px;
+  
+  border-radius: ${(screenHeight * 2) / 2}px;
+
+  top: -${(screenHeight * 2) / 1.2}px;
+  left: -${(screenHeight * 2) / 2.7}px;
+
+  position: absolute;
+  background-color: ${({ theme }) => theme.COLORS.PRIMARY}
 `
 
 export const Profiles = styled.View`
@@ -68,7 +81,7 @@ export const ProfileAdjective = styled.Text`
 export const Footer = styled.View`
   flex-direction: row;
   justify-content: center;
-  margin-bottom: -10px;
+  margin-bottom: 80px;
   margin-top: 10px;
 `
 
