@@ -23,36 +23,44 @@ export function AppRoutes() {
       screenOptions={{
         headerShown: false,
         tabBarStyle: {
-          height: RFValue(75)
+          height: RFValue(60),
+          position: 'absolute',
+          bottom: 20,
+          left: 20,
+          right: 20,
+          elevation: 5,
+          backgroundColor: '#f2f2f2',
+          borderRadius: 35,
+          overflow: 'hidden'
         },
         tabBarActiveTintColor: COLORS.PRIMARY,
         tabBarInactiveTintColor: COLORS.TITLE,
-        tabBarShowLabel: false,
-        tabBarHideOnKeyboard: true
+        tabBarHideOnKeyboard: true,
+        tabBarShowLabel: false
       }}
       initialRouteName={userHasAPet ? 'home' : 'profile'}
     >
-      {userHasAPet && (<>
-        <Screen
-          name='home' 
-          component={Home} 
-          options={{
-            tabBarIcon: ({ color }) => <MaterialCommunityIcons name="book-open-page-variant" size={RFValue(35)} color={color} />
-          }}
-        />
-        <Screen
-          name='matches' 
-          component={Matches} 
-          options={{
-            tabBarIcon: ({ color }) => <MaterialCommunityIcons name="puzzle-heart" size={RFValue(35)} color={color} />
-          }}
-        />
-      </>)}
+    {userHasAPet && (<>
+      <Screen
+        name='home' 
+        component={Home} 
+        options={{
+          tabBarIcon: ({ color }) => <MaterialCommunityIcons name="book-open-page-variant" size={RFValue(28)} color={color} />,
+        }}
+      />
+      <Screen
+        name='matches' 
+        component={Matches} 
+        options={{
+          tabBarIcon: ({ color }) => <MaterialCommunityIcons name="puzzle-heart" size={RFValue(28)} color={color} />,
+        }}
+      />
+    </>)}
       <Screen
         name='profile'
         component={Profile} 
         options={{
-          tabBarIcon: ({ color }) => <MaterialCommunityIcons name="cat" size={RFValue(35)} color={color} />
+          tabBarIcon: ({ color }) => <MaterialCommunityIcons name="cat" size={RFValue(28)} color={color} />,
         }}
       />
     </Navigator>
