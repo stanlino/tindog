@@ -19,16 +19,14 @@ export const Title = styled.Text`
 `
 
 export const TopDetail = styled.View`
-  height: ${(screenHeight * 2)}px;
-  width: ${(screenHeight * 2)}px;
-  
-  border-radius: ${(screenHeight * 2) / 2}px;
+  width: ${screenWidth}px;
+  height: ${screenHeight * .35}px;
 
-  top: -${(screenHeight * 2) / 1.2}px;
-  left: -${(screenHeight * 2) / 2.7}px;
+  top: 0px;
+  left: 0px;
 
   position: absolute;
-  background-color: ${({ theme }) => theme.COLORS.PRIMARY}
+  background-color: ${({ theme }) => theme.COLORS.PRIMARY};
 `
 
 export const Profiles = styled.View`
@@ -106,19 +104,4 @@ export const Button = styled.TouchableOpacity<ButtonProps>`
 export const Icon = styled(FontAwesome)<ButtonProps>`
   color: ${({ type, theme }) => type === 'accept' ? theme.COLORS.SHAPE : theme.COLORS.PRIMARY};
   font-size: 30px;
-`
-
-export const Content = styled.View`
-  flex: 1;
-  justify-content: center;
-  align-items: center;
-`
-
-export const NoHaveMoreProfiles = styled.Text`
-  ${({ theme }) => css`
-    color: ${theme.COLORS.TITLE};
-    font-family: ${theme.FONTS.BOLD};
-  `}
-  font-size: ${RFValue(20)}px;
-  text-align: center;
 `

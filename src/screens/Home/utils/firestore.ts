@@ -1,16 +1,13 @@
 import firestore from '@react-native-firebase/firestore'
 import { Pet } from '../../../hooks/pet'
 
-export function handleViewProfile(myPetId: string, interestingPetId: string) {
+export function viewProfile(myPetId: string, interestingPetId: string) {
   firestore().collection('pets').doc(myPetId).collection('visualized').add({
     petUID: interestingPetId
   })
 }
 
-export async function handleLikeProfile(myPet: Pet, interestingPet: Pet) {
-  
-  handleViewProfile(myPet.id!, interestingPet.id!)
-
+export async function likeProfile(myPet: Pet, interestingPet: Pet) {
   const thisMatchDontExists = (
     await firestore()
       .collection('matchs')
@@ -48,8 +45,4 @@ export async function handleLikeProfile(myPet: Pet, interestingPet: Pet) {
 
   }
   
-}
-
-export function handleRejectProfile(myPetId: string, interestingPetId: string) {
-  handleViewProfile(myPetId, interestingPetId)
 }

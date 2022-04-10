@@ -1,12 +1,15 @@
 import React, { useEffect, useRef, useState } from 'react'
 import Swiper from 'react-native-deck-swiper'
 import firestore from '@react-native-firebase/firestore'
+import { SharedElement } from 'react-navigation-shared-element'
 
 import { Container } from '@components/Container'
 import { usePet, Pet } from '../../hooks/pet'
-import { handleLikeProfile, handleRejectProfile } from './utils/firestore'
+import { likeProfile, viewProfile } from './utils/firestore'
+import { IndexScreenProps } from '../../types/routes'
 
-import ProfileModal, { ProfileModalMethods } from '@screens/ProfileModal'
+import { NoMoreProfiles } from './components/noMoreProfiles'
+import { Loading } from './components/loading'
 
 import { 
   Title,
@@ -19,20 +22,19 @@ import {
   Footer,
   Button,
   Icon,
-  Content,
-  NoHaveMoreProfiles,
-  TopDetail
+  TopDetail,
 } from './styles'
 
-export function Home(){
 
-  const { pets, currentPet, visualizedProfiles } = usePet()
+export function Home({ navigation } : IndexScreenProps){
+
+  const { pets, currentPet, visualizedProfiles, updateVisualizedProfiles } = usePet()
 
   const [petProfiles, setPetProfiles] = useState([] as Pet[])
   const [currentProfile, setCurrentProfile] = useState(0)
+  const [isLoading, setIsLoading] = useState(true)
 
   const swiperRef = useRef<any>()
-  const profileModalRef = useRef({} as ProfileModalMethods)
 
   const excludedProfiles = visualizedProfiles.concat(pets.map(pet => pet.id!))
 
@@ -43,9 +45,20 @@ export function Home(){
   function handleSwipeToRight() {
     swiperRef.current.swipeRight()
   }
+  
+  function naviteToProfile() {
+    navigation.navigate('randomProfile', petProfiles[currentProfile])
+  }
 
-  function handleOpenModal() {
-    profileModalRef.current.handleOpenModal()
+  function handleRejectProfile() {
+    updateVisualizedProfiles(petProfiles[currentProfile].id!)
+    viewProfile(currentPet.id!, petProfiles[currentProfile].id!)
+  }
+
+  function handleLikeProfile() {
+    updateVisualizedProfiles(petProfiles[currentProfile].id!)
+    viewProfile(currentPet.id!, petProfiles[currentProfile].id!)
+    likeProfile(currentPet!, petProfiles[currentProfile])
   }
 
   useEffect(() => {
@@ -60,7 +73,10 @@ export function Home(){
         })
         setPetProfiles(petList)
       })
+      .finally(() => setIsLoading(false))
   },[])
+
+  if (isLoading) return <Loading />
 
   if (!petProfiles[0] || currentProfile === petProfiles.length) {
     if (visualizedProfiles.length === 0) {
@@ -71,8 +87,6 @@ export function Home(){
 
   return (
     <Container>
-
-      <ProfileModal ref={profileModalRef} pet={petProfiles[currentProfile]} />
       
       <TopDetail />
       
@@ -86,9 +100,9 @@ export function Home(){
           verticalSwipe={false}
           cardIndex={currentProfile}
           onSwiped={() => setCurrentProfile(index => index + 1)}
-          onTapCard={handleOpenModal}
-          onSwipedLeft={() => handleRejectProfile(currentPet.id!, petProfiles[currentProfile].id!)}
-          onSwipedRight={() => handleLikeProfile(currentPet!, petProfiles[currentProfile])}
+          onSwipedLeft={handleRejectProfile}
+          onSwipedRight={handleLikeProfile}
+          onTapCard={naviteToProfile}
           stackSize={petProfiles.length}
           stackScale={5}
           animateCardOpacity
@@ -99,11 +113,15 @@ export function Home(){
           renderCard={(profile) => {
             return (
               <Profile>
-                <ProfileImage source={{ uri: profile?.photo }} />
-                <ProfileInfo>
-                  <ProfileName>{profile?.name}</ProfileName>
-                  <ProfileAdjective>{profile?.adjective}</ProfileAdjective>
-                </ProfileInfo>
+                <SharedElement id={profile?.id!}>
+                  <>
+                    <ProfileImage source={{ uri: profile?.photo }} />
+                    <ProfileInfo>
+                      <ProfileName>{profile?.name}</ProfileName>
+                      <ProfileAdjective>{profile?.adjective}</ProfileAdjective>
+                    </ProfileInfo>
+                  </>
+                </SharedElement>
               </Profile>
             )
           }}
@@ -117,22 +135,6 @@ export function Home(){
           <Icon name='check' type='accept'/>
         </Button>
       </Footer>
-    </Container>
-  )
-}
-
-function NoMoreProfiles({ text } : { text: string }) {
-  return (
-    <Container>
-      <TopDetail />
-      <Title>
-        tindog
-      </Title>
-      <Content>
-        <NoHaveMoreProfiles>
-          {text}
-        </NoHaveMoreProfiles>
-      </Content>
     </Container>
   )
 }
