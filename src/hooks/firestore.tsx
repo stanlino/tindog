@@ -7,12 +7,13 @@ import { useAuth } from "./auth";
 interface DocumentData {
   userName: string
   userLocation: string
+  userCEP: string
 }
 
 interface FirestoreContextData {
   userDoc: DocumentData
-  createUserDoc(userName: string, userLocation: string): void
-  updateUserDoc(userName: string, userLocation: string): void
+  createUserDoc(userName: string, userLocation: string, userCEP: string): void
+  updateUserDoc(userName: string, userLocation: string, userCEP: string): void
 }
 
 const FirestoreContext = createContext({} as FirestoreContextData)
@@ -26,21 +27,23 @@ export function FirestoreProvider({ children }: { children: ReactNode }) {
 
   const usersCollection = firestore().collection('users')
   
-  function createUserDoc(userName: string, userLocation: string) {
+  function createUserDoc(userName: string, userLocation: string, userCEP: string) {
     usersCollection.doc(user?.uid).set({
       userName,
       userLocation,
+      userCEP
     }).then(() => {
-      setUserDoc({ userName, userLocation })
+      setUserDoc({ userName, userLocation, userCEP })
     })
   }
  
-  function updateUserDoc(userName: string, userLocation: string) {
+  function updateUserDoc(userName: string, userLocation: string, userCEP: string) {
     usersCollection.doc(user?.uid).update({
       userName,
-      userLocation
+      userLocation,
+      userCEP
     }).then(() => {
-      setUserDoc({ userName, userLocation })
+      setUserDoc({ userName, userLocation, userCEP })
     }) 
   }
 

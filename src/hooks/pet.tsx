@@ -32,6 +32,7 @@ interface PetContextData {
   updatePet(pet: UpdatePetProps): void
   visualizedProfiles: string[]
   userHasAPet: boolean
+  updateVisualizedProfiles(petId: string): void
 }
 
 const PetContext = createContext({} as PetContextData)
@@ -131,6 +132,10 @@ export function PetProvider({ children } : { children: ReactNode }) {
     setPets(petsClone)
   }
 
+  function updateVisualizedProfiles(petId: string) {
+    setVisualizedProfiles(oldState => [...oldState, petId])
+  }
+
   if (!recoveredPets || !recoveredVisualizedProfiles) {
     return <AppLoading />
   }
@@ -142,7 +147,8 @@ export function PetProvider({ children } : { children: ReactNode }) {
       registerPet,
       visualizedProfiles,
       userHasAPet,
-      updatePet
+      updatePet,
+      updateVisualizedProfiles
     }}>
       { children }
     </PetContext.Provider>
