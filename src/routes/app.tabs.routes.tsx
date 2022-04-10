@@ -4,12 +4,11 @@ import { useTheme } from 'styled-components';
 import { RFValue } from 'react-native-responsive-fontsize';
 import { MaterialCommunityIcons } from '@expo/vector-icons'; 
 
-import { Profile } from "@screens/Profile";
-import { Home } from '@screens/Home';
-import { Matches } from '@screens/Matches';
+import { MyProfile } from "@screens/MyProfile";
 
 import { AppRoutesParams } from "../types/routes";
 import { usePet } from '../hooks/pet';
+import { RamdomProfileRoutes } from './stack/randomProfile';
 
 const { Navigator, Screen } = createBottomTabNavigator<AppRoutesParams>()
 
@@ -43,14 +42,16 @@ export function AppRoutes() {
     {userHasAPet && (<>
       <Screen
         name='home' 
-        component={Home} 
+        component={RamdomProfileRoutes}
+        initialParams={{ route: 'home' }} 
         options={{
           tabBarIcon: ({ color }) => <MaterialCommunityIcons name="book-open-page-variant" size={RFValue(28)} color={color} />,
         }}
       />
       <Screen
         name='matches' 
-        component={Matches} 
+        component={RamdomProfileRoutes}
+        initialParams={{ route: 'matches' }} 
         options={{
           tabBarIcon: ({ color }) => <MaterialCommunityIcons name="puzzle-heart" size={RFValue(28)} color={color} />,
         }}
@@ -58,7 +59,7 @@ export function AppRoutes() {
     </>)}
       <Screen
         name='profile'
-        component={Profile} 
+        component={MyProfile} 
         options={{
           tabBarIcon: ({ color }) => <MaterialCommunityIcons name="cat" size={RFValue(28)} color={color} />,
         }}
