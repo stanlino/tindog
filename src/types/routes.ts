@@ -1,4 +1,5 @@
 import { StackScreenProps } from "@react-navigation/stack"
+import { Pet } from "../hooks/pet"
 
 export type AuthRoutesParams = {
   index: undefined
@@ -10,6 +11,14 @@ export type PhoneSignInScreenProps = StackScreenProps<AuthRoutesParams, 'phone'>
 
 export type AppRoutesParams = {
   profile: undefined
-  matches: undefined
-  home: undefined
+  matches: any
+  home: any
 }
+
+export type RandomRrofileRoutesParams = {
+  index: undefined
+  randomProfile: Pet
+}
+
+export type IndexScreenProps = StackScreenProps<RandomRrofileRoutesParams, 'index'>
+export type RandomProfileScreenProps = StackScreenProps<RandomRrofileRoutesParams, 'randomProfile'>
