@@ -11,7 +11,6 @@ import auth from "@react-native-firebase/auth";
 import { Alert, Modal, TouchableOpacity } from 'react-native'
 import { AntDesign } from '@expo/vector-icons'; 
 
-import { Container } from '@components/Container'
 import { Input } from '@components/Input';
 import { Button } from '@components/Button';
 
@@ -23,7 +22,9 @@ import {
   Row,
   Label,
   Separator,
-  UserLocation
+  UserLocation,
+  Container,
+  Title
 } from './styles'
 
 export interface SettingsModalProps {
@@ -37,12 +38,12 @@ const SettingsModal: ForwardRefRenderFunction<SettingsModalProps, SettingsProps>
   ref 
 ) => {
 
-  const { createUserDoc, userDoc } = useFirestore()
+  const { createUserDoc, updateUserDoc, userDoc } = useFirestore()
 
   const [visible, setVisible] = useState(userDoc.userName ? false : true)
 
   const [userName, setUserName] = useState(userDoc.userName || '')
-  const [userCEP, setUserCEP] = useState('')
+  const [userCEP, setUserCEP] = useState(userDoc.userCEP || '')
   const [userLocation, setUserLocation] = useState(userDoc.userLocation || '')
 
   function closeSettingsModal() {
@@ -61,11 +62,16 @@ const SettingsModal: ForwardRefRenderFunction<SettingsModalProps, SettingsProps>
     }
   }
 
-  async function handleCreateUser() {
+  async function handleUpdateUser() {
     if (userName.length < 3) return Alert.alert('Opa', 'Insira um nome com pelo menos 3 caracteres!')
-    if (userCEP === 'undefined - undefined') return Alert.alert('Opa', 'Insira um CEP válido')
+    if (userLocation === 'undefined - undefined') return Alert.alert('Opa', 'Insira um CEP válido')
+    if (userCEP.length !== 9) return Alert.alert('Opa', 'Insira um CEP válido')
 
-    createUserDoc(userName, userLocation)
+    if (userDoc.userName) {
+      updateUserDoc(userName, userLocation, userCEP)
+    } else {
+      createUserDoc(userName, userLocation, userCEP)
+    }
     
     closeSettingsModal()
   }
@@ -96,6 +102,8 @@ const SettingsModal: ForwardRefRenderFunction<SettingsModalProps, SettingsProps>
       <Wrapper>
         <Container>
           <Row>
+            <Title>Configurações</Title>
+
             <TouchableOpacity onPress={closeSettingsModal}>
               <AntDesign name="closecircleo" size={30} color="black" />
             </TouchableOpacity>
@@ -114,7 +122,11 @@ const SettingsModal: ForwardRefRenderFunction<SettingsModalProps, SettingsProps>
 
           <Button title="Realizar logout" onPress={handleSignOut} />
           <Separator />
-          <Button onPress={handleCreateUser} title="Prosseguir" />
+          <Button onPress={handleUpdateUser} title='Salvar dados' disabled={
+            userLocation === userDoc.userLocation &&
+            userName === userDoc.userName &&
+            userCEP === userDoc.userCEP
+          } />
         </Container>
       </Wrapper>
     </Modal>
