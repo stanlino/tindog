@@ -1,5 +1,6 @@
 import { createContext, ReactNode, useContext, useEffect, useState } from "react"
 import firestore from '@react-native-firebase/firestore'
+import messaging from '@react-native-firebase/messaging';
 import AppLoading from 'expo-app-loading';
 
 import { useAuth } from "./auth";
@@ -26,6 +27,15 @@ export function FirestoreProvider({ children }: { children: ReactNode }) {
   const [initializing, setInitializing] = useState(true)
 
   const usersCollection = firestore().collection('users')
+
+  async function saveTokenToDatabase(token: string) {
+    await firestore()
+      .collection('users')
+      .doc(user?.uid)
+      .update({
+        tokens: firestore.FieldValue.arrayUnion(token),
+      });
+  }
   
   function createUserDoc(userName: string, userLocation: string, userCEP: string) {
     usersCollection.doc(user?.uid).set({
@@ -58,6 +68,18 @@ export function FirestoreProvider({ children }: { children: ReactNode }) {
       setInitializing(false)
     })
   },[])
+
+  useEffect(() => {
+    if (userDoc.userName) {
+      messaging().getToken().then(token => {
+        return saveTokenToDatabase(token)
+      })
+  
+      return messaging().onTokenRefresh(token => {
+        saveTokenToDatabase(token);
+      });
+    }
+  }, [userDoc])
 
   if (initializing) {
     return <AppLoading />
