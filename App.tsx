@@ -12,8 +12,8 @@ import {
 
 import { Routes } from './src/routes';
 
-import themes from './src/themes';
-import { AuthProvider } from './src/hooks/auth';
+import themes from './src/themes'
+import { AuthProvider } from './src/hooks/auth'
 
 export default function App() {
  
@@ -34,5 +34,5 @@ export default function App() {
         <StatusBar translucent backgroundColor={'#0003'}/>
       </AuthProvider>
     </ThemeProvider>
-  );
+  )
 }
