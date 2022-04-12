@@ -48,7 +48,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
-    "@types/react": "~17.0.21",
+    "@types/react": "^18.0.2",
     "@types/react-native": "~0.64.12",
     "@types/react-native-snap-carousel": "^3.8.5",
     "@types/styled-components-react-native": "^5.1.3",

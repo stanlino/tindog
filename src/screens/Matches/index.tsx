@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import firestore from '@react-native-firebase/firestore'
 import { FlatList } from 'react-native'
-import AnimatedLottieView from 'lottie-react-native'
+const AnimatedLottieView = require("lottie-react-native");
 import { RFPercentage } from 'react-native-responsive-fontsize'
 
 import { usePet } from '../../hooks/pet'

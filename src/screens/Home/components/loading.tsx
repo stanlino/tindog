@@ -1,5 +1,5 @@
 import { Container } from "@components/Container";
-import AnimatedLottieView from "lottie-react-native";
+const AnimatedLottieView = require("lottie-react-native");
 import { RFPercentage } from "react-native-responsive-fontsize";
 import { 
   Content, 

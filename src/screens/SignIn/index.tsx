@@ -1,5 +1,5 @@
 import React from 'react'
-import AnimatedLottieView from 'lottie-react-native'
+const AnimatedLottieView = require("lottie-react-native");
 import { RFPercentage } from 'react-native-responsive-fontsize'
 
 import { SignInScreenProps } from 'src/types/routes'

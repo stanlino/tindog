@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
-import Swiper from 'react-native-deck-swiper'
+const Swiper = require('react-native-deck-swiper')
 import firestore from '@react-native-firebase/firestore'
 import { SharedElement } from 'react-navigation-shared-element'
 
@@ -100,7 +100,7 @@ export function Home({ navigation } : IndexScreenProps){
         <Swiper
           ref={swiperRef}
           cards={petProfiles}
-          keyExtractor={item => item?.id!}
+          keyExtractor={(item: Pet) => item?.id!}
           verticalSwipe={false}
           cardIndex={currentProfile}
           onSwiped={() => setCurrentProfile(index => index + 1)}
@@ -114,7 +114,7 @@ export function Home({ navigation } : IndexScreenProps){
           cardVerticalMargin={0}
           cardHorizontalMargin={0}
           backgroundColor='transparent'
-          renderCard={(profile) => {
+          renderCard={(profile: Pet) => {
             return (
               <Profile>
                 <SharedElement id={profile?.id!}>
