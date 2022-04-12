@@ -19,7 +19,6 @@ export type RandomRrofileRoutesParams = {
   index: undefined
   randomProfile: {
     pet: Pet
-    sharedElement: boolean
   }
 }
 

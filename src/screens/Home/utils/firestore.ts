@@ -7,7 +7,7 @@ export function viewProfile(myPetId: string, interestingPetId: string) {
   })
 }
 
-export async function likeProfile(myPet: Pet, interestingPet: Pet) {
+export async function likeProfile(myPet: Pet, interestingPet: Pet, userContact: string) {
   
   await fetch('https://tindog-messaging-api.herokuapp.com/')
 
@@ -22,13 +22,15 @@ export async function likeProfile(myPet: Pet, interestingPet: Pet) {
     firestore().collection('matchs').add({
       pets: [myPet.id!, interestingPet.id!],
       owners: [myPet.userUID, interestingPet.userUID],
+      contacts: [userContact],
       itsAMatch: false
     })
     
   } else {
     matchReference.docs.forEach(doc => {
       doc.ref.update({
-        itsAMatch: true
+        itsAMatch: true,
+        contacts: firestore.FieldValue.arrayUnion(userContact)
       })
     })
   }

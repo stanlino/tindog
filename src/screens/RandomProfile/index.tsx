@@ -25,27 +25,15 @@ export function RandomProfile({ navigation, route: { params } } : RandomProfileS
       <TopDetail />
 
       <ImageWrapper style={{ elevation: 5 }}>
-        {
-          params.sharedElement ? (
-            <SharedElement id={pet.id!}>
-              <>
-                <Image source={{ uri: pet.photo!}} />
-                <ProfileInfo>
-                  <ProfileName>{pet.name}</ProfileName>
-                  <ProfileAdjective>{pet.adjective}</ProfileAdjective>
-                </ProfileInfo>
-              </>
-            </SharedElement>
-          ) : (
-            <>
-              <Image source={{ uri: pet.photo!}} />
-              <ProfileInfo>
-                <ProfileName>{pet.name}</ProfileName>
-                <ProfileAdjective>{pet.adjective}</ProfileAdjective>
-              </ProfileInfo>
-            </>
-          )
-        }
+        <SharedElement id={pet.id!}>
+          <>
+            <Image source={{ uri: pet.photo!}} />
+            <ProfileInfo>
+              <ProfileName>{pet.name}</ProfileName>
+              <ProfileAdjective>{pet.adjective}</ProfileAdjective>
+            </ProfileInfo>
+          </>
+        </SharedElement>
       </ImageWrapper>
 
       <Description style={{ elevation: 5 }}>

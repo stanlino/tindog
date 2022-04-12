@@ -9,6 +9,7 @@ import { MyProfile } from "@screens/MyProfile";
 import { AppRoutesParams } from "../types/routes";
 import { usePet } from '../hooks/pet';
 import { RamdomProfileRoutes } from './stack/randomProfile';
+import { Matches } from '@screens/Matches';
 
 const { Navigator, Screen } = createBottomTabNavigator<AppRoutesParams>()
 
@@ -43,15 +44,13 @@ export function AppRoutes() {
       <Screen
         name='home' 
         component={RamdomProfileRoutes}
-        initialParams={{ route: 'home' }} 
         options={{
           tabBarIcon: ({ color }) => <MaterialCommunityIcons name="book-open-page-variant" size={RFValue(28)} color={color} />,
         }}
       />
       <Screen
         name='matches' 
-        component={RamdomProfileRoutes}
-        initialParams={{ route: 'matches' }} 
+        component={Matches}
         options={{
           tabBarIcon: ({ color }) => <MaterialCommunityIcons name="puzzle-heart" size={RFValue(28)} color={color} />,
         }}

@@ -20,6 +20,7 @@ type MatchData = {
   id: string
   pets: string[]
   itsAMatch: boolean
+  contacts: string[]
 }
 
 export function Matches(){

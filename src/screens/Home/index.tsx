@@ -5,6 +5,7 @@ import { SharedElement } from 'react-navigation-shared-element'
 
 import { Container } from '@components/Container'
 import { usePet, Pet } from '../../hooks/pet'
+import { useAuth } from '../../hooks/auth'
 import { likeProfile, viewProfile } from './utils/firestore'
 import { IndexScreenProps } from '../../types/routes'
 
@@ -29,6 +30,7 @@ import {
 export function Home({ navigation } : IndexScreenProps){
 
   const { pets, currentPet, visualizedProfiles, updateVisualizedProfiles } = usePet()
+  const { user } = useAuth()
 
   const [petProfiles, setPetProfiles] = useState([] as Pet[])
   const [currentProfile, setCurrentProfile] = useState(0)
@@ -49,7 +51,6 @@ export function Home({ navigation } : IndexScreenProps){
   function naviteToProfile() {
     navigation.navigate('randomProfile', {
       pet: petProfiles[currentProfile],
-      sharedElement: true
     })
   }
 
@@ -61,7 +62,7 @@ export function Home({ navigation } : IndexScreenProps){
   function handleLikeProfile() {
     updateVisualizedProfiles(petProfiles[currentProfile].id!)
     viewProfile(currentPet.id!, petProfiles[currentProfile].id!)
-    likeProfile(currentPet!, petProfiles[currentProfile])
+    likeProfile(currentPet!, petProfiles[currentProfile], user?.email ?? user?.phoneNumber as string)
   }
 
   useEffect(() => {
