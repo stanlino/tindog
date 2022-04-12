@@ -22,7 +22,8 @@ export function RamdomProfileRoutes(props : any) {
         component={RandomProfile} 
         name='randomProfile' 
         sharedElements={(route, otherRoute, showing) => {
-          const item = route.params
+          if (!route.params.sharedElement) return []
+          const item = route.params.pet
           return [item.id]
         }}
       />

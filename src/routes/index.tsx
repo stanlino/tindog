@@ -8,6 +8,8 @@ import { useAuth } from '../hooks/auth'
 import { FirestoreProvider } from '../hooks/firestore'
 import { PetProvider } from '../hooks/pet'
 
+import { ItsAMatch } from '../global/itsamatch'
+
 export function Routes() {
 
   const { user } = useAuth()
@@ -17,6 +19,7 @@ export function Routes() {
       { user?.uid ? (
         <FirestoreProvider>
           <PetProvider>
+            <ItsAMatch />
             <AppRoutes />
           </PetProvider>
         </FirestoreProvider>

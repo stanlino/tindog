@@ -7,27 +7,18 @@ import { RFPercentage } from 'react-native-responsive-fontsize'
 import { usePet } from '../../hooks/pet'
 import { Container } from '@components/Container'
 
+import { Profile } from './components/petProfile'
+
 import { 
   Title,
-  MatchView,
-  Avatar,
-  Side,
-  Name,
-  Touchable,
-  Text,
   TopDetail,
   Content,
   Output
 } from './styles'
 
-interface Match {
+type MatchData = {
   id: string
-  interestingID: string
-  interestingName: string
-  interestingPhoto: string
-  interestedID: string
-  interestedName: string
-  interestedPhoto: string
+  pets: string[]
   itsAMatch: boolean
 }
 
@@ -35,27 +26,26 @@ export function Matches(){
 
   const { currentPet } = usePet()
 
-  const [matchs, setMatchs] = useState([] as Match[])
-  const [isLoading, setIsLoading] = useState(false)
+  const [matchs, setMatchs] = useState([] as MatchData[])
+  const [isLoading, setIsLoading] = useState(true)
 
   async function getMatchs() {
 
     setIsLoading(true)
 
-    const imInterested = await firestore().collection('matchs').where('interestedID', '==', currentPet.id).where('itsAMatch', '==', true).get()
-    const imInteresting = await firestore().collection('matchs').where('interestingID', '==', currentPet.id).where('itsAMatch', '==', true).get()
+    const allMatchsQuery = await firestore()
+      .collection('matchs')
+      .where('pets', 'array-contains', currentPet.id!)
+      .where('itsAMatch', '==', true)
+      .get()
     
-    const matchDocs: Match[] = []
+    const allMatchs: MatchData[] = []
 
-    imInterested.forEach(doc => {
-      matchDocs.push({ ...doc.data(), id: doc.id } as Match)
+    allMatchsQuery.docs.forEach(doc => {
+      allMatchs.push({ ...doc.data(), id: doc.id } as MatchData)
     })
 
-    imInteresting.forEach(doc => {
-      matchDocs.push({ ...doc.data(), id: doc.id } as Match)
-    })
-
-    setMatchs(matchDocs)
+    setMatchs(allMatchs)
     setIsLoading(false)
   }
 
@@ -67,7 +57,20 @@ export function Matches(){
     <Container>
       <TopDetail />
       <Title>combinations</Title>
-      {matchs.length ? 
+      {
+        isLoading ?
+          <Content>
+            <AnimatedLottieView
+              source={require('@assets/lottie/cat-loading.json')}
+              style={{
+                width: RFPercentage(40),
+              }}
+              autoPlay
+              loop
+              speed={2}
+            />
+          </Content>
+        : 
         <FlatList 
           contentContainerStyle={{
             paddingTop: 20,
@@ -77,38 +80,26 @@ export function Matches(){
           onRefresh={getMatchs}
           data={matchs}
           keyExtractor={item => item.id}
-          renderItem={({ item }) => {
-            const imTheInterested = item.interestedID === currentPet.id
+          renderItem={({ item }) => <Profile item={item} currentPet={currentPet} />}
+          ListEmptyComponent={() => {
             return (
-              <MatchView style={{ elevation: 5 }}>
-                <Avatar source={{ uri: imTheInterested ? item.interestingPhoto : item.interestedPhoto }} />
-                <Side>
-                  <Name>{imTheInterested ? item.interestingName : item.interestedName}</Name>
-                  <Touchable>
-                    <Text>Visualizar perfil</Text>
-                  </Touchable>
-                </Side>
-              </MatchView>
+              <Content>
+                <AnimatedLottieView
+                  source={require('@assets/lottie/dog-sleeping.json')}
+                  style={{
+                    width: RFPercentage(40),
+                  }}
+                  autoPlay
+                  loop
+                  speed={0.5}
+                />
+                <Output>
+                  Por enquanto não temos combinações :(
+                </Output>
+              </Content>
             )
           }}
         />
-      : (
-        <Content>
-          <AnimatedLottieView
-            source={require('@assets/lottie/dog-sleeping.json')}
-            style={{
-              width: RFPercentage(40),
-              
-            }}
-            autoPlay
-            loop
-            speed={0.5}
-          />
-          <Output>
-            Por enquanto não temos combinações :(
-          </Output>
-        </Content>
-        )
       }
     </Container>
   )

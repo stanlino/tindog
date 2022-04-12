@@ -47,7 +47,10 @@ export function Home({ navigation } : IndexScreenProps){
   }
   
   function naviteToProfile() {
-    navigation.navigate('randomProfile', petProfiles[currentProfile])
+    navigation.navigate('randomProfile', {
+      pet: petProfiles[currentProfile],
+      sharedElement: true
+    })
   }
 
   function handleRejectProfile() {
@@ -64,6 +67,7 @@ export function Home({ navigation } : IndexScreenProps){
   useEffect(() => {
     firestore().collection('pets')
       .where('location', '==', currentPet?.location)
+      .where('sex', '==', currentPet?.sex === 'male' ? 'female' : 'male')
       .where(firestore.FieldPath.documentId(), 'not-in', excludedProfiles)
       .get()
       .then(docs => {

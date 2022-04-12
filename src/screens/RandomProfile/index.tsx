@@ -16,26 +16,41 @@ import {
 } from './styles'
 
 export function RandomProfile({ navigation, route: { params } } : RandomProfileScreenProps){
+
+  const pet = params.pet
+
   return (
     <Container>
 
       <TopDetail />
 
       <ImageWrapper style={{ elevation: 5 }}>
-        <SharedElement id={params.id!}>
-          <>
-            <Image source={{ uri: params.photo!}} />
-            <ProfileInfo>
-              <ProfileName>{params.name}</ProfileName>
-              <ProfileAdjective>{params.adjective}</ProfileAdjective>
-            </ProfileInfo>
-          </>
-        </SharedElement>
+        {
+          params.sharedElement ? (
+            <SharedElement id={pet.id!}>
+              <>
+                <Image source={{ uri: pet.photo!}} />
+                <ProfileInfo>
+                  <ProfileName>{pet.name}</ProfileName>
+                  <ProfileAdjective>{pet.adjective}</ProfileAdjective>
+                </ProfileInfo>
+              </>
+            </SharedElement>
+          ) : (
+            <>
+              <Image source={{ uri: pet.photo!}} />
+              <ProfileInfo>
+                <ProfileName>{pet.name}</ProfileName>
+                <ProfileAdjective>{pet.adjective}</ProfileAdjective>
+              </ProfileInfo>
+            </>
+          )
+        }
       </ImageWrapper>
 
       <Description style={{ elevation: 5 }}>
         <DText>
-          {params.description}
+          {pet.description}
         </DText>
       </Description>
 

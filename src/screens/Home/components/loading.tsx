@@ -16,7 +16,7 @@ export function Loading() {
         tindog
       </Title>
       <Content>
-        <AnimatedLottieView
+        <AnimatedLottieView 
           source={require('@assets/lottie/cat-loading.json')}
           style={{
             width: RFPercentage(40),

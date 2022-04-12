@@ -17,7 +17,10 @@ export type AppRoutesParams = {
 
 export type RandomRrofileRoutesParams = {
   index: undefined
-  randomProfile: Pet
+  randomProfile: {
+    pet: Pet
+    sharedElement: boolean
+  }
 }
 
 export type IndexScreenProps = StackScreenProps<RandomRrofileRoutesParams, 'index'>

@@ -8,41 +8,26 @@ export function viewProfile(myPetId: string, interestingPetId: string) {
 }
 
 export async function likeProfile(myPet: Pet, interestingPet: Pet) {
-  const thisMatchDontExists = (
-    await firestore()
-      .collection('matchs')
-      .where('interestingID', '==', myPet.id!)
-      .where('interestedID', '==', interestingPet.id!)
-      .get()
-  ).empty
+  
+  const matchReference = await firestore()
+    .collection('matchs')
+    .where('pets', 'array-contains', [myPet.id!, interestingPet.id!])
+    .get()
+
+  const thisMatchDontExists = matchReference.empty
 
   if (thisMatchDontExists) {
-
     firestore().collection('matchs').add({
-      interestingID: interestingPet.id,
-      interestingName: interestingPet.name,
-      interestingPhoto: interestingPet.photo,
-      interestedID: myPet.id,
-      interestedName: myPet.name,
-      interestedPhoto: myPet.photo,
+      pets: [myPet.id!, interestingPet.id!],
+      owners: [myPet.userUID, interestingPet.userUID],
       itsAMatch: false
     })
-
+    
   } else {
-
-    firestore()
-    .collection('matchs')
-    .where('interestingID', '==', myPet.id!)
-    .where('interestedID', '==', interestingPet.id!)
-    .get()
-    .then(docs => {
-      docs.forEach(doc => {
-        doc.ref.update({
-          itsAMatch: true
-        })
+    matchReference.docs.forEach(doc => {
+      doc.ref.update({
+        itsAMatch: true
       })
     })
-
   }
-  
 }
