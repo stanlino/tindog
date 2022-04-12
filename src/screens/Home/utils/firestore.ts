@@ -9,6 +9,8 @@ export function viewProfile(myPetId: string, interestingPetId: string) {
 
 export async function likeProfile(myPet: Pet, interestingPet: Pet) {
   
+  await fetch('https://tindog-messaging-api.herokuapp.com/')
+
   const matchReference = await firestore()
     .collection('matchs')
     .where('pets', 'array-contains', [myPet.id!, interestingPet.id!])

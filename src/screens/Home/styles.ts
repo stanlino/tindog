@@ -79,7 +79,7 @@ export const ProfileAdjective = styled.Text`
 export const Footer = styled.View`
   flex-direction: row;
   justify-content: center;
-  margin-bottom: 80px;
+  margin-bottom: 60px;
   margin-top: 10px;
 `
 
