@@ -67,18 +67,15 @@ export function Profile({ item, currentPet } : ProfileProps){
 
     if (contactType == 'email') {
       const email = contact
-      const url = `mailto:${email}.com?subject=${subject}&body=${message}`
+      
+      const url = `mailto:${email}?subject=${subject}&body=${message}`
 
-      const supported = await Linking.canOpenURL(url)
-
-      if (supported) {
-        Alert.alert('Redirecionamento', `${announcement} via email!! Sinta-se a vontade para editar o corpo do email previamente já escrito 😺`, [
-          { text: 'Cancelar' },
-          { text: 'Conferir Email', onPress: () => {
-            Linking.openURL(url)
-          } }
-        ])
-      }
+      Alert.alert('Redirecionamento', `${announcement} via email!! Sinta-se a vontade para editar o corpo do email previamente já escrito 😺`, [
+        { text: 'Cancelar' },
+        { text: 'Conferir Email', onPress: () => {
+          Linking.openURL(url)
+        }}
+      ])
 
     } else {
       const numberPhone = contact?.substring(0) //remove +55

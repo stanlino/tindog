@@ -2,6 +2,7 @@ import { createContext, ReactNode, useContext, useEffect, useState } from "react
 import firestore from '@react-native-firebase/firestore'
 import messaging from '@react-native-firebase/messaging';
 import AppLoading from 'expo-app-loading';
+import auth from '@react-native-firebase/auth'
 
 import { useAuth } from "./auth";
 
@@ -15,6 +16,7 @@ interface FirestoreContextData {
   userDoc: DocumentData
   createUserDoc(userName: string, userLocation: string, userCEP: string): void
   updateUserDoc(userName: string, userLocation: string, userCEP: string): void
+  signOut(): void
 }
 
 const FirestoreContext = createContext({} as FirestoreContextData)
@@ -35,6 +37,18 @@ export function FirestoreProvider({ children }: { children: ReactNode }) {
       .update({
         tokens: firestore.FieldValue.arrayUnion(token),
       });
+  }
+
+  async function signOut() {
+    const token = await messaging().getToken()
+    await firestore()
+      .collection('users')
+      .doc(user?.uid)
+      .update({
+        tokens: firestore.FieldValue.arrayRemove(token)
+      })
+    
+    await auth().signOut()
   }
   
   function createUserDoc(userName: string, userLocation: string, userCEP: string) {
@@ -90,6 +104,7 @@ export function FirestoreProvider({ children }: { children: ReactNode }) {
       userDoc,
       createUserDoc,
       updateUserDoc,
+      signOut
     }}>
       {children}
     </FirestoreContext.Provider>

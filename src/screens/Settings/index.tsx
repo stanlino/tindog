@@ -6,8 +6,6 @@ import React, {
   useState
 } from 'react'
 
-import auth from "@react-native-firebase/auth";
-
 import { Alert, Keyboard, Modal, ScrollView, TouchableOpacity } from 'react-native'
 import { AntDesign } from '@expo/vector-icons'; 
 
@@ -38,7 +36,7 @@ const SettingsModal: ForwardRefRenderFunction<SettingsModalProps, SettingsProps>
   ref 
 ) => {
 
-  const { createUserDoc, updateUserDoc, userDoc } = useFirestore()
+  const { createUserDoc, updateUserDoc, userDoc, signOut } = useFirestore()
 
   const [visible, setVisible] = useState(userDoc.userName ? false : true)
   const [keyboardIsShow, setKeyboardIsShow] = useState(false)
@@ -80,7 +78,7 @@ const SettingsModal: ForwardRefRenderFunction<SettingsModalProps, SettingsProps>
   function handleSignOut() {
     Alert.alert('Sair da conta', 'Tem certeza que deseja sair da conta?', [
       { text: 'Não', style: 'cancel' },
-      { text: 'Sim', style: 'destructive', onPress: () => auth().signOut() }
+      { text: 'Sim', style: 'destructive', onPress: signOut }
     ], { cancelable: true })
   }
 

@@ -13,25 +13,24 @@ export async function likeProfile(myPet: Pet, interestingPet: Pet, userContact: 
 
   const matchReference = await firestore()
     .collection('matchs')
-    .where('pets', 'array-contains', [myPet.id!, interestingPet.id!])
+    .where('pets', 'array-contains-any', [myPet.id!, interestingPet.id!])
     .get()
 
-  const thisMatchDontExists = matchReference.empty
+  const thisMatchAlreadyExists = !matchReference.empty
 
-  if (thisMatchDontExists) {
-    firestore().collection('matchs').add({
-      pets: [myPet.id!, interestingPet.id!],
-      owners: [myPet.userUID, interestingPet.userUID],
-      contacts: [userContact],
-      itsAMatch: false
-    })
-    
-  } else {
+  if (thisMatchAlreadyExists) {
     matchReference.docs.forEach(doc => {
       doc.ref.update({
         itsAMatch: true,
         contacts: firestore.FieldValue.arrayUnion(userContact)
       })
+    })
+  } else {
+    firestore().collection('matchs').add({
+      pets: [myPet.id!, interestingPet.id!],
+      owners: [myPet.userUID, interestingPet.userUID],
+      contacts: [userContact],
+      itsAMatch: false
     })
   }
 }
