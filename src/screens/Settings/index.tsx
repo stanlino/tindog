@@ -8,7 +8,7 @@ import React, {
 
 import auth from "@react-native-firebase/auth";
 
-import { Alert, Modal, TouchableOpacity } from 'react-native'
+import { Alert, Keyboard, Modal, ScrollView, TouchableOpacity } from 'react-native'
 import { AntDesign } from '@expo/vector-icons'; 
 
 import { Input } from '@components/Input';
@@ -41,6 +41,7 @@ const SettingsModal: ForwardRefRenderFunction<SettingsModalProps, SettingsProps>
   const { createUserDoc, updateUserDoc, userDoc } = useFirestore()
 
   const [visible, setVisible] = useState(userDoc.userName ? false : true)
+  const [keyboardIsShow, setKeyboardIsShow] = useState(false)
 
   const [userName, setUserName] = useState(userDoc.userName || '')
   const [userCEP, setUserCEP] = useState(userDoc.userCEP || '')
@@ -93,6 +94,16 @@ const SettingsModal: ForwardRefRenderFunction<SettingsModalProps, SettingsProps>
     }
   },[userCEP.length === 9])
 
+  useEffect(() => {
+    Keyboard.addListener('keyboardDidShow', () => {
+      setKeyboardIsShow(true)
+    })
+
+    Keyboard.addListener('keyboardDidHide', () => {
+      setKeyboardIsShow(false)
+    })
+  },[])
+
   useImperativeHandle(ref, () => ({
     openSettingsModal
   }))
@@ -101,32 +112,39 @@ const SettingsModal: ForwardRefRenderFunction<SettingsModalProps, SettingsProps>
     <Modal onRequestClose={closeSettingsModal} transparent animationType='slide' visible={visible}>
       <Wrapper>
         <Container>
-          <Row>
-            <Title>Configurações</Title>
+          <ScrollView>
+            <Row>
+              <Title>Configurações</Title>
 
-            <TouchableOpacity onPress={closeSettingsModal}>
-              <AntDesign name="closecircleo" size={30} color="black" />
-            </TouchableOpacity>
-          </Row>
+              <TouchableOpacity onPress={closeSettingsModal}>
+                <AntDesign name="closecircleo" size={30} color="black" />
+              </TouchableOpacity>
+            </Row>
 
-          <Form>
-            <Label>Seu nome</Label>
-            <Input autoCorrect={false} value={userName} onChangeText={setUserName} autoCapitalize='words' placeholder='Fulano Ciclano' />
+            <Form>
+              <Label>Seu nome</Label>
+              <Input autoCorrect={false} value={userName} onChangeText={setUserName} autoCapitalize='words' placeholder='Fulano Ciclano' />
 
-            <Label>Seu CEP</Label>
-            <Input maxLength={9} value={userCEP} onChangeText={handleSetCEP} keyboardType='number-pad' placeholder='xxxxx xxx' />
-            <UserLocation>
-              {userLocation != 'undefined - undefined' ? userLocation : 'CEP inexistente!'}
-            </UserLocation>
-          </Form>
-
-          <Button title="Realizar logout" onPress={handleSignOut} />
-          <Separator />
-          <Button onPress={handleUpdateUser} title='Salvar dados' disabled={
-            userLocation === userDoc.userLocation &&
-            userName === userDoc.userName &&
-            userCEP === userDoc.userCEP
-          } />
+              <Label>Seu CEP</Label>
+              <Input maxLength={9} value={userCEP} onChangeText={handleSetCEP} keyboardType='number-pad' placeholder='xxxxx xxx' />
+              <UserLocation>
+                {userLocation != 'undefined - undefined' ? userLocation : 'CEP inexistente!'}
+              </UserLocation>
+            </Form>
+          </ScrollView>
+          {
+            !keyboardIsShow && (
+              <>
+                <Button title="Realizar logout" onPress={handleSignOut} />
+                <Separator />
+                <Button onPress={handleUpdateUser} title='Salvar dados' disabled={
+                  userLocation === userDoc.userLocation &&
+                  userName === userDoc.userName &&
+                  userCEP === userDoc.userCEP
+                } />
+              </>
+            )
+          }
         </Container>
       </Wrapper>
     </Modal>

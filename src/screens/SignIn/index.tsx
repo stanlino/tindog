@@ -23,13 +23,14 @@ export function SignIn({ navigation: { navigate } } : SignInScreenProps){
 
   return (
     <Container>
+      <Title>tindog</Title>
       <Header>
-        <Title>tindog</Title>
         <AnimatedLottieView
-          source={require('@assets/lottie/cat.json')}
+          source={require('@assets/lottie/dog-love.json')}
           style={{
-            width: RFPercentage(55),
+            width: RFPercentage(50),
           }}
+          speed={0.9}
           autoPlay
           loop
         />

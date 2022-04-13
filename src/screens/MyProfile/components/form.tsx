@@ -72,10 +72,10 @@ export function Form({
       />
       <Row>
         <Touchable disabled={currentPet?.id != null} onPress={handleToggleType}>
-          <TouchableText>{type}</TouchableText>
+          <TouchableText>{type === 'dog' ? 'Cão' : 'Gato'}</TouchableText>
         </Touchable>
         <Touchable disabled={currentPet?.id != null} onPress={handleToggleSex}>
-          <TouchableText>{sex}</TouchableText>
+          <TouchableText>{sex === 'male' ? 'Macho' : 'Fêmea'}</TouchableText>
         </Touchable>
       </Row>
           

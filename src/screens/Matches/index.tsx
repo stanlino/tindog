@@ -57,7 +57,7 @@ export function Matches(){
   return (
     <Container>
       <TopDetail />
-      <Title>combinations</Title>
+      <Title>Combinações</Title>
       {
         isLoading ?
           <Content>

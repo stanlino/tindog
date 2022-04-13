@@ -39,3 +39,11 @@ export const NoHaveMoreProfiles = styled.Text`
   text-align: center;
   margin-top: 30px;
 `
+export const TouchableFeedback = styled.TouchableOpacity`
+  margin-top: 15px;
+  padding: 10px;
+  background-color: #0002;
+  border-radius: 5px;
+`
+
+export const TouchableText = styled.Text``

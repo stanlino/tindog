@@ -63,6 +63,8 @@ export function Profile({ item, currentPet } : ProfileProps){
 
     const subject = 'Nós demos um match no tindog!'
 
+    const announcement = `Oi! Não tem chat 😿 mas eu estou desenvolvendo um 😻 \n \nPor enquanto você pode conversar com @ responsável d${petArticle} ${petProfile.name}`
+
     if (contactType == 'email') {
       const email = contact
       const url = `mailto:${email}.com?subject=${subject}&body=${message}`
@@ -70,7 +72,7 @@ export function Profile({ item, currentPet } : ProfileProps){
       const supported = await Linking.canOpenURL(url)
 
       if (supported) {
-        Alert.alert('Redirecionamento', `O papo agora começa no email!, Confira o email que vamos enviar para o(a) dono(a) d${petArticle} ${petProfile.name}, (modifique o texto se desejar). Ah e não se esqueça de enviar o email!`, [
+        Alert.alert('Redirecionamento', `${announcement} via email!! Sinta-se a vontade para editar o corpo do email previamente já escrito 😺`, [
           { text: 'Cancelar' },
           { text: 'Conferir Email', onPress: () => {
             Linking.openURL(url)
@@ -85,9 +87,9 @@ export function Profile({ item, currentPet } : ProfileProps){
       const supported = await Linking.canOpenURL(url)
 
       if (supported) {
-        Alert.alert('Redirecionamento', `Vou criar uma conversa no Whatsapp com o contato do(a) dono(a) d${petArticle} ${petProfile.name}, lá vocês podem conversar sobre o destino de seus bixinhos!!`, [
+        Alert.alert('Redirecionamento', `${announcement} pelo zap! `, [
           { text: 'Cancelar' },
-          { text: 'Continuar', onPress: () => {
+          { text: 'Vamo pro zap', onPress: () => {
             Linking.openURL(url)
           } }
         ])

@@ -28,7 +28,7 @@ export const Name = styled.Text`
   text-align: left;
   ${({ theme }) => css`
     color: ${theme.COLORS.TEXT};
-    font-size: ${RFValue(30)}px;
+    font-size: ${RFValue(20)}px;
     font-family: ${theme.FONTS.REGULAR};
   `}
 `

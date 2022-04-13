@@ -79,8 +79,9 @@ export const ProfileAdjective = styled.Text`
 export const Footer = styled.View`
   flex-direction: row;
   justify-content: center;
-  margin-bottom: 60px;
-  margin-top: 10px;
+  align-items: center;
+  margin-bottom: ${RFValue(65)}px;
+  flex: .25;
 `
 
 export const Button = styled.TouchableOpacity<ButtonProps>`

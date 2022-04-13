@@ -6,7 +6,9 @@ import {
   Content, 
   NoHaveMoreProfiles, 
   Title,
-  TopDetail
+  TopDetail,
+  TouchableFeedback,
+  TouchableText
 } from "./styles";
 
 export function NoMoreProfiles({ text } : { text: string }) {
@@ -29,6 +31,11 @@ export function NoMoreProfiles({ text } : { text: string }) {
         <NoHaveMoreProfiles>
           {text}
         </NoHaveMoreProfiles>
+        <TouchableFeedback>
+          <TouchableText>
+            Envie seu feedback
+          </TouchableText>
+        </TouchableFeedback>
       </Content>
     </Container>
   )
