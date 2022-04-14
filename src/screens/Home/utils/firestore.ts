@@ -8,25 +8,25 @@ export function viewProfile(myPetId: string, interestingPetId: string) {
 }
 
 export async function likeProfile(myPet: Pet, interestingPet: Pet, userContact: string) {
-  
-  await fetch('https://tindog-messaging-api.herokuapp.com/')
+  const documentId = `${myPet.id!}${interestingPet.id!}`
+  const alternativeDocumentId = `${interestingPet.id}${myPet.id}`
 
   const matchReference = await firestore()
     .collection('matchs')
-    .where('pets', 'array-contains-any', [myPet.id!, interestingPet.id!])
+    .doc(alternativeDocumentId)
     .get()
 
-  const thisMatchAlreadyExists = !matchReference.empty
+  const thisMatchAlreadyExists = matchReference.exists
 
   if (thisMatchAlreadyExists) {
-    matchReference.docs.forEach(doc => {
-      doc.ref.update({
-        itsAMatch: true,
-        contacts: firestore.FieldValue.arrayUnion(userContact)
-      })
+    matchReference.ref.update({
+      itsAMatch: true,
+      contacts: firestore.FieldValue.arrayUnion(userContact)
+    }).then(() => {
+      fetch(`https://tindog-messaging-api.herokuapp.com/${matchReference.id}`)
     })
   } else {
-    firestore().collection('matchs').add({
+    await firestore().collection('matchs').doc(documentId).set({
       pets: [myPet.id!, interestingPet.id!],
       owners: [myPet.userUID, interestingPet.userUID],
       contacts: [userContact],
