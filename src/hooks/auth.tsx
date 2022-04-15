@@ -10,7 +10,7 @@ GoogleSignin.configure({
 
 interface AuthContextData {
   user: FirebaseAuthTypes.User | null
-  signInWithGoogle(): void;
+  signInWithGoogle(): Promise<boolean>;
 }
 
 const AuthContext = createContext({} as AuthContextData)
@@ -29,9 +29,14 @@ export function AuthProvider({ children } : { children: ReactNode }) {
   }
   
   async function signInWithGoogle() {
-    const { idToken } = await GoogleSignin.signIn();
-    const googleCredential = auth.GoogleAuthProvider.credential(idToken);
-    auth().signInWithCredential(googleCredential);
+    try {
+      const { idToken } = await GoogleSignin.signIn();
+      const googleCredential = auth.GoogleAuthProvider.credential(idToken);
+      await auth().signInWithCredential(googleCredential);
+      return true
+    } catch {
+      return false
+    }
   }
 
   useEffect(() => {
