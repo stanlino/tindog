@@ -91,3 +91,13 @@ export const Span = styled.Text`
   `}
   text-align: center;
 `
+
+export const Warning = styled.Text`
+  ${({ theme }) => css`
+    color: ${theme.COLORS.TEXT};
+    font-size: ${RFValue(18)}px;
+    font-family: ${theme.FONTS.REGULAR};
+  `}
+  text-align: justify;
+  margin-top: 20px;
+`
