@@ -1,7 +1,7 @@
 import React, { useReducer, useState } from 'react'
 import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth'
 
-import { Alert, Modal } from 'react-native'
+import { Alert, Modal, ActivityIndicator } from 'react-native'
 
 import { Container } from '@components/Container'
 import { BackButton } from '@components/BackButton'
@@ -15,7 +15,9 @@ import {
   Form,
   Label,
   TextInputWrapper,
-  DDI
+  DDI,
+  Row,
+  Span
 } from './styles'
 
 export function PhoneSignIn({ navigation: { goBack } } : PhoneSignInScreenProps){
@@ -23,6 +25,8 @@ export function PhoneSignIn({ navigation: { goBack } } : PhoneSignInScreenProps)
   const [phoneNumberWithRegex, setPhoneNumberWithRegex] = useState('')
   const [code, setCode] = useState('')
   const [modalVisible, toggleModalVisible] = useReducer(isVisible => !isVisible, false)
+
+  const [loadingCaptcha, setLoadingCaptcha] = useState(false)
 
   const [confirm, setConfirm] = useState<FirebaseAuthTypes.ConfirmationResult | null>(null)
 
@@ -38,10 +42,22 @@ export function PhoneSignIn({ navigation: { goBack } } : PhoneSignInScreenProps)
     }
   }
 
-  async function handleSendPhoneNumber() {
+  async function sendPhoneNumber() {
+    setLoadingCaptcha(true)
     const confirmation = await auth().signInWithPhoneNumber(`+55${phoneNumber}`)
     setConfirm(confirmation)
+    setLoadingCaptcha(false)
+
     toggleModalVisible()
+  }
+
+  function handleSendPhoneNumber() {
+    Alert.alert('É proibido robôs 🤖', 'Preciso verificar se você é um robô! tudo bem?', [
+      {
+        text: 'Vamos lá',
+        onPress: sendPhoneNumber
+      }
+    ])
   }
 
   async function confirmCode() {
@@ -73,11 +89,20 @@ export function PhoneSignIn({ navigation: { goBack } } : PhoneSignInScreenProps)
           />
         </TextInputWrapper>
 
-        <Button 
-          title="Enviar código para este número"
-          disabled={phoneNumber.length < 11}
-          onPress={handleSendPhoneNumber}
-        />
+        {
+          !loadingCaptcha ? (
+            <Button 
+              title="Enviar código para este número"
+              disabled={phoneNumber.length < 11}
+              onPress={handleSendPhoneNumber}
+            />
+          ) : (
+            <Row>
+              <ActivityIndicator size="large" color={"#000"} />
+              <Span>Verificando se você é um robô</Span>
+            </Row>
+          )
+        }
 
       </Form>
 

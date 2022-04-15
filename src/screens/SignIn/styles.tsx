@@ -74,3 +74,20 @@ export const DDI = styled.Text`
     margin-right: 10px;
   `}
 `
+
+export const Row = styled.View`
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+
+  margin-top: 10px;
+`
+export const Span = styled.Text`
+  margin-left: 10px;
+  ${({ theme }) => css`
+    color: ${theme.COLORS.TEXT};
+    font-size: ${RFValue(14)}px;
+    font-family: ${theme.FONTS.BOLD};
+  `}
+  text-align: center;
+`
