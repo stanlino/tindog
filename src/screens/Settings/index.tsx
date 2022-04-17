@@ -112,10 +112,12 @@ const SettingsModal: ForwardRefRenderFunction<SettingsModalProps, SettingsProps>
         <Container>
           <ScrollView>
             <Row>
-              <Title>Configurações</Title>
+              <TouchableOpacity onPress={handleSignOut}>
+                <AntDesign name="poweroff" size={30} color="#0005" />
+              </TouchableOpacity>
 
               <TouchableOpacity onPress={closeSettingsModal}>
-                <AntDesign name="closecircleo" size={30} color="black" />
+                <AntDesign name="closecircleo" size={30} color="#0005" />
               </TouchableOpacity>
             </Row>
 
@@ -132,15 +134,11 @@ const SettingsModal: ForwardRefRenderFunction<SettingsModalProps, SettingsProps>
           </ScrollView>
           {
             !keyboardIsShow && (
-              <>
-                <Button title="Realizar logout" onPress={handleSignOut} />
-                <Separator />
-                <Button onPress={handleUpdateUser} title='Salvar dados' disabled={
-                  userLocation === userDoc.userLocation &&
-                  userName === userDoc.userName &&
-                  userCEP === userDoc.userCEP
-                } />
-              </>
+              <Button onPress={handleUpdateUser} title='Salvar dados' disabled={
+                userLocation === userDoc.userLocation &&
+                userName === userDoc.userName &&
+                userCEP === userDoc.userCEP}
+              />
             )
           }
         </Container>
