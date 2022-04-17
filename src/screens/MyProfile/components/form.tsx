@@ -84,6 +84,7 @@ export function Form({
         defaultValue={currentPet?.adjective} 
         control={control} 
         name='adjective' 
+        editable
         error={errors.adjective && errors.adjective.message} 
         placeholder='Bobão' 
       />
@@ -92,6 +93,7 @@ export function Form({
       <TextAreaInput 
         defaultValue={currentPet?.description} 
         control={control} 
+        editable
         name='description' 
         error={errors.description && errors.description.message} 
         textAlignVertical='top' 

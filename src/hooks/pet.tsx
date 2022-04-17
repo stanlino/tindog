@@ -28,8 +28,8 @@ export interface Pet {
 interface PetContextData {
   pets: Pet[]
   currentPet: Pet
-  registerPet(pet: Pet): void
-  updatePet(pet: UpdatePetProps): void
+  registerPet(pet: Pet): Promise<void>
+  updatePet(pet: UpdatePetProps): Promise<void>
   visualizedProfiles: string[]
   userHasAPet: boolean
   updateVisualizedProfiles(petId: string): void
