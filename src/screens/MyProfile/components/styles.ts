@@ -1,6 +1,8 @@
 import { Dimensions } from "react-native";
 import { RFValue } from "react-native-responsive-fontsize";
 import styled, { css } from "styled-components/native";
+import FastImage from "react-native-fast-image";
+
 import Waves from '@assets/svg/waves.svg'
 
 const { width } = Dimensions.get('window')
@@ -11,7 +13,7 @@ import { Input } from '@components/Input'
 
 export const ImageWrapper = styled.View``
 
-export const Image = styled.Image.attrs({
+export const Image = styled(FastImage).attrs({
   resizeMode: 'cover'
 })`
   height: ${RFValue(350)}px;

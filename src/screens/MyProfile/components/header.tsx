@@ -52,11 +52,11 @@ export function Header({ image, handleSetImage, currentPet } : HeaderProps) {
 
     if (!result.cancelled) {
 
+      handleSetImage(result.uri);
+
       if (currentPet?.id) {
         await updateImageInFirebase(result.uri, currentPet.id)
       }
-
-      handleSetImage(result.uri);
     }
   }, [])
 
