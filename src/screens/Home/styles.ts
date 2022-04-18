@@ -9,15 +9,6 @@ interface ButtonProps {
   type: 'decline' | 'accept'
 }
 
-export const Title = styled.Text`
-  text-align: left;
-  ${({ theme }) => css`
-    color: ${theme.COLORS.SHAPE};
-    font-size: ${RFValue(35)}px;
-    font-family: ${theme.FONTS.BOLD};
-  `}
-`
-
 export const TopDetail = styled.View`
   width: ${screenWidth}px;
   height: ${screenHeight * .35}px;

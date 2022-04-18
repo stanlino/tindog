@@ -8,12 +8,12 @@ import { usePet, Pet } from '../../hooks/pet'
 import { useAuth } from '../../hooks/auth'
 import { likeProfile, viewProfile } from './utils/firestore'
 import { IndexScreenProps } from '../../types/routes'
+import { Header } from '@components/Header'
 
 import { NoMoreProfiles } from './components/noMoreProfiles'
 import { Loading } from './components/loading'
 
 import { 
-  Title,
   Profiles,
   Profile,
   ProfileImage,
@@ -25,7 +25,6 @@ import {
   Icon,
   TopDetail,
 } from './styles'
-
 
 export function Home({ navigation } : IndexScreenProps){
 
@@ -84,18 +83,23 @@ export function Home({ navigation } : IndexScreenProps){
   if (isLoading) return <Loading />
 
   if (!petProfiles[0] || currentProfile === petProfiles.length) {
-    if (visualizedProfiles.length === 0) {
-      return <NoMoreProfiles text={`Ainda não existem perfis em ${currentPet?.location} :(`} />
-    }
-    return <NoMoreProfiles text={`Você ja visualizou todos os perfis de ${currentPet?.location}`} />
+    return (
+      <>
+        {visualizedProfiles.length === 0 ? (
+          <NoMoreProfiles text={`Ainda não existem perfis em ${currentPet?.location} :(`} />
+        ) : (
+          <NoMoreProfiles text={`Você ja visualizou todos os perfis de ${currentPet?.location}`} />
+        )}
+      </>
+    )
   }
 
   return (
     <Container>
       
       <TopDetail />
-      
-      <Title>tindog</Title>
+            
+      <Header title={'tindog'} />
       
       <Profiles>
         <Swiper

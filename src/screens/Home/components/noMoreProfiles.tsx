@@ -1,4 +1,5 @@
 import { Container } from "@components/Container";
+import { Header } from "@components/Header";
 const AnimatedLottieView = require("lottie-react-native");
 import { RFPercentage } from "react-native-responsive-fontsize";
 
@@ -6,18 +7,14 @@ import {
   Content, 
   NoHaveMoreProfiles, 
   Title,
-  TopDetail,
-  TouchableFeedback,
-  TouchableText
+  TopDetail
 } from "./styles";
 
 export function NoMoreProfiles({ text } : { text: string }) {
   return (
     <Container>
       <TopDetail />
-      <Title>
-        tindog
-      </Title>
+      <Header title={'tindog'} />
       <Content>
         <AnimatedLottieView
           source={require('@assets/lottie/cat-in-box.json')}
@@ -31,11 +28,6 @@ export function NoMoreProfiles({ text } : { text: string }) {
         <NoHaveMoreProfiles>
           {text}
         </NoHaveMoreProfiles>
-        <TouchableFeedback>
-          <TouchableText>
-            Envie seu feedback
-          </TouchableText>
-        </TouchableFeedback>
       </Content>
     </Container>
   )
