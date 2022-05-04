@@ -4,7 +4,7 @@ import { RFPercentage, RFValue } from 'react-native-responsive-fontsize'
 export const Container = styled.TouchableOpacity`
   width: 100%;
   height: ${RFPercentage(8)}px;
-  background-color: ${({ theme, disabled }) => disabled ? 'gray' : theme.COLORS.GRADIENT[0]};
+  background-color: ${({ theme, disabled }) => disabled ? '#0003' : theme.COLORS.GRADIENT[0]};
   
   border-radius: 8px;
 

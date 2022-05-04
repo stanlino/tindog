@@ -1,6 +1,5 @@
 import React from 'react'
 import { TouchableOpacityProps } from 'react-native';
-import { FontAwesome } from '@expo/vector-icons'; 
 
 import {
   Container,
@@ -9,24 +8,18 @@ import {
 
 interface ButtonProps extends TouchableOpacityProps {
   title: string
-  icon?: React.ComponentProps<typeof FontAwesome>['name']
+  loading: boolean
 }
 
 export function Button({
   title,
-  icon,
+  loading = false,
   ...rest
 } : ButtonProps){
   return (
-    <Container {...rest}>
-      {icon && (
-        <FontAwesome 
-          size={24} 
-          name={icon} 
-        />
-      )}
+    <Container disabled={loading} {...rest}>
       <Title numberOfLines={1} adjustsFontSizeToFit>
-        {title}
+        {loading ? 'Carregando ...' : title}
       </Title>
     </Container>
   )

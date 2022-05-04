@@ -48,7 +48,7 @@ export function SignIn(){
         <SubTitle>Faça login com sua conta google!</SubTitle>
         <Button 
           title='Entrar'
-          icon='google'
+          loading={loading}
           onPress={handleSignInWithGoogle}
         />
       </Footer>
