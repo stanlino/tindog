@@ -1,9 +1,8 @@
 import React, { useState } from 'react'
-const AnimatedLottieView = require("lottie-react-native");
+import AnimatedLottieView from "lottie-react-native";
 import { RFPercentage } from 'react-native-responsive-fontsize'
 import { Alert } from 'react-native'
 
-import { SignInScreenProps } from 'src/types/routes'
 import { useAuth } from '../../hooks/auth'
 
 import { Container } from '@components/Container'
@@ -14,13 +13,9 @@ import {
   Title,
   Footer,
   SubTitle,
-  SubTitleLine,
-  SubTitleText,
-  Row,
-  Span
 } from './styles'
 
-export function SignIn({ navigation: { navigate } } : SignInScreenProps){
+export function SignIn(){
 
   const [loading, setLoading] = useState(false)
 
@@ -50,39 +45,12 @@ export function SignIn({ navigation: { navigate } } : SignInScreenProps){
         />
       </Header>
       <Footer>
-        {loading ? (
-          <Row>
-            <AnimatedLottieView 
-              source={require('@assets/lottie/cat-loading.json')}
-              style={{
-                width: RFPercentage(10),
-              }}
-              autoPlay
-              loop
-              speed={2}
-            />
-            <Span>Login com o google</Span>
-          </Row>
-        ) : (
-          <>
-            <SubTitle>
-              <SubTitleLine />
-              <SubTitleText>opções de login</SubTitleText>
-              <SubTitleLine />
-            </SubTitle>
-            <Button 
-              title='Google'
-              icon='google'
-              onPress={handleSignInWithGoogle}
-            />
-            <Button 
-              title='Número de telefone'
-              icon='phone'
-              onPress={() => navigate('phone')}
-            />
-          </>
-          )
-        }
+        <SubTitle>Faça login com sua conta google!</SubTitle>
+        <Button 
+          title='Entrar'
+          icon='google'
+          onPress={handleSignInWithGoogle}
+        />
       </Footer>
     </Container>
   )

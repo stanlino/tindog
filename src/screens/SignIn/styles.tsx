@@ -19,23 +19,10 @@ export const Title = styled.Text`
 export const Footer = styled.View`
   flex: 1;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
 `
 
-export const SubTitle = styled.View`
-  flex-direction: row;
-  align-items: center;
-`
-
-export const SubTitleLine = styled.View`
-  ${({ theme }) => css`
-    background-color: ${theme.COLORS.TITLE};
-    height: .5px;
-    flex: 1;
-  `}
-`
-
-export const SubTitleText = styled.Text`
+export const SubTitle = styled.Text`
   ${({ theme }) => css`
     color: ${theme.COLORS.TITLE};
     font-size: ${RFValue(15)}px;
@@ -43,53 +30,7 @@ export const SubTitleText = styled.Text`
   `}
   margin-left: 5px;
   margin-right: 5px;
-`
-
-export const Form = styled.View`
-  flex: 1;
-  padding-top: ${RFValue(50)}px;
-`
-
-export const Label = styled.Text`
-  ${({ theme }) => css`
-    color: ${theme.COLORS.TITLE};
-    font-size: ${RFValue(18)}px;
-    font-family: ${theme.FONTS.LIGHT};
-    margin-bottom: 10px;
-  `}
-`
-
-export const TextInputWrapper = styled.View`
-  width: 100%;
-  flex-direction: row;
-  align-items: center;
-  margin-bottom: 10px;
-`
-
-export const DDI = styled.Text`
-  ${({ theme }) => css`
-    color: ${theme.COLORS.TITLE};
-    font-size: ${RFValue(20)}px;
-    font-family: ${theme.FONTS.BOLD};
-    margin-right: 10px;
-  `}
-`
-
-export const Row = styled.View`
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-
-  margin-top: 10px;
-`
-export const Span = styled.Text`
-  margin-left: 10px;
-  ${({ theme }) => css`
-    color: ${theme.COLORS.TEXT};
-    font-size: ${RFValue(14)}px;
-    font-family: ${theme.FONTS.BOLD};
-  `}
-  text-align: center;
+  margin-bottom: 20px;
 `
 
 export const Warning = styled.Text`

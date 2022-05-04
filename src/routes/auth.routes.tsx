@@ -6,7 +6,6 @@ import {
 } from "@react-navigation/stack";
 
 import { SignIn } from "@screens/SignIn";
-import { PhoneSignIn } from "@screens/SignIn/phoneSignIn";
 import { Welcome } from '@screens/SignIn/welcome';
 
 import { AuthRoutesParams } from 'src/types/routes';
@@ -24,7 +23,6 @@ export function AuthRoutes() {
     >
       <Screen name="welcome" component={Welcome}/>
       <Screen name="index" component={SignIn}/>
-      <Screen name="phone" component={PhoneSignIn}/>
     </Navigator>
   )
 }
