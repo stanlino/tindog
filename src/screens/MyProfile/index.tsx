@@ -55,13 +55,13 @@ export function MyProfile(){
 
   function handleUpdateProfile(form: FormData) {
     if (!photo) return Alert.alert('Ops', 'Não se esqueça de adicionar uma foto pra iluminar o perfil ☀️')
-    if (!currentPet.id){
-      return Alert.alert('Aviso!', 'Os campos de adjetivo e descrição são editáveis e você pode alterar sempre que desejar, os demais são permanentes! (Nome, Sexo, Espécie) ', [
-        { text: 'Cancelar' },
-        { text: 'Prosseguir', onPress: () => updateProfile(form)}
-      ])
+    if (currentPet?.id){
+      return updateProfile(form)
     }
-    updateProfile(form)
+    return Alert.alert('Aviso!', 'Os campos de adjetivo e descrição são editáveis e você pode alterar sempre que desejar, os demais são permanentes! (Nome, Sexo, Espécie) ', [
+      { text: 'Cancelar' },
+      { text: 'Prosseguir', onPress: () => updateProfile(form)}
+    ])
   }
  
   return (

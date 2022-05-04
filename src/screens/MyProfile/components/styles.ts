@@ -1,4 +1,4 @@
-import { Dimensions } from "react-native";
+import { Dimensions, StatusBar } from "react-native";
 import { RFValue } from "react-native-responsive-fontsize";
 import styled, { css } from "styled-components/native";
 import FastImage from "react-native-fast-image";
@@ -38,7 +38,7 @@ export const PickImageView = styled.TouchableOpacity`
 
 export const ButtonsBackground = styled.View`
   position: absolute;
-  top: ${RFValue(40)}px;
+  top: ${StatusBar.currentHeight! + RFValue(20)}px;
   right: ${RFValue(10)}px;
   
   justify-content: space-between;
