@@ -13,6 +13,7 @@ import { useUserDocument } from '../../hooks/user_document';
 import { 
   Container,
 } from './styles'
+import { Loading } from '@components/Loading';
 
 interface FormData {
   [name: string]: any;
@@ -22,6 +23,8 @@ export function Profile({ navigation } : ProfileScreenProps){
 
   const { currentPet, createPet, updatePetDescription, updatePetPhotoInState } = usePet()
   const { userDocument } = useUserDocument()
+
+  const [loading, setLoading] = useState(false)
 
   const [photo, setPhoto] = useState(currentPet?.photo)
   const [species, setSpecies] = useState(currentPet?.species ?? 'dog')
@@ -40,8 +43,10 @@ export function Profile({ navigation } : ProfileScreenProps){
   }
 
   async function updateProfile(form: FormData) {
+    setLoading(true)
     if (currentPet?.id) {
       await updatePetDescription(form.description)
+      setLoading(false)
     } else {
       await createPet({
         name: form.name,
@@ -50,6 +55,7 @@ export function Profile({ navigation } : ProfileScreenProps){
         species,
         description: form.description,
       })
+      setLoading(false)
       navigation.navigate('home')
     }
   }
@@ -59,7 +65,7 @@ export function Profile({ navigation } : ProfileScreenProps){
     if (currentPet?.id){
       return updateProfile(form)
     }
-    return Alert.alert('Aviso!', 'Os campos de adjetivo e descrição são editáveis e você pode alterar sempre que desejar, os demais são permanentes! (Nome, Sexo, Espécie) ', [
+    return Alert.alert('Aviso!', 'A descrição é editável e você pode alterar sempre que desejar, os demais são permanentes! (Nome, Sexo, Espécie)', [
       { text: 'Cancelar' },
       { text: 'Prosseguir', onPress: () => updateProfile(form)}
     ])
@@ -76,6 +82,8 @@ export function Profile({ navigation } : ProfileScreenProps){
   return (
     <Container>
       <StatusBar translucent barStyle={'light-content'} backgroundColor={'#0003'}/>
+
+      <Loading visible={loading} />
 
       <ScrollView showsVerticalScrollIndicator={false}>  
         <Header 

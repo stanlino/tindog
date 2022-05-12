@@ -49,7 +49,7 @@ export function Home({ navigation } : HomeScreenProps){
   }
   
   function naviteToProfile() {
-    navigation.navigate('randomProfile', {
+    navigation.navigate('profile_presentation', {
       pet: petProfiles[currentProfile],
     })
   }

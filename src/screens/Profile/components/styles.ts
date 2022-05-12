@@ -108,7 +108,9 @@ export const TextArea = styled(Input)`
 
   justify-content: flex-start;
 
-  padding: 20px;
+  padding: 15px;
+
+  font-size: ${RFValue(15)}px;
 `
 
 // textInput

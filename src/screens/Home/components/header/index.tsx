@@ -1,5 +1,5 @@
 import React from 'react'
-import { MaterialCommunityIcons } from '@expo/vector-icons'
+import { MaterialCommunityIcons, Feather } from '@expo/vector-icons'
 import { useNavigation } from '@react-navigation/native'
 import { StackNavigationProp } from '@react-navigation/stack'
 
@@ -17,12 +17,12 @@ export function Header(){
 
   return (
     <Container>
-      <TouchableOpacity color={'#fff'} onPress={() => navigate('profile')}>
-        <MaterialCommunityIcons name="dog" size={30} color="#fff" />
+      <TouchableOpacity color={'#333b89'} onPress={() => navigate('profile')}>
+        <MaterialCommunityIcons name="dog" size={30} color="#333b89" />
       </TouchableOpacity>
 
       <AppMenu onPress={() => navigate('settings')}>
-        
+        <Feather name="settings" size={30} color="#fff" />
       </AppMenu>
       
       <TouchableOpacity color={'#cf3247'} onPress={() => navigate('matches')}>
