@@ -7,7 +7,8 @@ import { AppRoutesParams } from 'src/types/routes'
 
 import {
   Container, 
-  TouchableOpacity
+  TouchableOpacity,
+  AppMenu
 } from './styles'
 
 export function Header(){
@@ -19,6 +20,10 @@ export function Header(){
       <TouchableOpacity color={'#fff'} onPress={() => navigate('profile')}>
         <MaterialCommunityIcons name="dog" size={30} color="#fff" />
       </TouchableOpacity>
+
+      <AppMenu onPress={() => navigate('settings')}>
+        
+      </AppMenu>
       
       <TouchableOpacity color={'#cf3247'} onPress={() => navigate('matches')}>
         <MaterialCommunityIcons name="puzzle-heart" size={30} color="#cf3247" />

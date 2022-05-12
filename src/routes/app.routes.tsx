@@ -8,6 +8,7 @@ import { createSharedElementStackNavigator } from 'react-navigation-shared-eleme
 import { Home } from '@screens/Home';
 import { ProfilePresentation } from '@screens/ProfilePresentation';
 import { CardStyleInterpolators } from '@react-navigation/stack';
+import { Settings } from '@screens/Settings';
 
 const { Navigator, Screen } = createSharedElementStackNavigator<AppRoutesParams>()
 
@@ -34,6 +35,13 @@ export function AppRoutes() {
       <Screen 
         component={ProfilePresentation} 
         name='profile_presentation' 
+        options={{
+          cardStyleInterpolator: CardStyleInterpolators.forModalPresentationIOS,
+        }}
+      />
+      <Screen 
+        component={Settings} 
+        name='settings' 
         options={{
           cardStyleInterpolator: CardStyleInterpolators.forModalPresentationIOS,
         }}

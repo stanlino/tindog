@@ -1,12 +1,9 @@
 import React, { 
-  forwardRef, 
-  ForwardRefRenderFunction, 
   useEffect, 
-  useImperativeHandle, 
   useState
 } from 'react'
 
-import { Alert, Keyboard, Modal, ScrollView, TouchableOpacity } from 'react-native'
+import { Alert, Keyboard, ScrollView, TouchableOpacity } from 'react-native'
 import { AntDesign } from '@expo/vector-icons'; 
 
 import { Input } from '@components/Input';
@@ -15,8 +12,9 @@ import { Button } from '@components/Button';
 import { useUserDocument } from '../../hooks/user_document';
 import { useAuth } from '../../hooks/auth';
 
+import { SettingsScreenProps } from 'src/types/routes';
+
 import { 
-  Wrapper,
   Form,
   Row,
   Label,
@@ -24,34 +22,16 @@ import {
   Container,
 } from './styles'
 
-export interface SettingsModalProps {
-  openSettingsModal(): void
-}
-
-interface SettingsProps {}
-
-const SettingsModal: ForwardRefRenderFunction<SettingsModalProps, SettingsProps> = (
-  props, 
-  ref 
-) => {
+export function Settings({ navigation } : SettingsScreenProps) {
 
   const { updateUserDocument, userDocument } = useUserDocument()
   const { signOut } = useAuth()
 
-  const [visible, setVisible] = useState(userDocument.user_name ? false : true)
   const [keyboardIsShow, setKeyboardIsShow] = useState(false)
 
   const [userName, setUserName] = useState(userDocument.user_name || '')
   const [userCEP, setUserCEP] = useState(userDocument.user_cep || '')
   const [userLocation, setUserLocation] = useState(userDocument.user_location || '')
- 
-  function closeSettingsModal() {
-    setVisible(false)
-  }
-
-  function openSettingsModal() {
-    setVisible(true)
-  }
 
   function handleSetCEP(text: string) {
     if (userCEP.length >= 5) {
@@ -72,7 +52,6 @@ const SettingsModal: ForwardRefRenderFunction<SettingsModalProps, SettingsProps>
       user_location: userLocation
     })
     
-    closeSettingsModal()
   }
 
   function handleSignOut() {
@@ -102,49 +81,39 @@ const SettingsModal: ForwardRefRenderFunction<SettingsModalProps, SettingsProps>
     })
   },[])
 
-  useImperativeHandle(ref, () => ({
-    openSettingsModal
-  }))
-
   return (
-    <Modal onRequestClose={closeSettingsModal} transparent animationType='slide' visible={visible}>
-      <Wrapper>
-        <Container>
-          <ScrollView>
-            <Row>
-              <TouchableOpacity onPress={handleSignOut}>
-                <AntDesign name="poweroff" size={30} color="#0005" />
-              </TouchableOpacity>
+    <Container>
+      <ScrollView>
+        <Row>
+          <TouchableOpacity onPress={handleSignOut}>
+            <AntDesign name="poweroff" size={40} color="red" />
+          </TouchableOpacity>
 
-              <TouchableOpacity onPress={closeSettingsModal}>
-                <AntDesign name="closecircleo" size={30} color="#0005" />
-              </TouchableOpacity>
-            </Row>
+          <TouchableOpacity onPress={() => navigation.navigate('home')}>
+            <AntDesign name="arrowdown" size={40} color="#000" />
+          </TouchableOpacity>
+        </Row>
 
-            <Form>
-              <Label>Seu nome</Label>
-              <Input autoCorrect={false} value={userName} onChangeText={setUserName} autoCapitalize='words' placeholder='Fulano Ciclano' />
+        <Form>
+          <Label>Seu nome</Label>
+          <Input editable autoCorrect={false} value={userName} onChangeText={setUserName} autoCapitalize='words' placeholder='Fulano Ciclano' />
 
-              <Label>Seu CEP</Label>
-              <Input maxLength={9} value={userCEP} onChangeText={handleSetCEP} keyboardType='number-pad' placeholder='xxxxx xxx' />
-              <UserLocation>
-                {userLocation != 'undefined - undefined' ? userLocation : 'CEP inexistente!'}
-              </UserLocation>
-            </Form>
-          </ScrollView>
-          {
-            !keyboardIsShow && (
-              <Button onPress={handleUpdateUser} title='Salvar dados' disabled={
-                userLocation === userDocument.user_location &&
-                userName === userDocument.user_name &&
-                userCEP === userDocument.user_cep}
-              />
-            )
-          }
-        </Container>
-      </Wrapper>
-    </Modal>
+          <Label>Seu CEP</Label>
+          <Input editable maxLength={9} value={userCEP} onChangeText={handleSetCEP} keyboardType='number-pad' placeholder='xxxxx xxx' />
+          <UserLocation>
+            {userLocation != 'undefined - undefined' ? userLocation : 'CEP inexistente!'}
+          </UserLocation>
+        </Form>
+      </ScrollView>
+      {
+        !keyboardIsShow && (
+          <Button onPress={handleUpdateUser} title='Salvar dados' disabled={
+            userLocation === userDocument.user_location &&
+            userName === userDocument.user_name &&
+            userCEP === userDocument.user_cep}
+          />
+        )
+      }
+    </Container>
   )
 }
-
-export default forwardRef(SettingsModal)

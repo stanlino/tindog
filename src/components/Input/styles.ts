@@ -9,15 +9,12 @@ export const Container = styled.TextInput`
   border-radius: 8px;
 
   font-size: ${RFValue(20)}px;
-  line-height: ${RFValue(20)}px;
-
-  padding-right: ${RFValue(20)}px;
-
+  
   ${({ theme, editable }) => css`
     font-family: ${editable ? theme.FONTS.REGULAR : theme.FONTS.BOLD};
     color: ${theme.COLORS.TEXT};
-    border: ${editable ? `1px solid #0003` : `0px`};
-    padding-left: ${editable ? RFValue(20) : `0`}px;
+    background-color: ${editable ? `#0002` : `#0000`};
+    padding-left: ${editable ? RFValue(15) : `0`}px;
   `};
 `
 

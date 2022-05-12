@@ -36,29 +36,22 @@ export const PickImageView = styled.TouchableOpacity`
   justify-content: center;
 `;
 
-export const ButtonsBackground = styled.View`
+export const Head = styled.View`
   position: absolute;
-  top: ${StatusBar.currentHeight! + RFValue(20)}px;
-  left: ${RFValue(10)}px;
-  
-  justify-content: space-between;
-
-  background-color: #0005;
+  top: ${StatusBar.currentHeight}px;
   padding: 10px;
-
-  border-radius: 10px;
+  width: 100%;
+  flex-direction: row;
+  justify-content: space-between;
 `
 
-export const BackButton = styled.TouchableOpacity`
-  position: absolute;
+export const Button = styled.TouchableOpacity`
   height: 60px;
   width: 60px;
   border-radius: 10px;
   background-color: #0005;
   align-items: center;
   justify-content: center;
-  top: ${StatusBar.currentHeight! + RFValue(20)}px;
-  right: ${RFValue(10)}px;
 `
 
 // form

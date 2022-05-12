@@ -1,30 +1,13 @@
 import styled, { css } from 'styled-components/native'
 import { RFValue } from 'react-native-responsive-fontsize'
-import { Container as TrueContainer } from '@components/Container'
 
-export const Wrapper = styled.View`
+export const Container = styled.View`
+
   flex: 1;
-  padding-top: ${RFValue(10)}px;
 
-  background-color: #0003;
-`
-
-export const Container = styled(TrueContainer)`
-  border-top-left-radius: 20px;
-  border-top-right-radius: 20px;
-
-  padding-top: 20px;
+  padding: 20px;
 
   background-color: #dbe9f4;
-`
-
-export const Title = styled.Text`
-  text-align: left;
-  ${({ theme }) => css`
-    color: ${theme.COLORS.TEXT};
-    font-size: ${RFValue(20)}px;
-    font-family: ${theme.FONTS.BOLD};
-  `}
 `
 
 export const Row = styled.View`

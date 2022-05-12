@@ -1,21 +1,21 @@
 import { Fragment, useCallback, useRef } from "react";
 import { Feather } from '@expo/vector-icons'; 
 import * as ImagePicker from 'expo-image-picker';
-import { TouchableOpacity } from "react-native";
 import storage from '@react-native-firebase/storage'
 import firestore from '@react-native-firebase/firestore'
+import { useNavigation } from "@react-navigation/native";
+import { StackNavigationProp } from "@react-navigation/stack";
 
-import SettingsModal, { SettingsModalProps } from '@screens/Settings';
 import { Pet } from '../../../hooks/pet_document'
+import { AppRoutesParams } from "src/types/routes";
 
 import { 
   Image, 
-  ButtonsBackground,
+  Head,
   PickImageView,
   WavesSvg,
-  BackButton
+  Button
 } from "./styles";
-import { useNavigation } from "@react-navigation/native";
 
 interface HeaderProps {
   image: string
@@ -39,13 +39,7 @@ async function updateImageInFirebase(newImage: string, petId: string) {
 
 export function Header({ image, handleSetImage, currentPet, updatePetPhotoInState } : HeaderProps) {
 
-  const SettingsRef = useRef({} as SettingsModalProps)
-
-  const { navigate } = useNavigation()
-
-  function handleOpenSettingsModal() {
-    SettingsRef.current.openSettingsModal()
-  }
+  const { navigate } = useNavigation<StackNavigationProp<AppRoutesParams, 'profile'>>()
 
   const pickImage = useCallback(async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -69,8 +63,6 @@ export function Header({ image, handleSetImage, currentPet, updatePetPhotoInStat
   return (
     <Fragment>
 
-      <SettingsModal ref={SettingsRef} />
-
       {image ? (
           <Image source={{ uri: image }} />
         ) : (
@@ -81,23 +73,18 @@ export function Header({ image, handleSetImage, currentPet, updatePetPhotoInStat
 
       <WavesSvg style={{ transform: [{ rotate: '180deg' }] }} />
 
-      <ButtonsBackground>
-        <TouchableOpacity onPress={handleOpenSettingsModal}>
-          <Feather name="settings" size={30} color="white" />
-        </TouchableOpacity>
-
+      <Head>
         {image && (
-          <TouchableOpacity style={{ marginTop: 20 }} onPress={pickImage}>
+          <Button onPress={pickImage}>
             <Feather name="image" size={30} color="white" />
-          </TouchableOpacity>
+          </Button>
         )}
-      </ButtonsBackground>
-
-      {currentPet?.id && (
-        <BackButton onPress={() => navigate('home')}>
-          <Feather name="arrow-right" size={30} color="white" />
-        </BackButton>
-      )}
+        {currentPet?.id && (
+          <Button onPress={() => navigate('home')}>
+            <Feather name="arrow-right" size={30} color="white" />
+          </Button>
+        )}
+      </Head>
       
     </Fragment>
   )

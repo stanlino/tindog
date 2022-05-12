@@ -25,3 +25,12 @@ export const TouchableOpacity = styled.TouchableOpacity<TouchableOpacityProps>`
   border: 1px solid ${({ color }) => color};
   border-radius: 10px;
 `
+
+export const AppMenu = styled.TouchableOpacity`
+  height: ${RFValue(55)}px;
+  width: ${RFValue(55)}px;
+  justify-content: center;
+  align-items: center;
+  background-color: #0002;
+  border-radius: ${RFValue(30)}px;
+`

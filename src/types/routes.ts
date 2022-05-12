@@ -16,9 +16,11 @@ export type AppRoutesParams = {
   profile_presentation: {
     pet: Pet
   }
+  settings: undefined
 }
 
 export type HomeScreenProps = StackScreenProps<AppRoutesParams, 'home'>
 export type ProfilePresentationProps = StackScreenProps<AppRoutesParams, 'profile_presentation'>
 export type MatchesScreenProps = StackScreenProps<AppRoutesParams, 'matches'>
 export type ProfileScreenProps = StackScreenProps<AppRoutesParams, 'profile'>
+export type SettingsScreenProps = StackScreenProps<AppRoutesParams, 'settings'>
