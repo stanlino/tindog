@@ -8,7 +8,7 @@ import {
 
 interface ButtonProps extends TouchableOpacityProps {
   title: string
-  loading: boolean
+  loading?: boolean
 }
 
 export function Button({
