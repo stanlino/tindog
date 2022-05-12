@@ -1,12 +1,12 @@
 import React from 'react'
-import { MyProfile } from "@screens/MyProfile";
+import { Profile } from "@screens/Profile";
 
 import { AppRoutesParams } from "../types/routes";
 import { usePet } from '../hooks/pet_document';
 import { Matches } from '@screens/Matches';
 import { createSharedElementStackNavigator } from 'react-navigation-shared-element';
 import { Home } from '@screens/Home';
-import { RandomProfile } from '@screens/RandomProfile';
+import { ProfilePresentation } from '@screens/ProfilePresentation';
 import { CardStyleInterpolators } from '@react-navigation/stack';
 
 const { Navigator, Screen } = createSharedElementStackNavigator<AppRoutesParams>()
@@ -32,8 +32,8 @@ export function AppRoutes() {
         name='home'
       />
       <Screen 
-        component={RandomProfile} 
-        name='randomProfile' 
+        component={ProfilePresentation} 
+        name='profile_presentation' 
         options={{
           cardStyleInterpolator: CardStyleInterpolators.forModalPresentationIOS,
         }}
@@ -49,7 +49,7 @@ export function AppRoutes() {
       
       <Screen
         name='profile'
-        component={MyProfile} 
+        component={Profile} 
         options={{
           cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
           gestureDirection: 'horizontal-inverted'

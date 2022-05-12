@@ -16,7 +16,7 @@ interface FormData {
   [name: string]: any;
 }
 
-export function MyProfile({ navigation } : ProfileScreenProps){
+export function Profile({ navigation } : ProfileScreenProps){
 
   const { currentPet, createPet, updatePetDescription, updatePetPhotoInState } = usePet()
 

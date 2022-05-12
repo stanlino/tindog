@@ -1,7 +1,7 @@
 import React from 'react'
 import { MaterialIcons } from '@expo/vector-icons'
 
-import { RandomProfileScreenProps } from 'src/types/routes'
+import { ProfilePresentationProps } from 'src/types/routes'
 
 import { 
   Container,
@@ -14,7 +14,7 @@ import {
   Location
 } from './styles'
 
-export function RandomProfile({ navigation, route: { params } } : RandomProfileScreenProps){
+export function ProfilePresentation({ navigation, route: { params } } : ProfilePresentationProps){
 
   const pet = params.pet
 

@@ -13,12 +13,12 @@ export type AppRoutesParams = {
   profile: undefined
   matches: any
   home: any
-  randomProfile: {
+  profile_presentation: {
     pet: Pet
   }
 }
 
 export type HomeScreenProps = StackScreenProps<AppRoutesParams, 'home'>
-export type RandomProfileScreenProps = StackScreenProps<AppRoutesParams, 'randomProfile'>
+export type ProfilePresentationProps = StackScreenProps<AppRoutesParams, 'profile_presentation'>
 export type MatchesScreenProps = StackScreenProps<AppRoutesParams, 'matches'>
 export type ProfileScreenProps = StackScreenProps<AppRoutesParams, 'profile'>
