@@ -1,7 +1,6 @@
 import React from 'react';
 import { StatusBar } from 'react-native';
 import { ThemeProvider } from 'styled-components';
-import AppLoading from 'expo-app-loading';
 
 import { 
   useFonts, 
@@ -24,14 +23,14 @@ export default function App() {
   })
 
   if (!loaded) {
-    return <AppLoading />
+    return null
   }
  
   return (
     <ThemeProvider theme={themes}>
       <AuthProvider>
         <Routes />
-        <StatusBar translucent backgroundColor={'#0003'}/>
+        <StatusBar translucent barStyle={'dark-content'} backgroundColor={'#0000'}/>
       </AuthProvider>
     </ThemeProvider>
   )

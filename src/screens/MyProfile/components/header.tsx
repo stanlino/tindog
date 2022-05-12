@@ -6,19 +6,22 @@ import storage from '@react-native-firebase/storage'
 import firestore from '@react-native-firebase/firestore'
 
 import SettingsModal, { SettingsModalProps } from '@screens/Settings';
-import { Pet } from '../../../hooks/pet'
+import { Pet } from '../../../hooks/pet_document'
 
 import { 
   Image, 
   ButtonsBackground,
   PickImageView,
   WavesSvg,
+  BackButton
 } from "./styles";
+import { useNavigation } from "@react-navigation/native";
 
 interface HeaderProps {
   image: string
   handleSetImage(photoUrl: string): void
-  currentPet: Pet
+  currentPet: Pet,
+  updatePetPhotoInState(photo_url: string): void
 }
 
 async function updateImageInFirebase(newImage: string, petId: string) {
@@ -34,9 +37,11 @@ async function updateImageInFirebase(newImage: string, petId: string) {
   })
 }
 
-export function Header({ image, handleSetImage, currentPet } : HeaderProps) {
+export function Header({ image, handleSetImage, currentPet, updatePetPhotoInState } : HeaderProps) {
 
   const SettingsRef = useRef({} as SettingsModalProps)
+
+  const { navigate } = useNavigation()
 
   function handleOpenSettingsModal() {
     SettingsRef.current.openSettingsModal()
@@ -46,15 +51,16 @@ export function Header({ image, handleSetImage, currentPet } : HeaderProps) {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
-      aspect: [4, 3],
+      aspect: [41, 57],
       quality: 1,
     })
 
     if (!result.cancelled) {
 
-      handleSetImage(result.uri);
+      handleSetImage(result.uri)
 
       if (currentPet?.id) {
+        updatePetPhotoInState(result.uri)
         await updateImageInFirebase(result.uri, currentPet.id)
       }
     }
@@ -86,6 +92,12 @@ export function Header({ image, handleSetImage, currentPet } : HeaderProps) {
           </TouchableOpacity>
         )}
       </ButtonsBackground>
+
+      {currentPet?.id && (
+        <BackButton onPress={() => navigate('home')}>
+          <Feather name="arrow-right" size={30} color="white" />
+        </BackButton>
+      )}
       
     </Fragment>
   )

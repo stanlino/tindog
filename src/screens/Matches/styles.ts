@@ -1,27 +1,37 @@
 import styled, { css } from "styled-components/native"
 import { RFValue } from "react-native-responsive-fontsize"
-import { Dimensions } from "react-native"
+import { StatusBar } from "react-native"
 
-const { width: screenWidth, height: screenHeight } = Dimensions.get('window')
+export const Container = styled.View`
+  flex: 1;
+  padding: 0 20px;
+  background-color: #dbe9f4;
+`
+
+export const Header = styled.View`
+  margin-top: ${StatusBar.currentHeight}px;
+  padding: 10px 0;
+  flex-direction: row;
+  align-items: center;
+`
 
 export const Title = styled.Text`
   text-align: left;
   ${({ theme }) => css`
-    color: ${theme.COLORS.SHAPE};
-    font-size: ${RFValue(30)}px;
-    font-family: ${theme.FONTS.BOLD};
+    color: ${theme.COLORS.TITLE};
+    font-size: ${RFValue(26)}px;
+    font-family: ${theme.FONTS.REGULAR};
   `}
 `
 
-export const TopDetail = styled.View`
-  width: ${screenWidth}px;
-  height: ${screenHeight * .35}px;
-
-  top: 0px;
-  left: 0px;
-
-  position: absolute;
-  background-color: ${({ theme }) => theme.COLORS.PRIMARY};
+export const BackButton = styled.TouchableOpacity`
+  height: 60px;
+  width: 60px;
+  border-radius: 10px;
+  background-color: #0004;
+  align-items: center;
+  justify-content: center;
+  right: ${RFValue(10)}px;
 `
 
 export const Content = styled.View`

@@ -1,18 +1,17 @@
 import React from 'react'
-import { SharedElement } from 'react-navigation-shared-element'
+import { MaterialIcons } from '@expo/vector-icons'
 
-import { Container } from '@components/Container'
 import { RandomProfileScreenProps } from 'src/types/routes'
 
 import { 
-  Image,
-  ImageWrapper, 
-  ProfileAdjective, 
-  ProfileInfo,
-  ProfileName,
+  Container,
+  Touchable,
+  Photo,
+  Content,
+  Row,
   Description,
-  DText,
-  TopDetail
+  Name,
+  Location
 } from './styles'
 
 export function RandomProfile({ navigation, route: { params } } : RandomProfileScreenProps){
@@ -21,27 +20,17 @@ export function RandomProfile({ navigation, route: { params } } : RandomProfileS
 
   return (
     <Container>
-
-      <TopDetail />
-
-      <ImageWrapper style={{ elevation: 5 }}>
-        <SharedElement id={pet.id!}>
-          <>
-            <Image source={{ uri: pet.photo!}} />
-            <ProfileInfo>
-              <ProfileName>{pet.name}</ProfileName>
-              <ProfileAdjective>{pet.adjective}</ProfileAdjective>
-            </ProfileInfo>
-          </>
-        </SharedElement>
-      </ImageWrapper>
-
-      <Description style={{ elevation: 5 }}>
-        <DText>
-          {pet.description}
-        </DText>
-      </Description>
-
+      <Photo source={{ uri: pet.photo!}} />
+      <Touchable onPress={() => navigation.goBack()}>
+        <MaterialIcons name="close" size={30} color={'#fff'} />
+      </Touchable>
+      <Content>
+        <Row>
+          <Name>{pet.name}</Name>
+          <Location>{pet.location}</Location>
+        </Row>
+        <Description>{pet.description}</Description>
+      </Content>
     </Container>
   )
 }

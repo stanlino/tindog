@@ -12,17 +12,16 @@ import { AntDesign } from '@expo/vector-icons';
 import { Input } from '@components/Input';
 import { Button } from '@components/Button';
 
-import { useFirestore } from '../../hooks/firestore';
+import { useUserDocument } from '../../hooks/user_document';
+import { useAuth } from '../../hooks/auth';
 
 import { 
   Wrapper,
   Form,
   Row,
   Label,
-  Separator,
   UserLocation,
   Container,
-  Title
 } from './styles'
 
 export interface SettingsModalProps {
@@ -36,15 +35,16 @@ const SettingsModal: ForwardRefRenderFunction<SettingsModalProps, SettingsProps>
   ref 
 ) => {
 
-  const { createUserDoc, updateUserDoc, userDoc, signOut } = useFirestore()
+  const { updateUserDocument, userDocument } = useUserDocument()
+  const { signOut } = useAuth()
 
-  const [visible, setVisible] = useState(userDoc.userName ? false : true)
+  const [visible, setVisible] = useState(userDocument.user_name ? false : true)
   const [keyboardIsShow, setKeyboardIsShow] = useState(false)
 
-  const [userName, setUserName] = useState(userDoc.userName || '')
-  const [userCEP, setUserCEP] = useState(userDoc.userCEP || '')
-  const [userLocation, setUserLocation] = useState(userDoc.userLocation || '')
-
+  const [userName, setUserName] = useState(userDocument.user_name || '')
+  const [userCEP, setUserCEP] = useState(userDocument.user_cep || '')
+  const [userLocation, setUserLocation] = useState(userDocument.user_location || '')
+ 
   function closeSettingsModal() {
     setVisible(false)
   }
@@ -66,11 +66,11 @@ const SettingsModal: ForwardRefRenderFunction<SettingsModalProps, SettingsProps>
     if (userLocation === 'undefined - undefined') return Alert.alert('Opa', 'Insira um CEP válido')
     if (userCEP.length !== 9) return Alert.alert('Opa', 'Insira um CEP válido')
 
-    if (userDoc.userName) {
-      updateUserDoc(userName, userLocation, userCEP)
-    } else {
-      createUserDoc(userName, userLocation, userCEP)
-    }
+    updateUserDocument({
+      user_name: userName,
+      user_cep: userCEP,
+      user_location: userLocation
+    })
     
     closeSettingsModal()
   }
@@ -135,9 +135,9 @@ const SettingsModal: ForwardRefRenderFunction<SettingsModalProps, SettingsProps>
           {
             !keyboardIsShow && (
               <Button onPress={handleUpdateUser} title='Salvar dados' disabled={
-                userLocation === userDoc.userLocation &&
-                userName === userDoc.userName &&
-                userCEP === userDoc.userCEP}
+                userLocation === userDocument.user_location &&
+                userName === userDocument.user_name &&
+                userCEP === userDocument.user_cep}
               />
             )
           }

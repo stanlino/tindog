@@ -4,7 +4,9 @@ import { Alert, ScrollView } from 'react-native'
 import { Header } from './components/header';
 import { Form } from './components/form';
 
-import { usePet } from '../../hooks/pet';
+import { ProfileScreenProps } from '../../types/routes';
+
+import { usePet } from '../../hooks/pet_document';
 
 import { 
   Container,
@@ -14,20 +16,20 @@ interface FormData {
   [name: string]: any;
 }
 
-export function MyProfile(){
+export function MyProfile({ navigation } : ProfileScreenProps){
 
-  const { currentPet, registerPet, updatePet } = usePet()
+  const { currentPet, createPet, updatePetDescription, updatePetPhotoInState } = usePet()
 
   const [photo, setPhoto] = useState(currentPet?.photo)
-  const [type, setType] = useState(currentPet?.type ?? 'dog')
+  const [species, setSpecies] = useState(currentPet?.species ?? 'dog')
   const [sex, setSex] = useState(currentPet?.sex ?? 'male')
 
   const handleToggleSex = useCallback(() => {
     setSex(sex => sex === 'female' ? 'male' : 'female')
   }, [])
 
-  const handleToggleType = useCallback(() => {
-    setType(sex => sex === 'dog' ? 'cat' : 'dog')
+  const handleToggleSpecies = useCallback(() => {
+    setSpecies(sex => sex === 'dog' ? 'cat' : 'dog')
   }, [])
 
   function handleSetImage(imageUrl: string) {
@@ -36,20 +38,16 @@ export function MyProfile(){
 
   async function updateProfile(form: FormData) {
     if (currentPet?.id) {
-      await updatePet({
-        adjective: form.adjective,
-        description: form.description
-      })
+      await updatePetDescription(form.description)
     } else {
-      await registerPet({
+      await createPet({
         name: form.name,
         photo,
-        age: 0,
         sex,
-        type,
-        adjective: form.adjective,
+        species,
         description: form.description,
       })
+      navigation.navigate('home')
     }
   }
 
@@ -67,13 +65,18 @@ export function MyProfile(){
   return (
     <Container>
       <ScrollView showsVerticalScrollIndicator={false}>  
-        <Header currentPet={currentPet} image={photo} handleSetImage={handleSetImage} />
+        <Header 
+          updatePetPhotoInState={updatePetPhotoInState} 
+          currentPet={currentPet} 
+          image={photo} 
+          handleSetImage={handleSetImage} 
+        />
         <Form 
           currentPet={currentPet} 
           handleToggleSex={handleToggleSex}
-          handleToggleType={handleToggleType}
+          handleToggleType={handleToggleSpecies}
           sex={sex}
-          type={type}
+          type={species}
           handleUpdateProfile={handleUpdateProfile}
         />
       </ScrollView>

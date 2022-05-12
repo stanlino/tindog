@@ -5,7 +5,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { Button } from '@components/Button'
 import { TextAreaInput, TextInput } from './appetizer';
 
-import { Pet } from '../../../hooks/pet'
+import { Pet } from '../../../hooks/pet_document'
 
 import {
   Container,
@@ -22,9 +22,6 @@ const schema = Yup.object().shape({
   // age: Yup
   //   .number()
   //   .required('Vish... É do tipo que mente a idade né... Vai, conta pra mim o ano de nascimento do bixo 🐈!'),
-  adjective: Yup
-    .string()
-    .required('Os pretendentes precisam ter uma palavra pra ficar pensando antes de dormir! Infome um adjetivo pro seu bixinho 🦎!'),
   description: Yup
     .string()
     .required('Essa é a parte mais importante! Sei que você é suspeito pra falar mas conta pra mim como seu pet é 👉👈')
@@ -78,18 +75,8 @@ export function Form({
           <TouchableText>{sex === 'male' ? 'Macho' : 'Fêmea'}</TouchableText>
         </Touchable>
       </Row>
-          
-      <Label>O adjetivo certo para {currentPet?.name ?? 'xxxx'}</Label>
-      <TextInput 
-        defaultValue={currentPet?.adjective} 
-        control={control} 
-        name='adjective' 
-        editable
-        error={errors.adjective && errors.adjective.message} 
-        placeholder='Bobão' 
-      />
       
-      <Label>Um pouco sobre {currentPet?.name ?? 'xxxx'}</Label>
+      <Label>A melhor descrição possível</Label>
       <TextAreaInput 
         defaultValue={currentPet?.description} 
         control={control} 
@@ -101,7 +88,7 @@ export function Form({
       />
 
       <Button 
-        style={{ marginTop: 15, marginBottom: 80 }} 
+        style={{ marginTop: 15 }} 
         title='Salvar alterações' 
         onPress={handleSubmit(handleUpdateProfile)} 
       />

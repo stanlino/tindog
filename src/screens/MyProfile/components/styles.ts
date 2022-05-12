@@ -14,10 +14,10 @@ import { Input } from '@components/Input'
 export const ImageWrapper = styled.View``
 
 export const Image = styled(FastImage).attrs({
-  resizeMode: 'cover'
+  resizeMode: 'contain'
 })`
-  height: ${RFValue(350)}px;
   width: ${width}px;
+  height: ${width * 1.39}px;
 `
 
 export const WavesSvg = styled(Waves).attrs({
@@ -25,7 +25,7 @@ export const WavesSvg = styled(Waves).attrs({
   height: 50
 })`
   position: absolute; 
-  top: ${RFValue(310)}px;
+  top: ${width * 1.3}px;
 `
 
 export const PickImageView = styled.TouchableOpacity`
@@ -39,7 +39,7 @@ export const PickImageView = styled.TouchableOpacity`
 export const ButtonsBackground = styled.View`
   position: absolute;
   top: ${StatusBar.currentHeight! + RFValue(20)}px;
-  right: ${RFValue(10)}px;
+  left: ${RFValue(10)}px;
   
   justify-content: space-between;
 
@@ -47,6 +47,18 @@ export const ButtonsBackground = styled.View`
   padding: 10px;
 
   border-radius: 10px;
+`
+
+export const BackButton = styled.TouchableOpacity`
+  position: absolute;
+  height: 60px;
+  width: 60px;
+  border-radius: 10px;
+  background-color: #0005;
+  align-items: center;
+  justify-content: center;
+  top: ${StatusBar.currentHeight! + RFValue(20)}px;
+  right: ${RFValue(10)}px;
 `
 
 // form

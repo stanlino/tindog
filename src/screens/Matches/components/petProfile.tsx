@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import firestore from '@react-native-firebase/firestore'
 import { AntDesign } from '@expo/vector-icons'; 
 
-import { Pet } from '../../../hooks/pet'
+import { Pet, usePet } from '../../../hooks/pet_document'
 import { useAuth } from '../../../hooks/auth';
 
 import { 
@@ -24,10 +24,11 @@ type MatchData = {
 
 interface ProfileProps {
   item: MatchData
-  currentPet: Pet
 }
 
-export function Profile({ item, currentPet } : ProfileProps){
+export function Profile({ item } : ProfileProps){
+
+  const { currentPet } = usePet()
 
   const [petProfile, setPetProfile] = useState({} as Pet)
   const { user } = useAuth()
@@ -108,7 +109,6 @@ export function Profile({ item, currentPet } : ProfileProps){
       <Avatar source={{ uri: petProfile.photo }} />
       <Side>
         <Name adjustsFontSizeToFit>{petProfile.name}</Name>
-        <Adjective>{petProfile.adjective}</Adjective>
       </Side>
       <Touchable onPress={redirectToZapOrEmail}>
         <AntDesign name="right" size={30} color="#0003" />

@@ -14,6 +14,8 @@ export const Container = styled(TrueContainer)`
   border-top-right-radius: 20px;
 
   padding-top: 20px;
+
+  background-color: #dbe9f4;
 `
 
 export const Title = styled.Text`
