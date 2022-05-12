@@ -4,7 +4,7 @@ import { StatusBar } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 
 export const Container = styled(LinearGradient).attrs(({ theme }) => ({
-  colors: theme.COLORS.GRADIENT,
+  colors: ['#dbe9f4', '#fff'],
   start: { x: 0, y: 0},
   end: { x: 1, y: 1 }
 }))`

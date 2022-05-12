@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { Alert, ScrollView, StatusBar } from 'react-native'
 
 import { Header } from './components/header';
@@ -7,6 +7,8 @@ import { Form } from './components/form';
 import { ProfileScreenProps } from '../../types/routes';
 
 import { usePet } from '../../hooks/pet_document';
+import { useUserDocument } from '../../hooks/user_document';
+
 
 import { 
   Container,
@@ -19,6 +21,7 @@ interface FormData {
 export function Profile({ navigation } : ProfileScreenProps){
 
   const { currentPet, createPet, updatePetDescription, updatePetPhotoInState } = usePet()
+  const { userDocument } = useUserDocument()
 
   const [photo, setPhoto] = useState(currentPet?.photo)
   const [species, setSpecies] = useState(currentPet?.species ?? 'dog')
@@ -62,6 +65,14 @@ export function Profile({ navigation } : ProfileScreenProps){
     ])
   }
  
+  useEffect(() => {
+    if (!userDocument.user_name) {
+      setTimeout(() => {
+        navigation.navigate('settings')
+      }, 100);
+    }
+  },[userDocument.user_name])
+
   return (
     <Container>
       <StatusBar translucent barStyle={'light-content'} backgroundColor={'#0003'}/>

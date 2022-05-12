@@ -3,7 +3,7 @@ import React, {
   useState
 } from 'react'
 
-import { Alert, Keyboard, ScrollView, StatusBar, TouchableOpacity } from 'react-native'
+import { Alert, BackHandler, ScrollView, StatusBar, TouchableOpacity } from 'react-native'
 import { AntDesign } from '@expo/vector-icons'; 
 
 import { Input } from '@components/Input';
@@ -27,8 +27,6 @@ export function Settings({ navigation } : SettingsScreenProps) {
   const { updateUserDocument, userDocument } = useUserDocument()
   const { signOut } = useAuth()
 
-  const [keyboardIsShow, setKeyboardIsShow] = useState(false)
-
   const [userName, setUserName] = useState(userDocument.user_name || '')
   const [userCEP, setUserCEP] = useState(userDocument.user_cep || '')
   const [userLocation, setUserLocation] = useState(userDocument.user_location || '')
@@ -51,6 +49,8 @@ export function Settings({ navigation } : SettingsScreenProps) {
       user_cep: userCEP,
       user_location: userLocation
     })
+
+    navigation.goBack()
     
   }
 
@@ -59,6 +59,10 @@ export function Settings({ navigation } : SettingsScreenProps) {
       { text: 'Não', style: 'cancel' },
       { text: 'Sim', style: 'destructive', onPress: signOut }
     ], { cancelable: true })
+  }
+
+  function cepRequiredAlert() {
+    Alert.alert('Olá', 'Precisamos do seu CEP para que o tindog ofereça a você perfis de pets próximos a sua região.')
   }
 
   useEffect(() => {
@@ -72,14 +76,17 @@ export function Settings({ navigation } : SettingsScreenProps) {
   },[userCEP.length === 9])
 
   useEffect(() => {
-    Keyboard.addListener('keyboardDidShow', () => {
-      setKeyboardIsShow(true)
+    const backHandler = BackHandler.addEventListener('hardwareBackPress', () => {
+      if (userDocument.user_name) return false
+      return true
     })
 
-    Keyboard.addListener('keyboardDidHide', () => {
-      setKeyboardIsShow(false)
-    })
+    return () => backHandler.remove()
   },[])
+
+  function goBack() {
+    if (userDocument.user_name) navigation.goBack()
+  }
 
   return (
     <Container>
@@ -87,33 +94,36 @@ export function Settings({ navigation } : SettingsScreenProps) {
       <ScrollView>
         <Row>
           <TouchableOpacity onPress={handleSignOut}>
-            <AntDesign name="poweroff" size={40} color="red" />
+            <AntDesign name="logout" size={40} color="red" />
           </TouchableOpacity>
 
-          <TouchableOpacity onPress={() => navigation.navigate('home')}>
-            <AntDesign name="arrowdown" size={40} color="#000" />
+          <TouchableOpacity onPress={goBack}>
+            <AntDesign name="down" size={40} color="#000" />
           </TouchableOpacity>
         </Row>
 
         <Form>
           <Label>Seu nome</Label>
           <Input editable autoCorrect={false} value={userName} onChangeText={setUserName} autoCapitalize='words' placeholder='Fulano Ciclano' />
-
+          
           <Label>Seu CEP</Label>
-          <Input editable maxLength={9} value={userCEP} onChangeText={handleSetCEP} keyboardType='number-pad' placeholder='xxxxx xxx' />
+          <Row>
+            <Input editable maxLength={9} value={userCEP} onChangeText={handleSetCEP} keyboardType='number-pad' placeholder='xxxxx xxx' />
+            <TouchableOpacity style={{ marginLeft: 15 }} onPress={cepRequiredAlert}>
+              <AntDesign name="questioncircleo" size={30} color="green" />
+            </TouchableOpacity>
+          </Row>
           <UserLocation>
             {userLocation != 'undefined - undefined' ? userLocation : 'CEP inexistente!'}
           </UserLocation>
         </Form>
       </ScrollView>
       {
-        !keyboardIsShow && (
-          <Button onPress={handleUpdateUser} title='Salvar dados' disabled={
-            userLocation === userDocument.user_location &&
-            userName === userDocument.user_name &&
-            userCEP === userDocument.user_cep}
-          />
-        )
+        userLocation === userDocument.user_location &&
+        userName === userDocument.user_name &&
+        userCEP === userDocument.user_cep ?
+        null  
+        : <Button onPress={handleUpdateUser} title='Salvar dados' />
       }
     </Container>
   )
