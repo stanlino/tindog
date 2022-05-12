@@ -1,99 +1,75 @@
 import styled, { css } from "styled-components/native";
-import { RFValue } from "react-native-responsive-fontsize";
-import { FontAwesome } from '@expo/vector-icons'; 
-import { Dimensions } from "react-native";
+import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
 
-const { width: screenWidth, height: screenHeight } = Dimensions.get('window')
-
-interface ButtonProps {
-  type: 'decline' | 'accept'
-}
-
-export const TopDetail = styled.View`
-  width: ${screenWidth}px;
-  height: ${screenHeight * .35}px;
-
-  top: 0px;
-  left: 0px;
-
-  position: absolute;
-  background-color: ${({ theme }) => theme.COLORS.PRIMARY};
-`
-
-export const Profiles = styled.View`
-  margin-top: 20px;
+export const Container = styled.View`
   flex: 1;
 `
 
-export const Profile = styled.View`
-  width: ${screenWidth - 48}px;
-  height: ${screenHeight * 0.55}px;
-  border-radius: 10px;
-  overflow: hidden;
+export const Wrapper = styled.View`
+  flex: 1;
+  position: relative;
+  align-items: center;
+  justify-content: center;
 `
 
-export const ProfileImage = styled.Image.attrs({
+export const Card = styled.View`
+  background-color: white;
+  height: 80%;
+  border-radius: 10px;
+  position: relative;
+  margin-top: -60px;
+`
+
+export const Photo = styled.Image.attrs({
   resizeMode: 'cover'
 })`
-  width: ${screenWidth - 48}px;
-  height: ${screenHeight * 0.55}px;
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
 `
 
-export const ProfileInfo = styled.View`
-  margin-top: -60px;
+export const Content = styled.View`
+  position: absolute;
   background-color: ${({ theme }) => theme.COLORS.SHAPE};
-
-  flex-direction: row;
-  height: 60px;
-  justify-content: space-between;
-  align-items: center;
+  bottom: 0;
+  left: 15px;
+  right: 15px;
   padding: 10px;
+  flex-direction: row;
+  justify-content: space-between;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
 `
 
-export const ProfileName = styled.Text`
+export const Name = styled.Text`
+  font-size: ${RFValue(16)}px;
+  text-align: center;
   ${({ theme }) => css`
     color: ${theme.COLORS.TITLE};
-    font-size: ${RFValue(20)}px;
-    font-family: ${theme.FONTS.REGULAR};
-  `}
-`
-
-export const ProfileAdjective = styled.Text`
-  ${({ theme }) => css`
-    color: ${theme.COLORS.PRIMARY};
-    font-size: ${RFValue(20)}px;
     font-family: ${theme.FONTS.BOLD};
   `}
 `
 
+export const Location = styled(Name)`
+  ${({ theme }) => css`
+    color: ${theme.COLORS.TEXT};
+    font-family: ${theme.FONTS.REGULAR};
+  `}
+`
 
 export const Footer = styled.View`
+  height: ${RFPercentage(18)}px;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
   flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  margin-bottom: ${RFValue(65)}px;
-  flex: .25;
+  padding-left: 25%;
+  padding-right: 25%;
 `
 
-export const Button = styled.TouchableOpacity<ButtonProps>`
-  height: ${RFValue(70)}px;
-  width: ${RFValue(70)}px;
-
-  margin-left: 15px;
-  margin-right: 15px;
-
-  border-radius: ${RFValue(50)}px;
-  
-  ${({ theme, type }) => css`
-    background-color: ${type === 'accept' ? theme.COLORS.PRIMARY : theme.COLORS.SHAPE};
-  `}
-
-  justify-content: center;
-  align-items: center;
-  
-`
-
-export const Icon = styled(FontAwesome)<ButtonProps>`
-  color: ${({ type, theme }) => type === 'accept' ? theme.COLORS.SHAPE : theme.COLORS.PRIMARY};
-  font-size: 30px;
+export const Span = styled.Text`
+  text-align: center;
+  font-size: ${RFValue(16)}px;
+  color: #0006;
+  width: 100%;
 `

@@ -1,32 +1,33 @@
 import React, { useEffect, useRef, useState } from 'react'
 import Swiper from 'react-native-deck-swiper'
 import firestore from '@react-native-firebase/firestore'
-import { SharedElement } from 'react-navigation-shared-element'
+import AnimatedLottieView from 'lottie-react-native'
+import { RFPercentage } from 'react-native-responsive-fontsize'
 
-import { Container } from '@components/Container'
-import { usePet, Pet } from '../../hooks/pet'
+import { usePet, Pet } from '../../hooks/pet_document'
 import { useAuth } from '../../hooks/auth'
-import { likeProfile, viewProfile } from './utils/firestore'
-import { IndexScreenProps } from '../../types/routes'
-import { Header } from '@components/Header'
 
-import { NoMoreProfiles } from './components/noMoreProfiles'
-import { Loading } from './components/loading'
+import { HomeScreenProps } from '../../types/routes'
+
+import { likeProfile, viewProfile } from './utils/firestore'
+
+import { ActionButton } from './components/action_button'
+import { AnimatedBackground } from './components/animated_background'
+import { Header } from './components/header'
 
 import { 
-  Profiles,
-  Profile,
-  ProfileImage,
-  ProfileInfo,
-  ProfileName,
-  ProfileAdjective,
+  Container,
+  Wrapper,
+  Card,
+  Photo,
   Footer,
-  Button,
-  Icon,
-  TopDetail,
+  Span,
+  Content,
+  Name,
+  Location,
 } from './styles'
 
-export function Home({ navigation } : IndexScreenProps){
+export function Home({ navigation } : HomeScreenProps){
 
   const { pets, currentPet, visualizedProfiles, updateVisualizedProfiles } = usePet()
   const { user } = useAuth()
@@ -55,12 +56,12 @@ export function Home({ navigation } : IndexScreenProps){
 
   function handleRejectProfile() {
     updateVisualizedProfiles(petProfiles[currentProfile].id!)
-    viewProfile(currentPet.id!, petProfiles[currentProfile].id!)
+    viewProfile(currentPet.id!, petProfiles[currentProfile].id!, 'reject')
   }
 
   function handleLikeProfile() {
     updateVisualizedProfiles(petProfiles[currentProfile].id!)
-    viewProfile(currentPet.id!, petProfiles[currentProfile].id!)
+    viewProfile(currentPet.id!, petProfiles[currentProfile].id!, 'like')
     likeProfile(currentPet!, petProfiles[currentProfile], user?.email ?? user?.phoneNumber as string)
   }
 
@@ -68,6 +69,7 @@ export function Home({ navigation } : IndexScreenProps){
     firestore().collection('pets')
       .where('location', '==', currentPet?.location)
       .where('sex', '==', currentPet?.sex === 'male' ? 'female' : 'male')
+      .where('species', '==', currentPet.species)
       .where(firestore.FieldPath.documentId(), 'not-in', excludedProfiles)
       .get()
       .then(docs => {
@@ -80,70 +82,107 @@ export function Home({ navigation } : IndexScreenProps){
       .finally(() => setIsLoading(false))
   },[])
 
-  if (isLoading) return <Loading />
-
-  if (!petProfiles[0] || currentProfile === petProfiles.length) {
-    return (
-      <>
-        {visualizedProfiles.length === 0 ? (
-          <NoMoreProfiles text={`Ainda não existem perfis em ${currentPet?.location} :(`} />
-        ) : (
-          <NoMoreProfiles text={`Você ja visualizou todos os perfis de ${currentPet?.location}`} />
-        )}
-      </>
-    )
-  }
+  const noHaveProfiles = !petProfiles[0] || currentProfile === petProfiles.length
+  const allProfilesViewed = visualizedProfiles.length > 0 
 
   return (
     <Container>
       
-      <TopDetail />
-            
-      <Header title={'tindog'} />
-      
-      <Profiles>
-        <Swiper
-          ref={swiperRef}
-          cards={petProfiles}
-          keyExtractor={item => item?.id!}
-          verticalSwipe={false}
-          cardIndex={currentProfile}
-          onSwiped={() => setCurrentProfile(index => index + 1)}
-          onSwipedLeft={handleRejectProfile}
-          onSwipedRight={handleLikeProfile}
-          onTapCard={naviteToProfile}
-          stackSize={petProfiles.length}
-          stackScale={5}
-          animateCardOpacity
-          animateOverlayLabelsOpacity
-          cardVerticalMargin={0}
-          cardHorizontalMargin={0}
-          backgroundColor='transparent'
-          renderCard={(profile) => {
-            return (
-              <Profile>
-                <SharedElement id={profile?.id!}>
-                  <>
-                    <ProfileImage source={{ uri: profile?.photo }} />
-                    <ProfileInfo>
-                      <ProfileName>{profile?.name}</ProfileName>
-                      <ProfileAdjective>{profile?.adjective}</ProfileAdjective>
-                    </ProfileInfo>
-                  </>
-                </SharedElement>
-              </Profile>
-            )
-          }}
-        />
-      </Profiles>
+      <AnimatedBackground />
+      <Header />
+    
+      <Wrapper>
+        {
+          isLoading ? (
+            <AnimatedLottieView 
+              source={require('@assets/lottie/cat-loading.json')}
+              style={{
+                width: RFPercentage(40),
+              }}
+              autoPlay
+              loop
+              speed={2}
+            />
+          ) : noHaveProfiles ? (
+            <AnimatedLottieView
+              source={require('@assets/lottie/cat-in-box.json')}
+              style={{
+                width: RFPercentage(40),
+              }}
+              autoPlay
+              loop
+              speed={0.5}
+            />
+          ) : (
+            <Swiper
+              ref={swiperRef}
+              cards={petProfiles}
+              verticalSwipe={false}
+              cardIndex={currentProfile}
+              onSwiped={() => setCurrentProfile(index => index + 1)}
+              onSwipedLeft={handleRejectProfile}
+              onSwipedRight={handleLikeProfile}
+              onTapCard={naviteToProfile}
+              stackSize={5}
+              animateCardOpacity
+              backgroundColor='transparent'
+              overlayLabels={{
+                left: {
+                  title: 'PASSO',
+                  style: {
+                    label: {
+                      textAlign: 'right',
+                      color: 'red',
+                      fontSize: 22,
+                      marginTop: -60
+                    }
+                  }
+                },
+                right: {
+                  title: 'GOSTEI',
+                  style: {
+                    label: {
+                      textAlign: 'left',
+                      color: 'green',
+                      fontSize: 22,
+                      marginTop: -60
+                    }
+                  }
+                }
+              }}
+              renderCard={(profile) => {
+                return (
+                  <Card>
+                    <Photo source={{ uri: profile.photo }} />
+                    <Content>
+                      <Name>{profile.name}</Name>
+                      <Location>{profile.location}</Location>
+                    </Content>
+                  </Card>
+                )
+              }}
+            />
+          )
+        }
+      </Wrapper>
+
       <Footer>
-        <Button type='decline' onPress={handleSwipeToLeft}>
-          <Icon name='close' type='decline'/>
-        </Button>
-        <Button type='accept' onPress={handleSwipeToRight}>
-          <Icon name='check' type='accept'/>
-        </Button>
+        {
+          !isLoading ? !noHaveProfiles ? (
+            <>
+              <ActionButton type='reject' action={handleSwipeToLeft} />
+              <ActionButton type='like' action={handleSwipeToRight} />
+            </>
+          ) : allProfilesViewed ? (
+            <Span>Você já visualizou todos os perfis desta região</Span>
+          ) : (
+            <Span>Ainda não há perfis nessa região</Span>
+          ) : (
+            <Span>Buscando perfis ...</Span>
+          )
+        }
       </Footer>
+
     </Container>
   )
 }

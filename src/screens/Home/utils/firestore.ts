@@ -1,9 +1,9 @@
 import firestore from '@react-native-firebase/firestore'
-import { Pet } from '../../../hooks/pet'
+import { Pet } from '../../../hooks/pet_document'
 
-export function viewProfile(myPetId: string, interestingPetId: string) {
-  firestore().collection('pets').doc(myPetId).collection('visualized').add({
-    petUID: interestingPetId
+export function viewProfile(user_pet_id: string, owner_pet_id: string, type_of_interaction: string) {  
+  firestore().collection('pets').doc(user_pet_id).collection('visualized').doc(owner_pet_id).set({
+    type_of_interaction
   })
 }
 
@@ -28,7 +28,7 @@ export async function likeProfile(myPet: Pet, interestingPet: Pet, userContact: 
   } else {
     await firestore().collection('matchs').doc(documentId).set({
       pets: [myPet.id!, interestingPet.id!],
-      owners: [myPet.userUID, interestingPet.userUID],
+      owners: [myPet.user_id, interestingPet.user_id],
       contacts: [userContact],
       itsAMatch: false
     })
