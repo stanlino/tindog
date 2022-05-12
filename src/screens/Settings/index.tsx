@@ -3,7 +3,7 @@ import React, {
   useState
 } from 'react'
 
-import { Alert, Keyboard, ScrollView, TouchableOpacity } from 'react-native'
+import { Alert, Keyboard, ScrollView, StatusBar, TouchableOpacity } from 'react-native'
 import { AntDesign } from '@expo/vector-icons'; 
 
 import { Input } from '@components/Input';
@@ -83,6 +83,7 @@ export function Settings({ navigation } : SettingsScreenProps) {
 
   return (
     <Container>
+      <StatusBar translucent barStyle={'light-content'} backgroundColor={'#0000'}/>
       <ScrollView>
         <Row>
           <TouchableOpacity onPress={handleSignOut}>

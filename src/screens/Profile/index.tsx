@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from 'react'
-import { Alert, ScrollView } from 'react-native'
+import { Alert, ScrollView, StatusBar } from 'react-native'
 
 import { Header } from './components/header';
 import { Form } from './components/form';
@@ -64,6 +64,8 @@ export function Profile({ navigation } : ProfileScreenProps){
  
   return (
     <Container>
+      <StatusBar translucent barStyle={'light-content'} backgroundColor={'#0003'}/>
+
       <ScrollView showsVerticalScrollIndicator={false}>  
         <Header 
           updatePetPhotoInState={updatePetPhotoInState} 

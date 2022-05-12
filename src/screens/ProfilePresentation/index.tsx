@@ -20,6 +20,8 @@ export function ProfilePresentation({ navigation, route: { params } } : ProfileP
 
   return (
     <Container>
+      <StatusBar translucent barStyle={'light-content'} backgroundColor={'#0000'}/>
+
       <Photo source={{ uri: pet.photo!}} />
       <Touchable onPress={() => navigation.goBack()}>
         <MaterialIcons name="close" size={30} color={'#fff'} />
