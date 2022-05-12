@@ -1,43 +1,68 @@
+import { 
+  createContext, 
+  ReactNode, 
+  useCallback, 
+  useContext, 
+  useEffect, 
+  useState 
+} from "react";
+
 import auth, { FirebaseAuthTypes } from "@react-native-firebase/auth";
-import { createContext, ReactNode, useContext, useEffect, useState } from "react";
+import { GoogleSignin, statusCodes } from '@react-native-google-signin/google-signin';
+
 import AppLoading from 'expo-app-loading';
 
-import { GoogleSignin } from '@react-native-google-signin/google-signin';
+import { removeTokenAndSignOut } from "./utils/user_firestore_functions";
 
 GoogleSignin.configure({
   webClientId: '1034206141832-k1359qgktvahah4mbkoap0lgd8772k1r.apps.googleusercontent.com',
 });
 
+type signInWithGoogleReponse = 'SUCCESS' | 'PLAY_SERVICES_NOT_AVAILABLE' | 'UNKNOWN'
+
 interface AuthContextData {
-  user: FirebaseAuthTypes.User | null
-  signInWithGoogle(): Promise<boolean>;
+  user: FirebaseAuthTypes.User
+  signInWithGoogle(): Promise<signInWithGoogleReponse>
+  signOut(): void
 }
 
 const AuthContext = createContext({} as AuthContextData)
 
 export function AuthProvider({ children } : { children: ReactNode }) {
-  
+    
   const [initializing, setInitializing] = useState(true)
-  const [user, setUser] = useState<FirebaseAuthTypes.User | null>(null)
+  const [user, setUser] = useState<FirebaseAuthTypes.User>({} as FirebaseAuthTypes.User)
 
   function onAuthStateChanged(user: FirebaseAuthTypes.User | null) {
-    setUser(user)
+
+    if (user) {
+      setUser(user)
+    } else {
+      setUser({} as FirebaseAuthTypes.User)
+    }
 
     if (initializing) {
       setInitializing(false)
     }
   }
-  
-  async function signInWithGoogle() {
+
+  function signOut() {
+    removeTokenAndSignOut(user.uid)
+  }
+
+  const signInWithGoogle = useCallback(async() => {
     try {
       const { idToken } = await GoogleSignin.signIn();
       const googleCredential = auth.GoogleAuthProvider.credential(idToken);
       await auth().signInWithCredential(googleCredential);
-      return true
-    } catch {
-      return false
+      return 'SUCCESS'
+    } catch (error: any) {
+      if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+        return 'PLAY_SERVICES_NOT_AVAILABLE'
+      }
+      return 'UNKNOWN'
     }
-  }
+  },[])
 
   useEffect(() => {
     const subscriber = auth().onAuthStateChanged(onAuthStateChanged)
@@ -51,6 +76,7 @@ export function AuthProvider({ children } : { children: ReactNode }) {
   return (
     <AuthContext.Provider value={{
       signInWithGoogle,
+      signOut,
       user
     }}>
       {children}
