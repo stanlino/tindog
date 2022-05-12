@@ -2,13 +2,14 @@ import React from 'react'
 import { NavigationContainer } from '@react-navigation/native'
 
 import { AuthRoutes } from './auth.routes'
-import { AppRoutes } from './app.tabs.routes'
+import { AppRoutes } from './app.routes'
 
 import { useAuth } from '../hooks/auth'
-import { FirestoreProvider } from '../hooks/firestore'
-import { PetProvider } from '../hooks/pet'
 
-import { ItsAMatch } from '../global/itsamatch'
+import { UserDocumentProvider } from '../hooks/user_document'
+import { CurrentPetProvider } from '../hooks/pet_document'
+import { MatchProvider } from '../hooks/match'
+import { MatchModal } from '@components/MatchModal'
 
 export function Routes() {
 
@@ -17,12 +18,14 @@ export function Routes() {
   return (
     <NavigationContainer>
       { user?.uid ? (
-        <FirestoreProvider>
-          <PetProvider>
-            <ItsAMatch />
-            <AppRoutes />
-          </PetProvider>
-        </FirestoreProvider>
+        <UserDocumentProvider>
+          <CurrentPetProvider>
+            <MatchProvider>
+              <MatchModal />
+              <AppRoutes />
+            </MatchProvider>
+          </CurrentPetProvider>
+        </UserDocumentProvider>
       ) : <AuthRoutes /> }
     </NavigationContainer>
   )
