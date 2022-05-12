@@ -8,8 +8,5 @@ export async function getMatchDocuments(pet_id: string) {
     .where('itsAMatch', '==', true)
     .get()
 
-  return matchDocumentsReference.docs.map(doc => {
-    ({ ...doc.data(), id: doc.id })
-  })
-
+  return matchDocumentsReference.docs.map(doc => ({ ...doc.data(), id: doc.id }))
 }

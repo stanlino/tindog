@@ -1,3 +1,4 @@
+import FastImage from "react-native-fast-image"
 import { RFValue } from "react-native-responsive-fontsize"
 import styled, { css } from "styled-components/native"
 
@@ -12,7 +13,7 @@ export const MatchView = styled.View`
   margin-bottom: 10px;
 `
 
-export const Avatar = styled.Image`
+export const Avatar = styled(FastImage)`
   height: ${RFValue(100)}px;
   width: ${RFValue(100)}px;
   margin-right: 15px;
@@ -45,7 +46,8 @@ export const Adjective = styled.Text`
 export const Touchable = styled.TouchableOpacity`
   width: ${RFValue(60)}px;
   height: 100%;
-  background-color: #0001;
+  border-left-color: #0001;
+  border-left-width: 1px;
 
   justify-content: center;
   align-items: center;

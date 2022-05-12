@@ -111,7 +111,7 @@ export function Profile({ item } : ProfileProps){
         <Name adjustsFontSizeToFit>{petProfile.name}</Name>
       </Side>
       <Touchable onPress={redirectToZapOrEmail}>
-        <AntDesign name="right" size={30} color="#0003" />
+        <AntDesign name="right" size={30} color="#333b89" />
       </Touchable>
     </MatchView>
   )

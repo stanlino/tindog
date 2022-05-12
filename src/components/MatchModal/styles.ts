@@ -21,7 +21,7 @@ export const Title = styled.Text`
 `
 
 export const Touchable = styled.TouchableOpacity`
-  margin-top: 10px;
+  margin-top: 20px;
   background-color: ${({ theme }) => theme.COLORS.SHAPE};
   padding: 10px 20px;
   border-radius: 10px;

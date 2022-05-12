@@ -1,5 +1,6 @@
 import React from 'react'
 import { MaterialIcons } from '@expo/vector-icons'
+import { StatusBar } from 'react-native'
 
 import { ProfilePresentationProps } from 'src/types/routes'
 

@@ -30,7 +30,7 @@ export function MatchModal(){
 
   const { fetchMatchDocuments } = useMatch()
 
-  const [isVisible, setIsVisible] = useState(false)
+  const [isVisible, setIsVisible] = useState(true)
   const [pets, setPets] = useState([] as Pet[])
 
   useEffect(() => {
@@ -59,7 +59,7 @@ export function MatchModal(){
       })
 
       setPets(prevPets)
-      
+      fetchMatchDocuments()
 
     });
 
@@ -67,7 +67,7 @@ export function MatchModal(){
   }, []);
 
   return (
-    <Modal visible={isVisible} transparent animationType='fade'>
+    <Modal visible={isVisible} onRequestClose={() => setIsVisible(false)} transparent animationType='fade'>
       <Container>
         <BlurView blurType='light' blurAmount={100} style={{ 
           position: 'absolute', 
@@ -100,9 +100,18 @@ export function MatchModal(){
           autoPlay
           loop
         />
-        <Touchable onPress={() => setIsVisible(false)}>
+        <Touchable style={{
+          shadowColor: '#000',
+          shadowOpacity: 0.54,
+          shadowRadius: 3.21,
+          shadowOffset: {
+            width: 4,
+            height: 0
+          },
+          elevation: 4
+        }} onPress={() => setIsVisible(false)}>
           <TouchableText>
-            Meu casal 😻
+            Legau 😻
           </TouchableText>
         </Touchable>
       </Container>

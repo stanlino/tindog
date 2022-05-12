@@ -42,6 +42,7 @@ export function Settings({ navigation } : SettingsScreenProps) {
   async function handleUpdateUser() {
     if (userName.length < 3) return Alert.alert('Opa', 'Insira um nome com pelo menos 3 caracteres!')
     if (userLocation === 'undefined - undefined') return Alert.alert('Opa', 'Insira um CEP válido')
+    if (userLocation === '') return Alert.alert('Opa', 'Insira um CEP válido')
     if (userCEP.length !== 9) return Alert.alert('Opa', 'Insira um CEP válido')
 
     updateUserDocument({
@@ -73,6 +74,8 @@ export function Settings({ navigation } : SettingsScreenProps) {
           setUserLocation(`${data.city} - ${data.state}`)
         })
     }
+
+    setUserLocation(``)
   },[userCEP.length === 9])
 
   useEffect(() => {
