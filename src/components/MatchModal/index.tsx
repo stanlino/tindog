@@ -30,7 +30,7 @@ export function MatchModal(){
 
   const { fetchMatchDocuments } = useMatch()
 
-  const [isVisible, setIsVisible] = useState(true)
+  const [isVisible, setIsVisible] = useState(false)
   const [pets, setPets] = useState([] as Pet[])
 
   useEffect(() => {
