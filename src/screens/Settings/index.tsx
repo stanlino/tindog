@@ -73,9 +73,9 @@ export function Settings({ navigation } : SettingsScreenProps) {
         .then(data => {
           setUserLocation(`${data.city} - ${data.state}`)
         })
+    } else {
+      setUserLocation(``)
     }
-
-    setUserLocation(``)
   },[userCEP.length === 9])
 
   useEffect(() => {

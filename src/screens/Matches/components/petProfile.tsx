@@ -77,22 +77,7 @@ export function Profile({ item } : ProfileProps){
           Linking.openURL(url)
         }}
       ])
-
-    } else {
-      const numberPhone = contact?.substring(0) //remove +55
-      const url = `https://wa.me/${numberPhone}?text=${message}`
-
-      const supported = await Linking.canOpenURL(url)
-
-      if (supported) {
-        Alert.alert('Redirecionamento', `${announcement} pelo zap! `, [
-          { text: 'Cancelar' },
-          { text: 'Vamo pro zap', onPress: () => {
-            Linking.openURL(url)
-          } }
-        ])
-      }
-    }
+    } 
   }
 
   useEffect(() => {
@@ -111,7 +96,7 @@ export function Profile({ item } : ProfileProps){
         <Name adjustsFontSizeToFit>{petProfile.name}</Name>
       </Side>
       <Touchable onPress={redirectToZapOrEmail}>
-        <AntDesign name="right" size={30} color="#333b89" />
+        <AntDesign name="mail" size={30} color="#333b89" />
       </Touchable>
     </MatchView>
   )
