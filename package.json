@@ -44,6 +44,7 @@
     "react-native-safe-area-context": "3.3.2",
     "react-native-screens": "~3.10.1",
     "react-native-shared-element": "^0.8.4",
+    "react-native-splash-screen": "^3.3.0",
     "react-native-svg": "^12.3.0",
     "react-native-view-overflow": "^0.0.5",
     "react-native-web": "0.17.1",

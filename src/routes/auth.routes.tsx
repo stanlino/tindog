@@ -1,8 +1,9 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 
 import { 
   CardStyleInterpolators,  
 } from "@react-navigation/stack";
+import SplashScreen from 'react-native-splash-screen';
 
 import { SignIn } from "@screens/SignIn";
 import { Welcome } from '@screens/SignIn/welcome';
@@ -13,6 +14,11 @@ import { createSharedElementStackNavigator } from 'react-navigation-shared-eleme
 const { Navigator, Screen } = createSharedElementStackNavigator<AuthRoutesParams>()
 
 export function AuthRoutes() {
+
+  useEffect(() => {
+    SplashScreen.hide();
+  },[])
+
   return (
     <Navigator
       screenOptions={{

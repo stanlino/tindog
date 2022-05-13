@@ -1,5 +1,6 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Profile } from "@screens/Profile";
+import SplashScreen from 'react-native-splash-screen'
 
 import { AppRoutesParams } from "../types/routes";
 import { usePet } from '../hooks/pet_document';
@@ -15,6 +16,10 @@ const { Navigator, Screen } = createSharedElementStackNavigator<AppRoutesParams>
 export function AppRoutes() {
 
   const { userHasAPet } = usePet()
+
+  useEffect(() => {
+    SplashScreen.hide();
+  },[])
 
   return (
     <Navigator 
