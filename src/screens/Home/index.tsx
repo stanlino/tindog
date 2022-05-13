@@ -14,6 +14,7 @@ import { likeProfile, viewProfile } from './utils/firestore'
 import { ActionButton } from './components/action_button'
 import { AnimatedBackground } from './components/animated_background'
 import { Header } from './components/header'
+import { Tutorial } from './components/tutorial_modal'
 
 import { 
   Container,
@@ -90,6 +91,8 @@ export function Home({ navigation } : HomeScreenProps){
       
       <AnimatedBackground />
       <Header />
+
+      <Tutorial />
     
       <Wrapper>
         {
