@@ -9,9 +9,7 @@ import {
   Avatar,
   MatchView, 
   Name, 
-  Side, 
-  Adjective, 
-  Touchable 
+  Bellow
 } from './styles'
 import { Alert, Linking } from 'react-native';
 
@@ -56,7 +54,7 @@ export function Profile({ item } : ProfileProps){
 
   }
 
-  async function redirectToZapOrEmail() {
+  async function redirectToEmail() {
     const contact = getOwnerContact()
     const contactType = getContactType()
 
@@ -90,14 +88,11 @@ export function Profile({ item } : ProfileProps){
   }, [])
 
   return (
-    <MatchView style={{ elevation: 5 }}>
+    <MatchView style={{ elevation: 2, shadowRadius: 10, shadowOffset: { width: 10, height: 4 }, shadowOpacity: 0.5 }} onPress={redirectToEmail}>
       <Avatar source={{ uri: petProfile.photo }} />
-      <Side>
+      <Bellow>
         <Name adjustsFontSizeToFit>{petProfile.name}</Name>
-      </Side>
-      <Touchable onPress={redirectToZapOrEmail}>
-        <AntDesign name="mail" size={30} color="#333b89" />
-      </Touchable>
+      </Bellow>
     </MatchView>
   )
 }

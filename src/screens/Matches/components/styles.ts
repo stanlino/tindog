@@ -2,53 +2,40 @@ import FastImage from "react-native-fast-image"
 import { RFValue } from "react-native-responsive-fontsize"
 import styled, { css } from "styled-components/native"
 
-export const MatchView = styled.View`
+export const MatchView = styled.TouchableOpacity.attrs({ activeOpacity: 1 })`
+  flex: .49;
+
   background-color: ${({ theme }) => theme.COLORS.SHAPE};
 
   overflow: hidden;
 
-  flex-direction: row;
+  height: 200px;
+
   border-radius: 10px;
 
   margin-bottom: 10px;
 `
 
-export const Avatar = styled(FastImage)`
-  height: ${RFValue(100)}px;
-  width: ${RFValue(100)}px;
+export const Avatar = styled(FastImage).attrs({resizeMode: 'cover'})`
+  height: 100%;
+  width: 100%;
   margin-right: 15px;
 `
 
-export const Side = styled.View`
-  flex: 1;
-
+export const Bellow = styled.View`
   justify-content: center;
+  position: absolute;
+  background-color: white;
+  width: 100%;
+  bottom: 0;
+  padding: 5px 0px;
 `
 
 export const Name = styled.Text`
-  text-align: left;
+  text-align: center;
   ${({ theme }) => css`
     color: ${theme.COLORS.TEXT};
-    font-size: ${RFValue(20)}px;
+    font-size: ${RFValue(16)}px;
     font-family: ${theme.FONTS.REGULAR};
   `}
-`
-
-export const Adjective = styled.Text`
-  text-align: left;
-  ${({ theme }) => css`
-    color: ${theme.COLORS.PRIMARY};
-    font-size: ${RFValue(15)}px;
-    font-family: ${theme.FONTS.BOLD};
-  `}
-`
-
-export const Touchable = styled.TouchableOpacity`
-  width: ${RFValue(60)}px;
-  height: 100%;
-  border-left-color: #0001;
-  border-left-width: 1px;
-
-  justify-content: center;
-  align-items: center;
 `

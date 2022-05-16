@@ -1,12 +1,12 @@
 import React from 'react'
-import { FlatList } from 'react-native'
+import { FlatList, View } from 'react-native'
 import { Feather } from '@expo/vector-icons'
 const AnimatedLottieView = require("lottie-react-native");
 import { RFPercentage } from 'react-native-responsive-fontsize'
 
 import { useMatch } from '../../hooks/match';
 
-import { Profile } from './components/petProfile'
+import { Profile } from './components/profile'
 import { MatchesScreenProps } from 'src/types/routes';
 
 import { 
@@ -37,7 +37,9 @@ export function Matches({ navigation: { goBack } } : MatchesScreenProps){
         }}
         data={matchs}
         keyExtractor={item => item.id}
+        numColumns={2}
         renderItem={({ item }) => <Profile item={item} />}
+        columnWrapperStyle={{ justifyContent: 'space-between' }}
         ListEmptyComponent={() => {
           return (
             <Content>
