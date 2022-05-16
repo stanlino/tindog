@@ -14,9 +14,13 @@ module.exports = function(api) {
             '.json'
           ],
           alias: {
+            '@assets': './src/assets',
             '@components': './src/components',
+            '@hooks': './src/hooks',
+            '@routes': './src/routes',
             '@screens': './src/screens',
-            '@assets': './src/assets'
+            '@themes': './src/themes',
+            '@types': './src/types',
           }
         }
       ],

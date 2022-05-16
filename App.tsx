@@ -9,10 +9,10 @@ import {
   Montserrat_300Light
 } from '@expo-google-fonts/montserrat';
 
-import { Routes } from './src/routes';
+import { Routes } from '@routes/index';
 
-import themes from './src/themes'
-import { AuthProvider } from './src/hooks/auth'
+import themes from '@themes/index'
+import { AuthProvider } from '@hooks/auth'
 
 export default function App() {
  
