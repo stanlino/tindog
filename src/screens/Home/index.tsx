@@ -50,7 +50,7 @@ export function Home({ navigation } : HomeScreenProps){
   }
   
   function naviteToProfile() {
-    navigation.navigate('profile_presentation', {
+    navigation.navigate('presentation', {
       pet: petProfiles[currentProfile],
     })
   }

@@ -2,7 +2,7 @@ import React from 'react'
 import { MaterialIcons } from '@expo/vector-icons'
 import { StatusBar } from 'react-native'
 
-import { ProfilePresentationProps } from 'src/types/routes'
+import { PresentationProps } from '@types_/routes'
 
 import { 
   Container,
@@ -15,7 +15,7 @@ import {
   Location
 } from './styles'
 
-export function ProfilePresentation({ navigation, route: { params } } : ProfilePresentationProps){
+export function Presentation({ navigation, route: { params } } : PresentationProps){
 
   const pet = params.pet
 

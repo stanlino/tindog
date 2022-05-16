@@ -7,7 +7,7 @@ import { usePet } from '../hooks/pet_document';
 import { Matches } from '@screens/Matches';
 import { createSharedElementStackNavigator } from 'react-navigation-shared-element';
 import { Home } from '@screens/Home';
-import { ProfilePresentation } from '@screens/ProfilePresentation';
+import { Presentation } from '@screens/Presentation';
 import { CardStyleInterpolators } from '@react-navigation/stack';
 import { Settings } from '@screens/Settings';
 
@@ -38,8 +38,8 @@ export function AppRoutes() {
         name='home'
       />
       <Screen 
-        component={ProfilePresentation} 
-        name='profile_presentation' 
+        component={Presentation} 
+        name='presentation' 
         options={{
           cardStyleInterpolator: CardStyleInterpolators.forModalPresentationIOS,
         }}
