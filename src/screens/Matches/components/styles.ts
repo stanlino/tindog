@@ -9,7 +9,7 @@ export const MatchView = styled.TouchableOpacity.attrs({ activeOpacity: 1 })`
 
   overflow: hidden;
 
-  height: 200px;
+  height: 300px;
 
   border-radius: 10px;
 

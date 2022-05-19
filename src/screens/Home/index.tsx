@@ -52,6 +52,7 @@ export function Home({ navigation } : HomeScreenProps){
   function naviteToProfile() {
     navigation.navigate('presentation', {
       pet: petProfiles[currentProfile],
+      itsAMatch: false
     })
   }
 

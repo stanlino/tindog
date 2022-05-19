@@ -1,6 +1,7 @@
 import styled, { css } from "styled-components/native";
 import { Dimensions } from "react-native";
 import { RFValue } from "react-native-responsive-fontsize";
+import { MotiView } from "moti";
 
 const { width: screenWidth, height: screenHeight } = Dimensions.get('screen')
 
@@ -26,7 +27,7 @@ export const Touchable = styled.TouchableOpacity`
   right: 0;
 `
 
-export const Content = styled.View`
+export const Content = styled(MotiView)`
   position: absolute;
   background-color: #fff;
   width: ${screenWidth - 20}px;
@@ -69,6 +70,7 @@ export const Description = styled.Text`
     color: ${theme.COLORS.TEXT};
     font-family: ${theme.FONTS.REGULAR};
   `}
-
+  flex: 1;
+  margin-bottom: 10px;
   font-size: ${RFValue(15)}px;
 `

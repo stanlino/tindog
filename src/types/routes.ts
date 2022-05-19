@@ -15,6 +15,8 @@ export type AppRoutesParams = {
   home: any
   presentation: {
     pet: Pet
+    itsAMatch: boolean
+    contact?: string
   }
   settings: undefined
 }

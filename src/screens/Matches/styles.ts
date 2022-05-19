@@ -28,7 +28,6 @@ export const BackButton = styled.TouchableOpacity`
   height: 60px;
   width: 60px;
   border-radius: 10px;
-  background-color: #0004;
   align-items: center;
   justify-content: center;
   right: ${RFValue(10)}px;

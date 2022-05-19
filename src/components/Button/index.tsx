@@ -1,5 +1,5 @@
 import React from 'react'
-import { TouchableOpacity } from 'react-native';
+import { TouchableOpacityProps } from 'react-native';
 import { useAnimationState } from 'moti'
 import { RFPercentage } from 'react-native-responsive-fontsize';
 
@@ -10,7 +10,7 @@ import {
   Wrapper
 } from './styles'
 
-interface ButtonProps extends TouchableOpacity {
+interface ButtonProps extends TouchableOpacityProps {
   title: string
   loading?: boolean
 }

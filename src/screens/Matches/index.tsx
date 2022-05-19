@@ -26,13 +26,13 @@ export function Matches({ navigation: { goBack } } : MatchesScreenProps){
     <Container>
       <Header>
         <BackButton onPress={goBack}>
-          <Feather name="arrow-left" size={30} color="white" />
+          <Feather name="arrow-left" size={30} color="#594D4D" />
         </BackButton>
         <Title>Combinações</Title>
       </Header>
       <FlatList 
         contentContainerStyle={{
-          paddingTop: 20,
+          paddingTop: 10,
           paddingBottom: 80
         }}
         data={matchs}
