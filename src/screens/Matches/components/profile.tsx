@@ -70,10 +70,8 @@ export function Profile({ item } : ProfileProps){
   return (
     <MatchView 
       style={{ 
-        elevation: 2, 
-        shadowRadius: 10, 
-        shadowOffset: { width: 10, height: 4 }, 
-        shadowOpacity: 0.5 
+        elevation: 2,
+        aspectRatio: 41/57
       }} 
       onPress={naviteToProfile}
     >

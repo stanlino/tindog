@@ -9,8 +9,6 @@ export const MatchView = styled.TouchableOpacity.attrs({ activeOpacity: 1 })`
 
   overflow: hidden;
 
-  height: 300px;
-
   border-radius: 10px;
 
   margin-bottom: 10px;
@@ -18,8 +16,6 @@ export const MatchView = styled.TouchableOpacity.attrs({ activeOpacity: 1 })`
 
 export const Avatar = styled(FastImage).attrs({resizeMode: 'cover'})`
   height: 100%;
-  width: 100%;
-  margin-right: 15px;
 `
 
 export const Bellow = styled.View`
