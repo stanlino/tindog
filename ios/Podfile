@@ -24,6 +24,8 @@ target 'tindog' do
 
   pod 'react-native-splash-screen', :path => '../node_modules/react-native-splash-screen'
 
+  pod 'RNCMaskedView', :path => '../node_modules/@react-native-masked-view/masked-view'
+
   post_install do |installer|
     react_native_post_install(installer)
 

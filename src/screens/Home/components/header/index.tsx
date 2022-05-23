@@ -1,5 +1,5 @@
 import React from 'react'
-import { MaterialCommunityIcons, Feather } from '@expo/vector-icons'
+import { MaterialCommunityIcons, FontAwesome } from '@expo/vector-icons'
 import { useNavigation } from '@react-navigation/native'
 import { StackNavigationProp } from '@react-navigation/stack'
 
@@ -22,7 +22,7 @@ export function Header(){
       </TouchableOpacity>
 
       <AppMenu onPress={() => navigate('settings')}>
-        <Feather name="settings" size={30} color="#fff" />
+        <FontAwesome name="sliders" size={30} color="#fff" />
       </AppMenu>
       
       <TouchableOpacity color={'#cf3247'} onPress={() => navigate('matches')}>
