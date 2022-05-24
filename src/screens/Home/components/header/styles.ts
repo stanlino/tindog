@@ -13,19 +13,6 @@ export const Container = styled.View`
   padding-right: 20px;
 `
 
-type TouchableOpacityProps = {
-  color: string
-}
-
-export const TouchableOpacity = styled.TouchableOpacity<TouchableOpacityProps>`
-  height: ${RFValue(55)}px;
-  width: ${RFValue(55)}px;
-  justify-content: center;
-  align-items: center;
-  border: 1px solid ${({ color }) => color};
-  border-radius: 10px;
-`
-
 export const AppMenu = styled.TouchableOpacity`
   height: ${RFValue(55)}px;
   width: ${RFValue(55)}px;

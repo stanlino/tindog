@@ -34,6 +34,7 @@
     "expo-status-bar": "~1.2.0",
     "lottie-react-native": "5.0.1",
     "moti": "^0.17.1",
+    "polished": "^4.2.2",
     "react": "17.0.1",
     "react-dom": "17.0.1",
     "react-hook-form": "^7.29.0",
@@ -56,7 +57,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
-    "@types/react": "^18.0.8",
+    "@types/react": "^18.0.9",
     "@types/react-native": "^0.67.4",
     "@types/react-native-snap-carousel": "^3.8.5",
     "@types/styled-components-react-native": "^5.1.3",

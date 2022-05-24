@@ -7,9 +7,9 @@ import { AppRoutesParams } from 'src/types/routes'
 
 import {
   Container, 
-  TouchableOpacity,
   AppMenu
 } from './styles'
+import { SmallButton } from '@components/SmallButton'
 
 export function Header(){
 
@@ -17,17 +17,17 @@ export function Header(){
 
   return (
     <Container>
-      <TouchableOpacity color={'#333b89'} onPress={() => navigate('profile')}>
-        <MaterialCommunityIcons name="dog" size={30} color="#333b89" />
-      </TouchableOpacity>
+      <SmallButton color='#535a9b' onPress={() => navigate('profile')}>
+        <MaterialCommunityIcons name="dog" size={30} color="#fff" />
+      </SmallButton>
 
       <AppMenu onPress={() => navigate('settings')}>
         <FontAwesome name="sliders" size={30} color="#fff" />
       </AppMenu>
       
-      <TouchableOpacity color={'#cf3247'} onPress={() => navigate('matches')}>
-        <MaterialCommunityIcons name="puzzle-heart" size={30} color="#cf3247" />
-      </TouchableOpacity>
+      <SmallButton color={'#e25165'} onPress={() => navigate('matches')}>
+        <MaterialCommunityIcons name="puzzle-heart" size={30} color="#fff" />
+      </SmallButton>
     </Container>
   )
 }
