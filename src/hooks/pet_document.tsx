@@ -17,11 +17,19 @@ import {
 } from "./utils/pet_firestore_functions";
 
 export interface Pet {
-  id?: string
-  user_id?: string
+  id: string
+  user_id: string
   name: string
   photo: string
-  location?: string
+  location: string
+  species: 'dog' | 'cat'
+  sex: 'female' | 'male'
+  description: string
+}
+
+interface CreatePetProps {
+  name: string
+  photo: string
   species: 'dog' | 'cat'
   sex: 'female' | 'male'
   description: string
@@ -30,7 +38,7 @@ export interface Pet {
 interface CurrentPetContextData {
   pets: Pet[]
   currentPet: Pet
-  createPet(pet: Pet): Promise<void>
+  createPet(pet: CreatePetProps): Promise<void>
   updatePetDescription(description: string): Promise<void>
   updatePetPhotoInState(photo_url: string): void
   visualizedProfiles: string[]
@@ -89,7 +97,7 @@ export function CurrentPetProvider({ children } : { children: ReactNode }) {
     fetchVisualizedProfiles()
   },[currentPet])
 
-  async function createPet(props: Pet) {
+  async function createPet(props: CreatePetProps) {
     if (currentPet?.id) return
 
     const pet_id = `${user.uid}-${pets.length}`

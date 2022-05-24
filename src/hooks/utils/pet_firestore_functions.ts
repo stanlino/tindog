@@ -23,7 +23,7 @@ export async function fetchProfilesAlreadyViewed(pet_id: string) {
   return profilesAlreadyViewed
 } 
 
-interface Pet {
+interface CreatePetProps {
   name: string
   photo: string
   species: 'dog' | 'cat'
@@ -37,7 +37,7 @@ export async function createPetDocument(user_id: string, pet_id: string, locatio
   species,
   sex,
   description,
-} : Pet) {
+} : CreatePetProps) {
 
   const storageReference = storage().ref(`pets/${pet_id}`)
   await storageReference.putFile(photo)
