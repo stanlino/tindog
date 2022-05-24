@@ -6,14 +6,15 @@ import {
   useState 
 } from "react";
 
-import { usePet } from "./pet_document";
-import { getMatchDocuments } from "./utils/match_firestore_functions";
+import { Pet, usePet } from "./pet_document";
+import { getMatchDocuments, getSuitorDocuments } from "./utils/match_firestore_functions";
 
 type Match = {
   id: string
   pets: string[]
   itsAMatch: boolean
   contacts: string[]
+  suitor: Pet
 }
 
 interface MatchContextData {
@@ -34,9 +35,25 @@ export function MatchProvider({ children } : { children: ReactNode }) {
 
     if (!currentPet?.id) return setLoading(false)
 
-    const matchDocuments = await getMatchDocuments(currentPet.id!)
-    
-    setMatchs(matchDocuments as unknown as Match[])
+    const matchDocuments = await getMatchDocuments(currentPet.id)
+
+    const suitorsIds = matchDocuments.map(match => {
+      return match.pets.find(id => id !== currentPet.id)
+    })
+
+    const suitorDocuments = await getSuitorDocuments(suitorsIds as string[])
+
+    setMatchs(
+      matchDocuments.map(match => {
+
+      const suitorId = match.pets.find(pet => pet !== currentPet.id)
+
+        return {
+          ...match,
+          suitor: suitorDocuments.find(pet => pet.id === suitorId)!
+        }
+      })
+    )
     setLoading(false)
   }
 

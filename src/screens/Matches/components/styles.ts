@@ -1,8 +1,9 @@
+import { MotiView } from "moti"
 import FastImage from "react-native-fast-image"
 import { RFValue } from "react-native-responsive-fontsize"
 import styled, { css } from "styled-components/native"
 
-export const MatchView = styled.TouchableOpacity.attrs({ activeOpacity: 1 })`
+export const MatchView = styled(MotiView)`
   flex: .49;
 
   background-color: ${({ theme }) => theme.COLORS.SHAPE};
@@ -14,7 +15,7 @@ export const MatchView = styled.TouchableOpacity.attrs({ activeOpacity: 1 })`
   margin-bottom: 10px;
 `
 
-export const Avatar = styled(FastImage).attrs({resizeMode: 'cover'})`
+export const Image = styled(FastImage).attrs({resizeMode: 'cover'})`
   height: 100%;
 `
 

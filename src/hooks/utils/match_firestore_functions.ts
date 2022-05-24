@@ -1,6 +1,23 @@
+import { Pet } from '@hooks/pet_document'
 import firestore from '@react-native-firebase/firestore'
 
-export async function getMatchDocuments(pet_id: string) {
+type Match = {
+  id: string
+  pets: string[]
+  itsAMatch: boolean
+  contacts: string[]
+}
+
+export async function getSuitorDocuments(suitors_id: string[]): Promise<Pet[]> {
+  const suitorsDocumentsReference = await firestore()
+    .collection('pets')
+    .where(firestore.FieldPath.documentId(), 'in', suitors_id)
+    .get()
+
+  return suitorsDocumentsReference.docs.map(doc => ({ ...doc.data(), id: doc.id } as Pet))
+}
+
+export async function getMatchDocuments(pet_id: string): Promise<Match[]> {
 
   const matchDocumentsReference = await firestore()
     .collection('matchs')
@@ -8,5 +25,5 @@ export async function getMatchDocuments(pet_id: string) {
     .where('itsAMatch', '==', true)
     .get()
 
-  return matchDocumentsReference.docs.map(doc => ({ ...doc.data(), id: doc.id }))
+  return matchDocumentsReference.docs.map(doc => ({ ...doc.data(), id: doc.id } as Match))
 }

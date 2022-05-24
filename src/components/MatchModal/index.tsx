@@ -35,11 +35,12 @@ export function MatchModal(){
 
   useEffect(() => {
     const unsubscribe = messaging().onMessage(async remoteMessage => {
-      setIsVisible(true)
       
       const data = remoteMessage.data
+      const notification = remoteMessage.notification
       
       if (!data) return
+      if (notification?.title != 'Combinação!') return
 
       const pets = JSON.parse(data.pets)
 
@@ -59,6 +60,7 @@ export function MatchModal(){
       })
 
       setPets(prevPets)
+      setIsVisible(true)
       fetchMatchDocuments()
 
     });

@@ -38,7 +38,7 @@ export function Matches({ navigation: { goBack } } : MatchesScreenProps){
         data={matchs}
         keyExtractor={item => item.id}
         numColumns={2}
-        renderItem={({ item }) => <Profile item={item} />}
+        renderItem={({ item, index }) => <Profile item={item} index={index} />}
         columnWrapperStyle={{ justifyContent: 'space-between' }}
         ListEmptyComponent={() => {
           return (

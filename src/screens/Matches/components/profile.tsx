@@ -1,16 +1,15 @@
-import React, { useEffect, useState } from 'react'
-import firestore from '@react-native-firebase/firestore'
-import { Alert, Linking } from 'react-native';
+import React from 'react'
 import { StackNavigationProp } from '@react-navigation/stack';
 import { useNavigation } from '@react-navigation/native';
+import { TouchableOpacity } from 'react-native';
 
-import { Pet, usePet } from '../../../hooks/pet_document'
+import { Pet } from '../../../hooks/pet_document'
 import { useAuth } from '../../../hooks/auth';
 
 import { AppRoutesParams } from '@types_/routes';
 
 import { 
-  Avatar,
+  Image,
   MatchView, 
   Name, 
   Bellow
@@ -21,22 +20,19 @@ type MatchData = {
   pets: string[]
   itsAMatch: boolean
   contacts: string[]
+  suitor: Pet
 }
 
 interface ProfileProps {
   item: MatchData
+  index: number
 }
 
-export function Profile({ item } : ProfileProps){
-
-  const { currentPet } = usePet()
+export function Profile({ item, index } : ProfileProps){
 
   const { navigate } = useNavigation<StackNavigationProp<AppRoutesParams, 'profile'>>()
 
-  const [petProfile, setPetProfile] = useState({} as Pet)
   const { user } = useAuth()
-
-  const petId = item.pets.find(pet => pet !== currentPet.id!)  
 
   function getOwnerContact() {
     const contact = item.contacts.find(contact => {
@@ -52,33 +48,36 @@ export function Profile({ item } : ProfileProps){
     const contact = getOwnerContact()
 
     navigate('presentation', {
-      pet: petProfile,
+      pet: item.suitor,
       itsAMatch: true,
       contact
     })
   }
-
-  useEffect(() => {
-    async function getPetDoc() {
-      const petDoc = await firestore().collection('pets').doc(petId).get()
-      setPetProfile({ ...petDoc.data(), id: petDoc.id } as Pet) 
-    }
-
-    getPetDoc()
-  }, [])
 
   return (
     <MatchView 
       style={{ 
         elevation: 2,
         aspectRatio: 41/57
-      }} 
-      onPress={naviteToProfile}
+      }}
+      from={{
+        translateY: 100
+      }}
+      animate={{
+        translateY: 0
+      }}
+      transition={{
+        mass: 1,
+        damping: 15,
+        delay: 100 * (index + 1)
+      }}
     >
-      <Avatar source={{ uri: petProfile.photo }} />
-      <Bellow>
-        <Name adjustsFontSizeToFit>{petProfile.name}</Name>
-      </Bellow>
+      <TouchableOpacity activeOpacity={.9} onPress={naviteToProfile}>
+        <Image source={{ uri: item.suitor.photo }} />
+        <Bellow>
+          <Name adjustsFontSizeToFit>{item.suitor.name}</Name>
+        </Bellow>
+      </TouchableOpacity>
     </MatchView>
   )
 }
