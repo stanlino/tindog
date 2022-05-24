@@ -14,10 +14,9 @@ import { Input } from '@components/Input'
 export const ImageWrapper = styled.View``
 
 export const Image = styled(FastImage).attrs({
-  resizeMode: 'contain'
+  resizeMode: 'cover'
 })`
   width: ${width}px;
-  height: ${width * 1.39}px;
 `
 
 export const WavesSvg = styled(Waves).attrs({

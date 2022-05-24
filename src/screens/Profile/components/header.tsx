@@ -64,7 +64,7 @@ export function Header({ image, handleSetImage, currentPet, updatePetPhotoInStat
     <Fragment>
 
       {image ? (
-          <Image source={{ uri: image }} />
+          <Image style={{ aspectRatio: 41/57 }} source={{ uri: image }} />
         ) : (
           <PickImageView onPress={pickImage}>
             <Feather name="image" size={30} />
