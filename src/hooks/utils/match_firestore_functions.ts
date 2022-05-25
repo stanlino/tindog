@@ -9,6 +9,9 @@ type Match = {
 }
 
 export async function getSuitorDocuments(suitors_id: string[]): Promise<Pet[]> {
+
+  if (suitors_id.length < 1) return []
+
   const suitorsDocumentsReference = await firestore()
     .collection('pets')
     .where(firestore.FieldPath.documentId(), 'in', suitors_id)
