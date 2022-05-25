@@ -1,19 +1,17 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import { Alert, ScrollView, StatusBar } from 'react-native'
 
 import { Header } from './components/header';
 import { Form } from './components/form';
+import { Loading } from '@components/Loading';
 
 import { ProfileScreenProps } from '../../types/routes';
 
 import { usePet } from '../../hooks/pet_document';
-import { useUserDocument } from '../../hooks/user_document';
-
 
 import { 
   Container,
 } from './styles'
-import { Loading } from '@components/Loading';
 
 interface FormData {
   [name: string]: any;
@@ -22,7 +20,6 @@ interface FormData {
 export function Profile({ navigation } : ProfileScreenProps){
 
   const { currentPet, createPet, updatePetDescription, updatePetPhotoInState } = usePet()
-  const { userDocument } = useUserDocument()
 
   const [loading, setLoading] = useState(false)
 
@@ -70,14 +67,6 @@ export function Profile({ navigation } : ProfileScreenProps){
       { text: 'Prosseguir', onPress: () => updateProfile(form)}
     ])
   }
- 
-  useEffect(() => {
-    if (!userDocument.user_name) {
-      setTimeout(() => {
-        navigation.navigate('settings')
-      }, 100);
-    }
-  },[userDocument.user_name])
 
   return (
     <Container>
