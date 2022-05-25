@@ -1,59 +1,38 @@
-import React, { 
-  useEffect, 
-  useState
-} from 'react'
+import React from 'react'
 
-import { Alert, BackHandler, ScrollView, StatusBar, TouchableOpacity } from 'react-native'
-import { AntDesign } from '@expo/vector-icons'; 
+import { Alert, FlatList, Linking, Share, StatusBar } from 'react-native'
+import { AntDesign, MaterialIcons } from '@expo/vector-icons'; 
 
-import { Input } from '@components/Input';
-import { Button } from '@components/Button';
-
-import { useUserDocument } from '../../hooks/user_document';
 import { useAuth } from '../../hooks/auth';
+import { useUserDocument } from '@hooks/user_document';
 
 import { SettingsScreenProps } from 'src/types/routes';
 
+import { SmallButton } from '@components/SmallButton';
+
 import { 
-  Form,
   Row,
-  Label,
-  UserLocation,
   Container,
+  Profile,
+  ProfileImage,
+  ProfileBlock,
+  ProfileName,
+  ProfileLocation,
+  ListItem,
+  ItemTitle,
+  Separator
 } from './styles'
+
+type Option = {
+  name: string
+  icon: keyof typeof MaterialIcons.glyphMap
+  action: () => void
+}
 
 export function Settings({ navigation } : SettingsScreenProps) {
 
-  const { updateUserDocument, userDocument } = useUserDocument()
-  const { signOut } = useAuth()
-
-  const [userName, setUserName] = useState(userDocument.user_name || '')
-  const [userCEP, setUserCEP] = useState(userDocument.user_cep || '')
-  const [userLocation, setUserLocation] = useState(userDocument.user_location || '')
-
-  function handleSetCEP(text: string) {
-    if (userCEP.length >= 5) {
-      setUserCEP(text.replace(/^(\d{5})(\d)/, "$1 $2"))
-    } else {
-      setUserCEP(text)
-    }
-  }
-
-  async function handleUpdateUser() {
-    if (userName.length < 3) return Alert.alert('Opa', 'Insira um nome com pelo menos 3 caracteres!')
-    if (userLocation === 'undefined - undefined') return Alert.alert('Opa', 'Insira um CEP válido')
-    if (userLocation === '') return Alert.alert('Opa', 'Insira um CEP válido')
-    if (userCEP.length !== 9) return Alert.alert('Opa', 'Insira um CEP válido')
-
-    updateUserDocument({
-      user_name: userName,
-      user_cep: userCEP,
-      user_location: userLocation
-    })
-
-    navigation.goBack()
-    
-  }
+  const { signOut, user } = useAuth()
+  const { userDocument } = useUserDocument()
 
   function handleSignOut() {
     Alert.alert('Sair da conta', 'Tem certeza que deseja sair da conta?', [
@@ -62,72 +41,50 @@ export function Settings({ navigation } : SettingsScreenProps) {
     ], { cancelable: true })
   }
 
-  function cepRequiredAlert() {
-    Alert.alert('Olá', 'Precisamos do seu CEP para que o tindog ofereça a você perfis de pets próximos a sua região.')
-  }
+  async function handleShare() {
+    await Share.share({
+      message: 'https://play.google.com/store/apps/details?id=com.tindog\nOi, já conhece o Tindog? Encontre o parceiro certo para seu pet!',
+    });
+  };
 
-  useEffect(() => {
-    if (userCEP.length === 9) {
-      fetch(`https://brasilapi.com.br/api/cep/v2/${userCEP.replace(/[^\d]/g, "")}`)
-        .then(response => response.json())
-        .then(data => {
-          setUserLocation(`${data.city} - ${data.state}`)
-        })
-    } else {
-      setUserLocation(``)
-    }
-  },[userCEP.length === 9])
+  async function handleClickPrivacyTip() {
+    Linking.openURL('https://www.notion.so/Pol-tica-de-privacidade-do-tindog-f2c3d48106d041eda8cee5a34468cef4')
+  };
 
-  useEffect(() => {
-    const backHandler = BackHandler.addEventListener('hardwareBackPress', () => {
-      if (userDocument.user_name) return false
-      return true
-    })
-
-    return () => backHandler.remove()
-  },[])
-
-  function goBack() {
-    if (userDocument.user_name) navigation.goBack()
-  }
-
+  const options: Option[] = [
+    // { name: 'Tema', icon: 'brightness-medium', action: () => {} },
+    { name: 'Minha privacidade', icon: 'privacy-tip', action: handleClickPrivacyTip },
+    { name: 'Feedback', icon: 'feedback', action: () => {} },
+    { name: 'Compartilhe o tindog', icon: 'share', action: handleShare },
+    { name: 'Sair', icon: 'exit-to-app', action: handleSignOut },
+  ]
+  
   return (
     <Container>
       <StatusBar translucent barStyle={'light-content'} backgroundColor={'#0000'}/>
-      <ScrollView>
-        <Row>
-          <TouchableOpacity onPress={handleSignOut}>
-            <AntDesign name="logout" size={40} color="red" />
-          </TouchableOpacity>
-
-          <TouchableOpacity onPress={goBack}>
-            <AntDesign name="down" size={40} color="#000" />
-          </TouchableOpacity>
-        </Row>
-
-        <Form>
-          <Label>Seu nome</Label>
-          <Input editable autoCorrect={false} value={userName} onChangeText={setUserName} autoCapitalize='words' placeholder='Fulano Ciclano' />
-          
-          <Label>Seu CEP</Label>
-          <Row>
-            <Input editable maxLength={9} value={userCEP} onChangeText={handleSetCEP} keyboardType='number-pad' placeholder='xxxxx xxx' />
-            <TouchableOpacity style={{ marginLeft: 15 }} onPress={cepRequiredAlert}>
-              <AntDesign name="questioncircleo" size={30} color="green" />
-            </TouchableOpacity>
-          </Row>
-          <UserLocation>
-            {userLocation != 'undefined - undefined' ? userLocation : 'CEP inexistente!'}
-          </UserLocation>
-        </Form>
-      </ScrollView>
-      {
-        userLocation === userDocument.user_location &&
-        userName === userDocument.user_name &&
-        userCEP === userDocument.user_cep ?
-        null  
-        : <Button onPress={handleUpdateUser} title='Salvar dados' />
-      }
+      <Row>
+        <Profile>
+          <ProfileImage source={{ uri: user.photoURL! }} />
+          <ProfileBlock>
+            <ProfileName>{user.displayName}</ProfileName>
+            <ProfileLocation>{userDocument.user_location}</ProfileLocation>
+          </ProfileBlock>
+        </Profile>
+        <SmallButton color='#dbe9f4' onPress={() => navigation.goBack()}>
+          <AntDesign name="close" size={30} color="#000" />
+        </SmallButton>
+      </Row>
+      <FlatList 
+        data={options}
+        keyExtractor={(_, index) => index.toString()}
+        ItemSeparatorComponent={Separator}
+        renderItem={({ item }) => (
+          <ListItem onPress={item.action}>
+            <MaterialIcons name={item.icon} size={24} color="black" />
+            <ItemTitle>{item.name}</ItemTitle>
+          </ListItem>
+        )}
+      />
     </Container>
   )
 }
