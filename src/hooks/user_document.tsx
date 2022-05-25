@@ -13,16 +13,15 @@ import {
 interface UserProperties {
   user_name: string
   user_location: string
-  user_cep: string
 }
 
 interface UserDocumentContextData {
   userDocument: UserProperties
   updateUserDocument({
     user_name,
-    user_location,
-    user_cep
+    user_location
   }: UserProperties) : void 
+  userDocumentCreated: boolean
 }
 
 const UserDocumentContext = createContext({} as UserDocumentContextData)
@@ -34,29 +33,27 @@ export function UserDocumentProvider({ children }: { children: ReactNode }) {
   const [userDocument, setUserDocument] = useState({} as UserProperties)
   const [initializing, setInitializing] = useState(true)
 
+  const userDocumentCreated = userDocument.user_name ? true : false
+
   const userDocumentReference = firestore().collection('users').doc(user.uid)
 
   function updateUserDocument({
     user_name,
-    user_location,
-    user_cep
+    user_location
   }: UserProperties) {
     userDocument.user_name ?
       updateUserDoc(user.uid, {
-        user_cep,
         user_location,
         user_name
       })
     : createUserDocument(user.uid, {
-      user_cep,
       user_location,
       user_name
     })
 
     setUserDocument({
       user_name,
-      user_location,
-      user_cep
+      user_location
     })
 
   }
@@ -93,6 +90,7 @@ export function UserDocumentProvider({ children }: { children: ReactNode }) {
     <UserDocumentContext.Provider value={{
       userDocument,
       updateUserDocument,
+      userDocumentCreated
     }}>
       {children}
     </UserDocumentContext.Provider>
