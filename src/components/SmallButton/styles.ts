@@ -23,6 +23,8 @@ export const Container = styled(MotiView)<ButtonProps>`
   align-items: center;
   background-color: ${({ color }) => color};
   border-radius: 10px;
+  border-width: 1px;
+  border-color: ${({ color }) => darken(0.05, color)};
 
   position: absolute;
 

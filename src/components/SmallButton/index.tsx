@@ -37,10 +37,7 @@ export function SmallButton({ children, color, ...rest } : SmallButtonProps){
       onPressOut={() => animateButton('pressOut')}
       {...rest}
     >
-      <Container 
-        style={{
-          elevation: 1
-        }} 
+      <Container  
         color={color} 
         state={buttonAnimation}
       >
