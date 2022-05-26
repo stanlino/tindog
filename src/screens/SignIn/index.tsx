@@ -15,10 +15,10 @@ import { Container } from '@components/Container'
 import { Button } from '@components/Button'
 
 import {
-  Header,
+  Wrapper,
   Title,
   Footer,
-  SubTitle,
+  Background
 } from './styles'
 
 export function SignIn(){
@@ -54,21 +54,23 @@ export function SignIn(){
   return (
     <Container>
       <Title>tindog</Title>
-      <Header>
-        <AnimatedLottieView
-          source={require('@assets/lottie/dog-love.json')}
-          style={{
-            width: RFPercentage(50),
-          }}
-          speed={0.9}
-          autoPlay
-          loop
-        />
-      </Header>
+      <Wrapper>
+        <Background>
+          <AnimatedLottieView
+            source={require('@assets/lottie/dog-love.json')}
+            style={{
+              width: '90%',
+              transform: [{ translateY: RFPercentage(2) }]
+            }}
+            speed={0.8}
+            autoPlay
+            loop
+          />
+        </Background>
+      </Wrapper>
       <Footer>
-        <SubTitle>Faça login com sua conta google!</SubTitle>
         <Button 
-          title='Entrar'
+          title='Entrar com Google'
           loading={loading}
           onPress={handleSignInWithGoogle}
         />

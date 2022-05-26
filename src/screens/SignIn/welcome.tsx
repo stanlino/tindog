@@ -8,32 +8,32 @@ import { Button } from '@components/Button'
 import { WelcomeScreenProps } from 'src/types/routes'
 
 import { 
-  Warning,
+  Span,
   Title, 
-  Header
+  Wrapper,
 } from './styles'
 
 export function Welcome({ navigation } : WelcomeScreenProps){
   return (
     <Container>
-      <Title>Atenção!</Title>
-      <Warning>
-        Este é um app em fase de testes!  
-        Pode ser que você encontre algumas 
-        coisas fora do lugar.
-      </Warning>
-      <Header>
-        <AnimatedLottieView 
-          source={require('@assets/lottie/maintenance.json')}
-          style={{
-            width: RFPercentage(50),
-          }}
-          speed={0.9}
-          autoPlay
-          loop
-        />
-      </Header>
-      <Button title="Vamos nessa!" onPress={() => navigation.navigate('index')} />
+      <Wrapper>
+        <Title>Olá</Title>
+        <Span>
+          Todo mundo merece um love e seu bixano mais do que ninguém! Seja bem vindo ao Tindog!
+        </Span>
+        <Wrapper>
+          <AnimatedLottieView 
+            source={require('@assets/lottie/cat-love.json')}
+            style={{
+              width: RFPercentage(40),
+            }}
+            speed={0.5}
+            autoPlay
+            loop
+          />
+        </Wrapper>
+      </Wrapper>
+      <Button title="Avançar" onPress={() => navigation.navigate('index')} />
     </Container>
   )
 }
