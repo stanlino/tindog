@@ -15,7 +15,8 @@ import {
   BackButton,
   Title,
   Content,
-  Output
+  Output,
+  Span
 } from './styles'
 
 export function Matches({ navigation: { goBack } } : MatchesScreenProps){
@@ -55,6 +56,7 @@ export function Matches({ navigation: { goBack } } : MatchesScreenProps){
               <Output>
                 Ainda não há combinações
               </Output>
+              <Span>Combinações acontecem quando dois perfis curtem um ao outro</Span>
             </Content>
           )
         }}

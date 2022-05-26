@@ -48,3 +48,14 @@ export const Output = styled.Text`
   text-align: center;
   margin-top: 30px;
 `
+
+export const Span = styled.Text`
+  text-align: center;
+  ${({ theme: { COLORS, FONTS } }) => css`
+    font-family: ${FONTS.LIGHT};
+    color: ${COLORS.TITLE};
+  `}
+  font-size: ${RFValue(12)}px;
+  text-transform: uppercase;
+  margin: 10px 20px;
+`
