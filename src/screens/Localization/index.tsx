@@ -37,14 +37,10 @@ export function Localization({ navigation } : LocalizationScreenProps){
     const location = await Location.getCurrentPositionAsync({})
 
     try {
-      const response = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${location.coords.latitude},${location.coords.longitude}&key=AIzaSyDfqFNagXY959SW3VdHWy2Zl-BjShtfWwk`)
-      const json = await response.json()
+      const response = await fetch(`https://tindog-messaging-api.herokuapp.com/localization/localization?latitude=${location.coords.latitude}&longitude=${location.coords.longitude}`)
+      const text = await response.text()
 
-      const city = json['results'][0]['address_components'][3]['long_name']
-      const state = json['results'][0]['address_components'][4]['long_name']
-
-      const user_location = `${city} - ${state}`
-      return user_location
+      return text as unknown as string
     } catch {
       return 'ERROR'
     } finally {
@@ -54,7 +50,6 @@ export function Localization({ navigation } : LocalizationScreenProps){
 
   async function handleCreateUserDocument() {
     const user_location = await getUserLocation()
-    console.log(user_location)
     if (user_location === 'ERROR') return setPermissionDenied(true)
     if (user_location === 'NOT') return setPermissionDenied(true)
 
