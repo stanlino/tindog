@@ -1,5 +1,6 @@
 import React, { useCallback, useState } from 'react'
 import { Alert, ScrollView, StatusBar } from 'react-native'
+import { StackActions } from '@react-navigation/native';
 
 import { Header } from './components/header';
 import { Form } from './components/form';
@@ -53,7 +54,9 @@ export function Profile({ navigation } : ProfileScreenProps){
         description: form.description,
       })
       setLoading(false)
-      navigation.navigate('home')
+      navigation.dispatch(
+        StackActions.replace('home')
+      )
     }
   }
 

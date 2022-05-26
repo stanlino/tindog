@@ -39,7 +39,7 @@ async function updateImageInFirebase(newImage: string, petId: string) {
 
 export function Header({ image, handleSetImage, currentPet, updatePetPhotoInState } : HeaderProps) {
 
-  const { navigate } = useNavigation<StackNavigationProp<AppRoutesParams, 'profile'>>()
+  const { goBack } = useNavigation<StackNavigationProp<AppRoutesParams, 'profile'>>()
 
   const pickImage = useCallback(async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -80,7 +80,7 @@ export function Header({ image, handleSetImage, currentPet, updatePetPhotoInStat
           </Button>
         )}
         {currentPet?.id && (
-          <Button onPress={() => navigate('home')}>
+          <Button onPress={() => goBack()}>
             <Feather name="arrow-right" size={30} color="white" />
           </Button>
         )}
