@@ -13,6 +13,7 @@ import { Profile } from "@screens/Profile";
 import { Presentation } from '@screens/Presentation';
 import { Settings } from '@screens/Settings';
 import { Localization } from '@screens/Localization';
+import { Feedback } from '@screens/Feedback';
 
 const { Navigator, Screen } = createSharedElementStackNavigator<AppRoutesParams>()
 
@@ -55,6 +56,14 @@ export function AppRoutes() {
       <Screen 
         component={Settings} 
         name='settings' 
+        options={{
+          cardStyleInterpolator: CardStyleInterpolators.forModalPresentationIOS,
+        }}
+      />
+
+      <Screen 
+        component={Feedback} 
+        name='feedback' 
         options={{
           cardStyleInterpolator: CardStyleInterpolators.forModalPresentationIOS,
         }}

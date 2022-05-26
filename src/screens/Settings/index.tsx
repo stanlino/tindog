@@ -54,7 +54,7 @@ export function Settings({ navigation } : SettingsScreenProps) {
   const options: Option[] = [
     // { name: 'Tema', icon: 'brightness-medium', action: () => {} },
     { name: 'Minha privacidade', icon: 'privacy-tip', action: handleClickPrivacyTip },
-    { name: 'Feedback', icon: 'feedback', action: () => {} },
+    { name: 'Feedback', icon: 'feedback', action: () => navigation.navigate('feedback') },
     { name: 'Compartilhe o tindog', icon: 'share', action: handleShare },
     { name: 'Sair', icon: 'exit-to-app', action: handleSignOut },
   ]
