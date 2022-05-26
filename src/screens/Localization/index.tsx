@@ -19,6 +19,7 @@ import {
 
 export function Localization({ navigation } : LocalizationScreenProps){
 
+  const [loading, setLoading] = useState(false)
   const [permissionDenied, setPermissionDenied] = useState(false)
 
   const { updateUserDocument } = useUserDocument()
@@ -28,8 +29,10 @@ export function Localization({ navigation } : LocalizationScreenProps){
     const { status } = await Location.requestForegroundPermissionsAsync()
 
     if (status !== 'granted') {
-      return 'ERROR'
+      return 'NOT'
     }
+
+    setLoading(true)
 
     const location = await Location.getCurrentPositionAsync({})
 
@@ -44,13 +47,16 @@ export function Localization({ navigation } : LocalizationScreenProps){
       return user_location
     } catch {
       return 'ERROR'
+    } finally {
+      setLoading(false)
     }
   }
 
   async function handleCreateUserDocument() {
     const user_location = await getUserLocation()
-
+    console.log(user_location)
     if (user_location === 'ERROR') return setPermissionDenied(true)
+    if (user_location === 'NOT') return setPermissionDenied(true)
 
     updateUserDocument({
       user_name: user.displayName!,
@@ -75,7 +81,7 @@ export function Localization({ navigation } : LocalizationScreenProps){
           Por favor, habilite o acesso a localizão para que possamos buscar por pets próximos a você.
         </Span>
       </Wrapper>
-      <Button title='Prosseguir' onPress={handleCreateUserDocument} />
+      <Button title='Prosseguir' loading={loading} onPress={handleCreateUserDocument} />
     </Container>
   )
 }
