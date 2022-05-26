@@ -20,7 +20,8 @@ import {
   ProfileLocation,
   ListItem,
   ItemTitle,
-  Separator
+  Separator,
+  Version
 } from './styles'
 
 type Option = {
@@ -85,6 +86,7 @@ export function Settings({ navigation } : SettingsScreenProps) {
           </ListItem>
         )}
       />
+      <Version>tindog versão 1.3</Version>
     </Container>
   )
 }

@@ -78,3 +78,13 @@ export const Separator = styled.View`
   background-color: #0001;
   align-self: center;
 `
+
+export const Version = styled.Text`
+  text-align: center;
+  ${({ theme: { COLORS, FONTS } }) => css`
+    font-family: ${FONTS.LIGHT};
+    color: ${COLORS.TITLE};
+  `}
+  font-size: ${RFValue(12)}px;
+  text-transform: uppercase;
+`
