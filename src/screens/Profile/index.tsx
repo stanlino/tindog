@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { Modal, ScrollView, StatusBar } from 'react-native'
-import { AntDesign, MaterialIcons } from '@expo/vector-icons'; 
+import { AntDesign } from '@expo/vector-icons'; 
+import { format, intervalToDuration, parse } from 'date-fns';
 
 import { Header } from './components/header';
 import { Button } from '@components/Button';
@@ -20,6 +21,11 @@ import {
   TextArea,
 } from './styles'
 
+type DateFormatted = {
+  nanoseconds: number
+  seconds: number
+}
+
 export function Profile({ navigation } : ProfileScreenProps){
 
   const { currentPet, updatePetDescription } = usePet()
@@ -30,6 +36,16 @@ export function Profile({ navigation } : ProfileScreenProps){
 
   function handleSetImage(imageUrl: string) {
     setPhoto(imageUrl)
+  }
+
+  function calculateFullAge() {
+    const date = currentPet.birth_date as unknown as DateFormatted
+    const dateFormatted = new Date(date.seconds * 1000)
+
+    const birthDate = parse(format(dateFormatted, 'dd/MM/yyyy'), "dd/MM/yyyy", new Date())
+    const { years, months } = intervalToDuration({ start: birthDate, end: new Date() })
+
+    return `${years} anos${months! > 0 ? ` e ${months} meses` : ''}`
   }
 
   return (
@@ -73,7 +89,7 @@ export function Profile({ navigation } : ProfileScreenProps){
           />
           <Row style={{ justifyContent: 'space-between', alignItems: 'center' }}>
             <Name>{currentPet.name}</Name>
-            <BirthDate>2 anos</BirthDate>
+            <BirthDate>{calculateFullAge()}</BirthDate>
           </Row>
 
           <Wrapper>

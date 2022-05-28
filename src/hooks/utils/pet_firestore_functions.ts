@@ -5,9 +5,9 @@ export async function fetchPetDocuments(user_id: string) {
   const petDocumentsReference = firestore().collection('pets').where('user_id', '==', user_id)
   const petDocuments = await petDocumentsReference.get()
 
-  const petDocumentNotEmpty = petDocuments.empty
+  const petDocumentEmpty = petDocuments.empty
 
-  if (petDocumentNotEmpty) return
+  if (petDocumentEmpty) return
 
   return petDocuments
 }
@@ -29,6 +29,7 @@ interface CreatePetProps {
   species: 'dog' | 'cat'
   sex: 'female' | 'male'
   description: string
+  birthDate: Date
 }
 
 export async function createPetDocument(user_id: string, pet_id: string, location: string, {
@@ -37,6 +38,7 @@ export async function createPetDocument(user_id: string, pet_id: string, locatio
   species,
   sex,
   description,
+  birthDate
 } : CreatePetProps) {
 
   const storageReference = storage().ref(`pets/${pet_id}`)
@@ -50,6 +52,7 @@ export async function createPetDocument(user_id: string, pet_id: string, locatio
     species,
     sex,
     description,
+    birth_date: birthDate,
     location
   }
 

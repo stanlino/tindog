@@ -8,7 +8,7 @@ import { SuperSpan } from './styles'
 
 export function PetCreated(){
 
-  const { photo, species, name, sex, description, updatePropertties, petCreated } = useAddPet()
+  const { photo, species, name, sex, description, birthDate, updatePropertties, petCreated } = useAddPet()
   const { createPet } = usePet()
 
   useEffect(() => {
@@ -17,7 +17,8 @@ export function PetCreated(){
       species,
       name,
       sex,
-      description
+      description,
+      birthDate
     }).then(() => {
       updatePropertties({
         petCreated: true

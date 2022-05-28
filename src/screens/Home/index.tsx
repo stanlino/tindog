@@ -3,6 +3,7 @@ import Swiper from 'react-native-deck-swiper'
 import firestore from '@react-native-firebase/firestore'
 import AnimatedLottieView from 'lottie-react-native'
 import { RFPercentage } from 'react-native-responsive-fontsize'
+import { format, intervalToDuration, parse } from 'date-fns'
 
 import { usePet, Pet } from '../../hooks/pet_document'
 import { useAuth } from '../../hooks/auth'
@@ -27,6 +28,11 @@ import {
   Name,
   Location,
 } from './styles'
+
+type DateFormatted = {
+  nanoseconds: number
+  seconds: number
+}
 
 export function Home({ navigation } : HomeScreenProps){
 
@@ -65,6 +71,16 @@ export function Home({ navigation } : HomeScreenProps){
     updateVisualizedProfiles(petProfiles[currentProfile].id!)
     viewProfile(currentPet.id!, petProfiles[currentProfile].id!, 'like')
     likeProfile(currentPet!, petProfiles[currentProfile], user?.email ?? user?.phoneNumber as string)
+  }
+
+  function calculateFullAge(pet_birth_date: Date) {
+    const date = pet_birth_date as unknown as DateFormatted
+    const dateFormatted = new Date(date.seconds * 1000)
+
+    const birthDate = parse(format(dateFormatted, 'dd/MM/yyyy'), "dd/MM/yyyy", new Date())
+    const { years, months } = intervalToDuration({ start: birthDate, end: new Date() })
+
+    return `${years} anos${months! > 0 ? ` e ${months} meses` : ''}`
   }
 
   useEffect(() => {
@@ -160,7 +176,7 @@ export function Home({ navigation } : HomeScreenProps){
                     <Photo source={{ uri: profile.photo }} />
                     <Content>
                       <Name>{profile.name}</Name>
-                      <Location>{profile.location}</Location>
+                      <Location>{calculateFullAge(profile.birth_date)}</Location>
                     </Content>
                   </Card>
                 )

@@ -25,6 +25,7 @@ export interface Pet {
   species: 'dog' | 'cat'
   sex: 'female' | 'male'
   description: string
+  birth_date: Date
 }
 
 interface CreatePetProps {
@@ -33,6 +34,7 @@ interface CreatePetProps {
   species: 'dog' | 'cat'
   sex: 'female' | 'male'
   description: string
+  birthDate: Date
 }
 
 interface CurrentPetContextData {

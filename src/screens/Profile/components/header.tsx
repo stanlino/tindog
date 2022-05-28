@@ -1,5 +1,5 @@
 import { Fragment, useCallback, useRef } from "react";
-import { Feather } from '@expo/vector-icons'; 
+import { Feather, MaterialCommunityIcons } from '@expo/vector-icons'; 
 import * as ImagePicker from 'expo-image-picker';
 import storage from '@react-native-firebase/storage'
 import firestore from '@react-native-firebase/firestore'
@@ -68,7 +68,7 @@ export function Header({ image, handleSetImage } : HeaderProps) {
 
       <Head>
         <Button onPress={pickImage}>
-          <Feather name="image" size={30} color="white" />
+          <MaterialCommunityIcons name="image-edit" size={30} color="white" />
         </Button>
         <Button onPress={() => goBack()}>
           <Feather name="arrow-right" size={30} color="white" />

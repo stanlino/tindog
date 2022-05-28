@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from 'react'
 import * as ImagePicker from 'expo-image-picker';
-import { MaterialIcons } from '@expo/vector-icons'; 
+import { MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons'; 
 
 import { SmallButton } from '@components/SmallButton'
 import { Container } from './container'
@@ -32,8 +32,8 @@ export function SetPetImage(){
     <Container>
       {photo ? 
         <>
-          <SmallButton onPress={pickImage} color='grey' style={{ alignSelf: 'flex-end' }}>
-            <MaterialIcons name='replay' color='#fff' size={30} />
+          <SmallButton onPress={pickImage} color='#333b89' style={{ alignSelf: 'flex-end' }}>
+            <MaterialCommunityIcons name="image-edit" size={30} color="white" />
           </SmallButton>
           <ImagePreview source={{ uri: photo }} />
         </>

@@ -2,6 +2,7 @@ import React from 'react'
 import { MaterialIcons } from '@expo/vector-icons'
 import { Alert, Linking, StatusBar } from 'react-native'
 import { Button } from '@components/Button'
+import { format, intervalToDuration, parse } from 'date-fns'
 
 import { PresentationProps } from '@types_/routes'
 
@@ -16,6 +17,11 @@ import {
   Location
 } from './styles'
 
+type DateFormatted = {
+  nanoseconds: number
+  seconds: number
+}
+
 export function Presentation({ navigation, route: { params } } : PresentationProps){
 
   const {
@@ -23,6 +29,16 @@ export function Presentation({ navigation, route: { params } } : PresentationPro
     itsAMatch,
     contact
   } = params
+
+  function calculateFullAge(pet_birth_date: Date) {
+    const date = pet_birth_date as unknown as DateFormatted
+    const dateFormatted = new Date(date.seconds * 1000)
+
+    const birthDate = parse(format(dateFormatted, 'dd/MM/yyyy'), "dd/MM/yyyy", new Date())
+    const { years, months } = intervalToDuration({ start: birthDate, end: new Date() })
+
+    return `${years} anos${months! > 0 ? ` e ${months} meses` : ''}`
+  }
 
   const petArticle = pet.sex === 'male' ? 'o' : 'a'
 
@@ -68,7 +84,7 @@ export function Presentation({ navigation, route: { params } } : PresentationPro
       >
         <Row>
           <Name>{pet.name}</Name>
-          <Location>{pet.location}</Location>
+          <Location>{calculateFullAge(pet.birth_date)}</Location>
         </Row>
         <Description>{pet.description}</Description>
         {itsAMatch && <Button title='Escrever email' onPress={redirectToEmail} />}
