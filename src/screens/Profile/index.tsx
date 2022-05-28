@@ -1,98 +1,94 @@
-import React, { useCallback, useState } from 'react'
-import { Alert, ScrollView, StatusBar } from 'react-native'
-import { StackActions } from '@react-navigation/native';
+import React, { useState } from 'react'
+import { Modal, ScrollView, StatusBar } from 'react-native'
+import { AntDesign, MaterialIcons } from '@expo/vector-icons'; 
 
 import { Header } from './components/header';
-import { Form } from './components/form';
-import { Loading } from '@components/Loading';
+import { Button } from '@components/Button';
+import { SmallButton } from '@components/SmallButton';
 
 import { ProfileScreenProps } from '../../types/routes';
 
 import { usePet } from '../../hooks/pet_document';
 
 import { 
-  Container,
+  Container, 
+  BirthDate, 
+  Name, 
+  Row,
+  Wrapper,
+  Description,
+  TextArea,
 } from './styles'
-
-interface FormData {
-  [name: string]: any;
-}
 
 export function Profile({ navigation } : ProfileScreenProps){
 
-  const { currentPet, createPet, updatePetDescription, updatePetPhotoInState } = usePet()
+  const { currentPet, updatePetDescription } = usePet()
 
-  const [loading, setLoading] = useState(false)
-
-  const [photo, setPhoto] = useState(currentPet?.photo)
-  const [species, setSpecies] = useState(currentPet?.species ?? 'dog')
-  const [sex, setSex] = useState(currentPet?.sex ?? 'male')
-
-  const handleToggleSex = useCallback(() => {
-    setSex(sex => sex === 'female' ? 'male' : 'female')
-  }, [])
-
-  const handleToggleSpecies = useCallback(() => {
-    setSpecies(sex => sex === 'dog' ? 'cat' : 'dog')
-  }, [])
+  const [photo, setPhoto] = useState(currentPet.photo)
+  const [description, setDescription] = useState(currentPet.description)
+  const [modalVisible, setModalVisible] = useState(false)
 
   function handleSetImage(imageUrl: string) {
     setPhoto(imageUrl)
-  }
-
-  async function updateProfile(form: FormData) {
-    setLoading(true)
-    if (currentPet?.id) {
-      await updatePetDescription(form.description)
-      setLoading(false)
-    } else {
-      await createPet({
-        name: form.name,
-        photo,
-        sex,
-        species,
-        description: form.description,
-      })
-      setLoading(false)
-      navigation.dispatch(
-        StackActions.replace('home')
-      )
-    }
-  }
-
-  function handleUpdateProfile(form: FormData) {
-    if (!photo) return Alert.alert('Ops', 'Não se esqueça de adicionar uma foto pra iluminar o perfil ☀️')
-    if (currentPet?.id){
-      return updateProfile(form)
-    }
-    return Alert.alert('Aviso!', 'A descrição é editável e você pode alterar sempre que desejar, os demais são permanentes! (Nome, Sexo, Espécie)', [
-      { text: 'Cancelar' },
-      { text: 'Prosseguir', onPress: () => updateProfile(form)}
-    ])
   }
 
   return (
     <Container>
       <StatusBar translucent barStyle={'light-content'} backgroundColor={'#0003'}/>
 
-      <Loading visible={loading} />
+        {modalVisible && (
+          <Modal visible animationType='fade' onRequestClose={() => setModalVisible(false)}>
+            <StatusBar hidden />
+            <Container>
+              <Row>
+                <SmallButton color='#fff' onPress={() => setModalVisible(false)}>
+                  <AntDesign name="close" size={30} color="#000" />
+                </SmallButton>
+              </Row>
+              <Wrapper>
+                <TextArea 
+                  value={description} 
+                  onChangeText={setDescription}
+                  autoFocus
+                />
+              </Wrapper>
+              <Button 
+                disabled={description === currentPet.description}
+                title="Salvar alterações" 
+                style={{ margin: 10 }} 
+                onPress={() => {
+                  updatePetDescription(description)
+                  setModalVisible(false)
+                }}
+              />
+            </Container>
+          </Modal>
+        )}
 
-      <ScrollView showsVerticalScrollIndicator={false}>  
-        <Header 
-          updatePetPhotoInState={updatePetPhotoInState} 
-          currentPet={currentPet} 
-          image={photo} 
-          handleSetImage={handleSetImage} 
-        />
-        <Form 
-          currentPet={currentPet} 
-          handleToggleSex={handleToggleSex}
-          handleToggleType={handleToggleSpecies}
-          sex={sex}
-          type={species}
-          handleUpdateProfile={handleUpdateProfile}
-        />
-      </ScrollView>
+        <ScrollView showsVerticalScrollIndicator={false}>  
+
+          <Header 
+            image={photo} 
+            handleSetImage={handleSetImage} 
+          />
+          <Row style={{ justifyContent: 'space-between', alignItems: 'center' }}>
+            <Name>{currentPet.name}</Name>
+            <BirthDate>2 anos</BirthDate>
+          </Row>
+
+          <Wrapper>
+            <Description>
+              {currentPet.description}            
+            </Description>
+          </Wrapper>
+          
+          <Button 
+            title='Editar descrição' 
+            onPress={() => setModalVisible(true)}
+            style={{ marginHorizontal: 10, marginBottom: 10 }} 
+          />
+            
+        </ScrollView>
     </Container>
   )
 }

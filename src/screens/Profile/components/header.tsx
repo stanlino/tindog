@@ -6,13 +6,12 @@ import firestore from '@react-native-firebase/firestore'
 import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 
-import { Pet } from '../../../hooks/pet_document'
+import { Pet, usePet } from '../../../hooks/pet_document'
 import { AppRoutesParams } from "src/types/routes";
 
 import { 
   Image, 
   Head,
-  PickImageView,
   WavesSvg,
   Button
 } from "./styles";
@@ -20,8 +19,6 @@ import {
 interface HeaderProps {
   image: string
   handleSetImage(photoUrl: string): void
-  currentPet: Pet,
-  updatePetPhotoInState(photo_url: string): void
 }
 
 async function updateImageInFirebase(newImage: string, petId: string) {
@@ -37,9 +34,11 @@ async function updateImageInFirebase(newImage: string, petId: string) {
   })
 }
 
-export function Header({ image, handleSetImage, currentPet, updatePetPhotoInState } : HeaderProps) {
+export function Header({ image, handleSetImage } : HeaderProps) {
 
   const { goBack } = useNavigation<StackNavigationProp<AppRoutesParams, 'profile'>>()
+
+  const { currentPet, updatePetPhotoInState  } = usePet()
 
   const pickImage = useCallback(async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -63,27 +62,17 @@ export function Header({ image, handleSetImage, currentPet, updatePetPhotoInStat
   return (
     <Fragment>
 
-      {image ? (
-          <Image style={{ aspectRatio: 41/57 }} source={{ uri: image }} />
-        ) : (
-          <PickImageView onPress={pickImage}>
-            <Feather name="image" size={30} />
-          </PickImageView>
-      )}
+      <Image style={{ aspectRatio: 41/57 }} source={{ uri: image }} />
 
       <WavesSvg style={{ transform: [{ rotate: '180deg' }] }} />
 
       <Head>
-        {image && (
-          <Button onPress={pickImage}>
-            <Feather name="image" size={30} color="white" />
-          </Button>
-        )}
-        {currentPet?.id && (
-          <Button onPress={() => goBack()}>
-            <Feather name="arrow-right" size={30} color="white" />
-          </Button>
-        )}
+        <Button onPress={pickImage}>
+          <Feather name="image" size={30} color="white" />
+        </Button>
+        <Button onPress={() => goBack()}>
+          <Feather name="arrow-right" size={30} color="white" />
+        </Button>
       </Head>
       
     </Fragment>
