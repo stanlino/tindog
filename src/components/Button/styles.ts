@@ -1,5 +1,5 @@
 import styled, { css } from 'styled-components/native'
-import { RFPercentage, RFValue } from 'react-native-responsive-fontsize'
+import { RFValue } from 'react-native-responsive-fontsize'
 import { TouchableOpacityProps } from 'react-native';
 import { MotiView } from 'moti';
 
@@ -9,7 +9,8 @@ export const Container = styled.TouchableOpacity.attrs({
   activeOpacity: 1
 })`
   flex: 1;
-  height: ${ButtonHeight}px;
+  max-height: ${ButtonHeight}px;
+  min-height: ${ButtonHeight}px;
 `
 
 export const Wrapper = styled(MotiView)<TouchableOpacityProps>`
