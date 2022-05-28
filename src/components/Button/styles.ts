@@ -3,12 +3,12 @@ import { RFPercentage, RFValue } from 'react-native-responsive-fontsize'
 import { TouchableOpacityProps } from 'react-native';
 import { MotiView } from 'moti';
 
-const ButtonHeight = RFPercentage(8)
+const ButtonHeight = RFValue(60)
 
 export const Container = styled.TouchableOpacity.attrs({
   activeOpacity: 1
 })`
-  width: 100%;
+  flex: 1;
   height: ${ButtonHeight}px;
 `
 

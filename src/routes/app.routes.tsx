@@ -14,6 +14,7 @@ import { Presentation } from '@screens/Presentation';
 import { Settings } from '@screens/Settings';
 import { Localization } from '@screens/Localization';
 import { Feedback } from '@screens/Feedback';
+import { CreatePet } from '@screens/CreateProfile';
 
 const { Navigator, Screen } = createSharedElementStackNavigator<AppRoutesParams>()
 
@@ -36,7 +37,7 @@ export function AppRoutes() {
           close: { animation: 'timing', config: { duration: 300 } },
         },
       }}
-      initialRouteName={userDocumentCreated ? userHasAPet ? 'home' : 'profile' : 'localization'}
+      initialRouteName={userDocumentCreated ? userHasAPet ? 'home' : 'create_profile' : 'localization'}
     >
       <Screen 
         component={Home}
@@ -45,6 +46,10 @@ export function AppRoutes() {
       <Screen 
         component={Localization}
         name='localization'
+      />
+      <Screen 
+        component={CreatePet}
+        name='create_profile'
       />
       <Screen 
         component={Presentation} 

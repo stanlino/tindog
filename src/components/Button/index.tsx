@@ -13,6 +13,7 @@ import {
 interface ButtonProps extends TouchableOpacityProps {
   title: string
   loading?: boolean
+  disabled?: boolean
 }
 
 const ButtonHeight = RFPercentage(8)
@@ -20,6 +21,7 @@ const ButtonHeight = RFPercentage(8)
 export function Button({
   title,
   loading = false,
+  disabled = false,
   ...rest
 } : ButtonProps){
 
@@ -38,7 +40,7 @@ export function Button({
 
   return (
     <Container 
-      disabled={loading}
+      disabled={loading || disabled}
       onPressIn={() => animateButton('pressIn')} 
       delayPressOut={1}
       onPressOut={() => animateButton('pressOut')} 
@@ -46,13 +48,13 @@ export function Button({
     >
       <Wrapper 
         state={buttonAnimation} 
-        disabled={loading}
+        disabled={loading || disabled}
       >
         <Title numberOfLines={1} adjustsFontSizeToFit>
           {loading ? 'Carregando ...' : title}
         </Title>
       </Wrapper>
-      <Bottom disabled={loading} />
+      <Bottom disabled={loading || disabled} />
     </Container>
   )
 }
