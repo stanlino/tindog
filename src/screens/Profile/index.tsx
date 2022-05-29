@@ -40,9 +40,16 @@ export function Profile({ navigation } : ProfileScreenProps){
 
   function calculateFullAge() {
     const date = currentPet.birth_date as unknown as DateFormatted
-    const dateFormatted = new Date(date.seconds * 1000)
+    
+    if (date.seconds) {
+      const dateFormatted = new Date(date.seconds * 1000)
+      const birthDate = parse(format(dateFormatted, 'dd/MM/yyyy'), "dd/MM/yyyy", new Date())
+      const { years, months } = intervalToDuration({ start: birthDate, end: new Date() })
 
-    const birthDate = parse(format(dateFormatted, 'dd/MM/yyyy'), "dd/MM/yyyy", new Date())
+      return `${years} anos${months! > 0 ? ` e ${months} meses` : ''}`
+    }
+
+    const birthDate = parse(format(currentPet.birth_date, 'dd/MM/yyyy'), "dd/MM/yyyy", new Date())
     const { years, months } = intervalToDuration({ start: birthDate, end: new Date() })
 
     return `${years} anos${months! > 0 ? ` e ${months} meses` : ''}`
