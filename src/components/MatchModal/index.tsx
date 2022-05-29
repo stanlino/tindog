@@ -40,7 +40,7 @@ export function MatchModal(){
       const notification = remoteMessage.notification
       
       if (!data) return
-      if (notification?.title != 'Combinação!') return
+      if (notification?.title !== 'Nova combinação!') return
 
       const pets = JSON.parse(data.pets)
 
