@@ -58,7 +58,7 @@ export function Localization({ navigation } : LocalizationScreenProps){
       user_location: user_location
     })
 
-    navigation.dispatch(StackActions.replace('profile'))
+    navigation.dispatch(StackActions.replace('create_profile'))
   }
 
   return (
