@@ -17,7 +17,6 @@ import { Button } from '@components/Button'
 import {
   Wrapper,
   Title,
-  Footer,
   Background
 } from './styles'
 
@@ -68,13 +67,11 @@ export function SignIn(){
           />
         </Background>
       </Wrapper>
-      <Footer>
-        <Button 
-          title='Entrar com Google'
-          loading={loading}
-          onPress={handleSignInWithGoogle}
-        />
-      </Footer>
+      <Button 
+        title='Entrar com Google'
+        loading={loading}
+        onPress={handleSignInWithGoogle}
+      />
     </Container>
   )
 }

@@ -22,11 +22,6 @@ export const Title = styled.Text`
   `}
 `
 
-export const Footer = styled.View`
-  align-items: center;
-  justify-content: center;
-`
-
 export const Span = styled.Text`
   ${({ theme }) => css`
     color: ${theme.COLORS.TEXT};
