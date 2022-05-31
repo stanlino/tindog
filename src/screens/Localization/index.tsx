@@ -3,6 +3,7 @@ import AnimatedLottieView from 'lottie-react-native'
 import { RFPercentage } from 'react-native-responsive-fontsize'
 import * as Location from 'expo-location'
 import { StackActions } from '@react-navigation/native'
+import I18n from 'i18n-js'
 
 import { LocalizationScreenProps } from '@types_/routes'
 
@@ -73,10 +74,10 @@ export function Localization({ navigation } : LocalizationScreenProps){
           loop={false}
         />
         <Span>
-          Por favor, habilite o acesso a localizão para que possamos buscar por pets próximos a você.
+          {I18n.t('location_permission')}
         </Span>
       </Wrapper>
-      <Button title='Prosseguir' loading={loading} onPress={handleCreateUserDocument} />
+      <Button title={I18n.t('next')} loading={loading} onPress={handleCreateUserDocument} />
     </Container>
   )
 }

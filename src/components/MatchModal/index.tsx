@@ -5,6 +5,7 @@ import { RFPercentage } from 'react-native-responsive-fontsize'
 import messaging from '@react-native-firebase/messaging'
 import firestore from '@react-native-firebase/firestore'
 import { BlurView } from '@react-native-community/blur'
+import I18n from 'i18n-js'
 
 import { useMatch } from '../../hooks/match'
 
@@ -69,7 +70,12 @@ export function MatchModal(){
   }, []);
 
   return (
-    <Modal visible={isVisible} onRequestClose={() => setIsVisible(false)} transparent animationType='fade'>
+    <Modal 
+      visible={isVisible} 
+      onRequestClose={() => setIsVisible(false)} 
+      transparent 
+      animationType='fade'
+    >
       <Container>
         <BlurView blurType='light' blurAmount={100} style={{ 
           position: 'absolute', 
@@ -78,7 +84,7 @@ export function MatchModal(){
           bottom: 0,
           right: 0  
         }} />
-        <Title>It's a Match!</Title>
+        <Title>{I18n.t('its_a_match')}</Title>
         <Row>
           {
             pets.map((pet, index) => (
@@ -113,7 +119,7 @@ export function MatchModal(){
           elevation: 4
         }} onPress={() => setIsVisible(false)}>
           <TouchableText>
-            Legau 😻
+            {I18n.t('cool')} 😻
           </TouchableText>
         </Touchable>
       </Container>

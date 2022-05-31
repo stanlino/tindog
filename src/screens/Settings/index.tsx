@@ -2,6 +2,7 @@ import React from 'react'
 
 import { Alert, FlatList, Linking, Share, StatusBar } from 'react-native'
 import { AntDesign, MaterialIcons } from '@expo/vector-icons'; 
+import I18n from 'i18n-js';
 
 import { useAuth } from '../../hooks/auth';
 import { useUserDocument } from '@hooks/user_document';
@@ -36,9 +37,9 @@ export function Settings({ navigation } : SettingsScreenProps) {
   const { userDocument } = useUserDocument()
 
   function handleSignOut() {
-    Alert.alert('Sair da conta', 'Tem certeza que deseja sair da conta?', [
-      { text: 'Não', style: 'cancel' },
-      { text: 'Sim', style: 'destructive', onPress: signOut }
+    Alert.alert(I18n.t('logout_title'), I18n.t('logout_span'), [
+      { text: I18n.t('no'), style: 'cancel' },
+      { text: I18n.t('yes'), style: 'destructive', onPress: signOut }
     ], { cancelable: true })
   }
 
@@ -54,10 +55,10 @@ export function Settings({ navigation } : SettingsScreenProps) {
 
   const options: Option[] = [
     // { name: 'Tema', icon: 'brightness-medium', action: () => {} },
-    { name: 'Minha privacidade', icon: 'privacy-tip', action: handleClickPrivacyTip },
-    { name: 'Feedback', icon: 'feedback', action: () => navigation.navigate('feedback') },
-    { name: 'Compartilhe o tindog', icon: 'share', action: handleShare },
-    { name: 'Sair', icon: 'exit-to-app', action: handleSignOut },
+    { name: I18n.t('my_privacy'), icon: 'privacy-tip', action: handleClickPrivacyTip },
+    { name: I18n.t('feedback'), icon: 'feedback', action: () => navigation.navigate('feedback') },
+    { name: I18n.t('share_tindog'), icon: 'share', action: handleShare },
+    { name: I18n.t('exit'), icon: 'exit-to-app', action: handleSignOut },
   ]
   
   return (
@@ -86,7 +87,7 @@ export function Settings({ navigation } : SettingsScreenProps) {
           </ListItem>
         )}
       />
-      <Version>tindog versão 1.3</Version>
+      <Version>v1.3</Version>
     </Container>
   )
 }

@@ -18,6 +18,7 @@ import {
   Title,
   Wrapper
 } from './styles'
+import I18n from 'i18n-js';
 
 export function Feedback({ navigation } : FeedbackScreenProps){
 
@@ -33,22 +34,29 @@ export function Feedback({ navigation } : FeedbackScreenProps){
     })
 
     setFeedbackText('')
-    Alert.alert('Feedback enviado!', 'Obrigado por seu feedback :)')
+    Alert.alert(I18n.t('feedback_sent'), I18n.t('thanks_feedback'))
   }
 
   return (
     <Container>
       <Row>
-        <Title>Deixe seu feedback</Title>
+        <Title>{I18n.t('feedback_title')}</Title>
         <SmallButton color='#dbe9f4' onPress={() => navigation.goBack()}>
           <AntDesign name="close" size={30} color="#000" />
         </SmallButton>
       </Row>
       <Wrapper>
-        <Span>O que está achando? Acredita que está faltando algo? Acredita que está faltando muita coisa? Seu feedback é de extrema importância pra mim! Solta o verbo!</Span>
-        <TextArea value={feedbackText} onChangeText={setFeedbackText} editable placeholder='Escreva seu feedback aqui!' />
+        <Span>
+          {I18n.t('feedback_span')}
+        </Span>
+        <TextArea 
+          value={feedbackText} 
+          onChangeText={setFeedbackText} 
+          editable 
+          placeholder={I18n.t('feedback_placeholder')}
+        />
       </Wrapper>
-      {feedbackText.length > 0 && <Button title='Vamos lá' onPress={handleSendFeedback} />}
+      {feedbackText.length > 0 && <Button title={I18n.t('send')} onPress={handleSendFeedback} />}
     </Container>
   )
 }

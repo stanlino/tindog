@@ -1,3 +1,4 @@
+import I18n from 'i18n-js'
 import AnimatedLottieView from 'lottie-react-native'
 import React from 'react'
 
@@ -24,7 +25,7 @@ export function SetPetSpecies(){
 
   return (
     <Container>
-      <Span>De qual das espécies abaixo seu bixinho pertence?</Span>
+      <Span>{I18n.t('new_profile_add_species_span')}</Span>
       <Row>
         <SmallTouchable onPress={() => handleSetSpecies('dog')} selected={species === 'dog'}>
           <AnimatedLottieView 
@@ -49,7 +50,8 @@ export function SetPetSpecies(){
           />
         </SmallTouchable>
       </Row>
-      <Span>{species === 'cat' ? 'Trata-se de um gato' : species === 'dog' ? 'Trata-se de um cachorro' : ''}</Span>
+      <Span>{species === 'cat' ? I18n.t('new_profile_add_species_alternative_2') 
+      : species === 'dog' ? I18n.t('new_profile_add_species_alternative_1') : ''}</Span>
     </Container>
   )
 }

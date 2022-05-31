@@ -1,3 +1,4 @@
+import I18n from 'i18n-js'
 import React from 'react'
 import { useAddPet } from '../hooks/create_pet'
 import { Container } from './container'
@@ -20,14 +21,14 @@ export function SetPetDescription(){
 
   return (
     <Container center={false}>
-      <Span>Escreva uma descrição do seu pet</Span>
+      <Span>{I18n.t('new_profile_add_description_span')}</Span>
       <TextareaWrapper>
         <TextArea 
           value={description} 
           onChangeText={handleUpdateDescription} 
           editable 
           autoFocus
-          placeholder={`Exemplo: Passa a maior parte do seu tempo brincando ou enchendo o saco das pessoas na rua :)\n\nDeixe claro o motivo do seu pet ser o par romântico de outro!`}
+          placeholder={I18n.t('new_profile_add_description_placeholder')}
         />
       </TextareaWrapper>
     </Container>

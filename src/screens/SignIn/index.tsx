@@ -2,7 +2,7 @@ import React, {
   useCallback, 
   useState 
 } from 'react'
-
+import i18n from 'i18n-js';
 import AnimatedLottieView from "lottie-react-native";
 
 import { RFPercentage } from 'react-native-responsive-fontsize'
@@ -68,7 +68,7 @@ export function SignIn(){
         </Background>
       </Wrapper>
       <Button 
-        title='Entrar com Google'
+        title={i18n.t('login_with_google')}
         loading={loading}
         onPress={handleSignInWithGoogle}
       />

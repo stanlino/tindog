@@ -4,6 +4,7 @@ import { FontAwesome, MaterialIcons } from '@expo/vector-icons'
 import { AnimatePresence } from 'moti'
 import { StackActions, useNavigation } from '@react-navigation/native'
 import { StackNavigationProp } from '@react-navigation/stack'
+import I18n from 'i18n-js'
 
 import { AppRoutesParams } from '@types_/routes'
 
@@ -48,14 +49,14 @@ export function CreateProfile(){
   const petPropertties = useAddPet()
 
   const progressSteps: Step[] = [
-    {name: 'foto', icon: 'image', Component: SetPetImage, canGoNextStep: petPropertties.photo},
-    {name: 'espécie', icon: '500px', Component: SetPetSpecies, canGoNextStep: petPropertties.species},
-    {name: 'nome', icon: 'edit', Component: SetPetName, canGoNextStep: petPropertties.name},
-    {name: 'sexo', icon: 'intersex', Component: SetPetSex, canGoNextStep: petPropertties.sex},
-    {name: 'idade', icon: 'sort-numeric-asc', Component: SetPetAge, canGoNextStep: petPropertties.birthDate},
-    {name: 'descrição', icon: 'file-text-o', Component: SetPetDescription, canGoNextStep: petPropertties.description?.length > 20},
-    {name: 'confirmação', icon: 'warning', Component: ConfirmPetCreation, canGoNextStep: true},
-    {name: 'concluído', icon: 'check', Component: PetCreated, canGoNextStep: petPropertties.petCreated}
+    {name: I18n.t('new_profile_add_image_title'), icon: 'image', Component: SetPetImage, canGoNextStep: petPropertties.photo},
+    {name: I18n.t('new_profile_add_species_title'), icon: '500px', Component: SetPetSpecies, canGoNextStep: petPropertties.species},
+    {name: I18n.t('new_profile_add_name_title'), icon: 'edit', Component: SetPetName, canGoNextStep: petPropertties.name},
+    {name: I18n.t('new_profile_add_sex_title'), icon: 'intersex', Component: SetPetSex, canGoNextStep: petPropertties.sex},
+    {name: I18n.t('new_profile_add_age_title'), icon: 'sort-numeric-asc', Component: SetPetAge, canGoNextStep: petPropertties.birthDate},
+    {name: I18n.t('new_profile_add_description_title'), icon: 'file-text-o', Component: SetPetDescription, canGoNextStep: petPropertties.description?.length > 20},
+    {name: I18n.t('new_profile_confirm_creation_title'), icon: 'warning', Component: ConfirmPetCreation, canGoNextStep: true},
+    {name: I18n.t('new_profile_pet_created_title'), icon: 'check', Component: PetCreated, canGoNextStep: petPropertties.petCreated}
   ]
 
   const [currentStep, setCurrentStep] = useState(0)
@@ -133,7 +134,7 @@ export function CreateProfile(){
         }
         <Button 
           disabled={!progressSteps[currentStep].canGoNextStep} 
-          title='Avançar' 
+          title={I18n.t('next')} 
           onPress={handleNextStep}
         />
       </Footer>

@@ -3,6 +3,7 @@ import { MaterialIcons } from '@expo/vector-icons'
 import { Alert, Linking, StatusBar } from 'react-native'
 import { Button } from '@components/Button'
 import { format, intervalToDuration, parse } from 'date-fns'
+import I18n from 'i18n-js'
 
 import { PresentationProps } from '@types_/routes'
 
@@ -37,24 +38,22 @@ export function Presentation({ navigation, route: { params } } : PresentationPro
     const birthDate = parse(format(dateFormatted, 'dd/MM/yyyy'), "dd/MM/yyyy", new Date())
     const { years, months } = intervalToDuration({ start: birthDate, end: new Date() })
 
-    return `${years} anos${months! > 0 ? ` e ${months} meses` : ''}`
+    return `${years} ${I18n.t('year')}${years > 1 && 's'}${months! > 0 ? `, ${months} ${I18n.t('month')}${months > 1 && 's'}` : ''}`
   }
-
-  const petArticle = pet.sex === 'male' ? 'o' : 'a'
 
   async function redirectToEmail() {
 
-    const message = 'Oi tudo bem? Nossos pets deram match no tindog!, vamos planejar o casamento, ou ja pulamos pra lua de mel?'
+    const message = I18n.t('email_message')
 
-    const subject = 'Nós demos um match no tindog!'
+    const subject = I18n.t('email_subject')
 
-    const announcement = `Enquanto desenvolvemos um chat você pode conversar com @ responsável d${petArticle} ${pet.name}`
+    const announcement = I18n.t('announcement_email_redirect')
       
     const url = `mailto:${contact}?subject=${subject}&body=${message}`
 
-    Alert.alert('Redirecionamento', `${announcement} via email! \n\nSinta-se a vontade para editar o corpo do email previamente já escrito 😺`, [
-      { text: 'Cancelar' },
-      { text: 'Conferir Email', onPress: () => {
+    Alert.alert(I18n.t('redirect'), `${announcement}`, [
+      { text: I18n.t('close') },
+      { text: I18n.t('next'), onPress: () => {
         Linking.openURL(url)
       }}
     ]) 
@@ -87,7 +86,7 @@ export function Presentation({ navigation, route: { params } } : PresentationPro
           <Location>{calculateFullAge(pet.birth_date)}</Location>
         </Row>
         <Description>{pet.description}</Description>
-        {itsAMatch && <Button title='Escrever email' onPress={redirectToEmail} />}
+        {itsAMatch && <Button title={I18n.t('write_email')} onPress={redirectToEmail} />}
       </Content>
     </Container>
   )

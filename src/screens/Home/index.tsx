@@ -4,6 +4,7 @@ import firestore from '@react-native-firebase/firestore'
 import AnimatedLottieView from 'lottie-react-native'
 import { RFPercentage } from 'react-native-responsive-fontsize'
 import { format, intervalToDuration, parse } from 'date-fns'
+import I18n from 'i18n-js'
 
 import { usePet, Pet } from '../../hooks/pet_document'
 import { useAuth } from '../../hooks/auth'
@@ -80,7 +81,7 @@ export function Home({ navigation } : HomeScreenProps){
     const birthDate = parse(format(dateFormatted, 'dd/MM/yyyy'), "dd/MM/yyyy", new Date())
     const { years, months } = intervalToDuration({ start: birthDate, end: new Date() })
 
-    return `${years} anos${months! > 0 ? ` e ${months} meses` : ''}`
+    return `${years} ${I18n.t('year')}${years > 1 && 's'}${months! > 0 ? `, ${months} ${I18n.t('month')}${months > 1 && 's'}` : ''}`
   }
 
   useEffect(() => {
@@ -148,7 +149,7 @@ export function Home({ navigation } : HomeScreenProps){
               backgroundColor='transparent'
               overlayLabels={{
                 left: {
-                  title: 'PASSO',
+                  title: I18n.t('no'),
                   style: {
                     label: {
                       textAlign: 'right',
@@ -159,7 +160,7 @@ export function Home({ navigation } : HomeScreenProps){
                   }
                 },
                 right: {
-                  title: 'GOSTEI',
+                  title: I18n.t('yes'),
                   style: {
                     label: {
                       textAlign: 'left',
@@ -194,11 +195,11 @@ export function Home({ navigation } : HomeScreenProps){
               <ActionButton type='like' action={handleSwipeToRight} />
             </>
           ) : allProfilesViewed ? (
-            <Span>Você já visualizou todos os perfis desta região</Span>
+            <Span>{I18n.t('no_more_profiles')}</Span>
           ) : (
-            <Span>Ainda não há perfis nessa região</Span>
+            <Span>{I18n.t('no_have_profiles')}</Span>
           ) : (
-            <Span>Buscando perfis ...</Span>
+            <Span>{I18n.t('loading')}</Span>
           )
         }
       </Footer>

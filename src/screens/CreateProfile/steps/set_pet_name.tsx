@@ -3,6 +3,7 @@ import { Input } from '@components/Input'
 import { Container } from './container'
 import { Span } from './styles'
 import { useAddPet } from '../hooks/create_pet'
+import I18n from 'i18n-js'
 
 export function SetPetName(){
 
@@ -21,7 +22,7 @@ export function SetPetName(){
 
   return (
     <Container>
-      <Span>Escreva o nome do seu bixinho</Span>
+      <Span>{I18n.t('new_profile_add_name_span')}</Span>
       <Input value={name} onChangeText={handleUpdateName} autoFocus editable />
     </Container>
   )

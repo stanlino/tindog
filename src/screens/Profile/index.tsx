@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { Modal, ScrollView, StatusBar } from 'react-native'
 import { AntDesign } from '@expo/vector-icons'; 
 import { format, intervalToDuration, parse } from 'date-fns';
+import I18n from 'i18n-js';
 
 import { Header } from './components/header';
 import { Button } from '@components/Button';
@@ -46,13 +47,13 @@ export function Profile({ navigation } : ProfileScreenProps){
       const birthDate = parse(format(dateFormatted, 'dd/MM/yyyy'), "dd/MM/yyyy", new Date())
       const { years, months } = intervalToDuration({ start: birthDate, end: new Date() })
 
-      return `${years} anos${months! > 0 ? ` e ${months} meses` : ''}`
+      return `${years} ${I18n.t('year')}${years > 1 && 's'}${months! > 0 ? `, ${months} ${I18n.t('month')}${months > 1 && 's'}` : ''}`
     }
 
     const birthDate = parse(format(currentPet.birth_date, 'dd/MM/yyyy'), "dd/MM/yyyy", new Date())
     const { years, months } = intervalToDuration({ start: birthDate, end: new Date() })
 
-    return `${years} anos${months! > 0 ? ` e ${months} meses` : ''}`
+    return `${years} ${I18n.t('year')}${years > 1 && 's'}${months! > 0 ? `, ${months} ${I18n.t('month')}${months > 1 && 's'}` : ''}`
   }
 
   return (
@@ -77,7 +78,7 @@ export function Profile({ navigation } : ProfileScreenProps){
               </Wrapper>
               <Button 
                 disabled={description === currentPet.description}
-                title="Salvar alterações" 
+                title={I18n.t('save_editions')}
                 style={{ margin: 10 }} 
                 onPress={() => {
                   updatePetDescription(description)
@@ -106,7 +107,7 @@ export function Profile({ navigation } : ProfileScreenProps){
           </Wrapper>
           
           <Button 
-            title='Editar descrição' 
+            title={I18n.t('edit_description')}
             onPress={() => setModalVisible(true)}
             style={{ marginHorizontal: 10, marginBottom: 10 }} 
           />

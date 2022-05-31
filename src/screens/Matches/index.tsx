@@ -1,7 +1,8 @@
 import React from 'react'
-import { FlatList, View } from 'react-native'
+import { FlatList } from 'react-native'
 import { Feather } from '@expo/vector-icons'
 const AnimatedLottieView = require("lottie-react-native");
+import I18n from 'i18n-js';
 import { RFPercentage } from 'react-native-responsive-fontsize'
 
 import { useMatch } from '../../hooks/match';
@@ -29,7 +30,7 @@ export function Matches({ navigation: { goBack } } : MatchesScreenProps){
         <BackButton onPress={goBack}>
           <Feather name="arrow-left" size={30} color="#594D4D" />
         </BackButton>
-        <Title>Combinações</Title>
+        <Title>{I18n.t('matches_title')}</Title>
       </Header>
       <FlatList 
         contentContainerStyle={{
@@ -54,9 +55,9 @@ export function Matches({ navigation: { goBack } } : MatchesScreenProps){
                 speed={0.5}
               />
               <Output>
-                Ainda não há combinações
+                {I18n.t('no_have_matches')}
               </Output>
-              <Span>Combinações acontecem quando dois perfis curtem um ao outro</Span>
+              <Span>{I18n.t('matches_span')}</Span>
             </Content>
           )
         }}

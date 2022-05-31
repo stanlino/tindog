@@ -1,6 +1,8 @@
 import React from 'react'
 import { ScrollView } from 'react-native'
 import { Foundation, MaterialIcons } from '@expo/vector-icons'; 
+import { RFValue } from 'react-native-responsive-fontsize';
+import I18n from 'i18n-js';
 
 import { parse, format, intervalToDuration } from 'date-fns'
 
@@ -17,7 +19,6 @@ import {
   PetDescription,
   PetProperttieWrapper
 } from './styles'
-import { RFValue } from 'react-native-responsive-fontsize';
 
 export function ConfirmPetCreation(){
   
@@ -27,13 +28,13 @@ export function ConfirmPetCreation(){
     const birthDate = parse(format(petPropertties.birthDate, 'dd/MM/yyyy'), "dd/MM/yyyy", new Date())
     const { years, months } = intervalToDuration({ start: birthDate, end: new Date() })
 
-    return `${years} anos${months! > 0 ? ` e ${months} meses` : ''}`
+    return `${years} ${I18n.t('year')}${years > 1 && 's'}${months! > 0 ? `, ${months} ${I18n.t('month')}${months > 1 && 's'}` : ''}`
   }
 
   return (
     <Container center={false}>
       <ScrollView showsVerticalScrollIndicator={false}>
-        <Span>Tudo certo? Podemos prosseguir?</Span>
+        <Span>{I18n.t('new_profile_confirm_creation_span')}</Span>
         <Content style={{ elevation: 2 }}>
           <ShortImage source={{ uri: petPropertties.photo }} />
           <Row style={{ justifyContent: 'space-between', alignItems: 'center' }}>
@@ -45,11 +46,11 @@ export function ConfirmPetCreation(){
           <Row>
             <PetProperttieWrapper>
               <MaterialIcons name='pets' size={RFValue(22)} />
-              <PetProperttie>{petPropertties.species === 'cat' ? 'Gato' : 'Cachorro'}</PetProperttie>
+              <PetProperttie>{petPropertties.species === 'cat' ? I18n.t('cat') : I18n.t('dog')}</PetProperttie>
             </PetProperttieWrapper>
             <PetProperttieWrapper>
               <Foundation name={petPropertties.sex === 'male' ? 'male-symbol' : 'female-symbol'} size={RFValue(24)} />
-              <PetProperttie>{petPropertties.sex === 'male' ? 'Macho' : 'Fêmea'}</PetProperttie>
+              <PetProperttie>{petPropertties.sex === 'male' ? I18n.t('male') : I18n.t('female')}</PetProperttie>
             </PetProperttieWrapper>
           </Row>
         </Content>

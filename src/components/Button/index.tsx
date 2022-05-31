@@ -9,6 +9,7 @@ import {
   Title,
   Wrapper
 } from './styles'
+import I18n from 'i18n-js';
 
 interface ButtonProps extends TouchableOpacityProps {
   title: string
@@ -51,7 +52,7 @@ export function Button({
         disabled={loading || disabled}
       >
         <Title numberOfLines={1} adjustsFontSizeToFit>
-          {loading ? 'Carregando ...' : title}
+          {loading ? I18n.t('loading') : title}
         </Title>
       </Wrapper>
       <Bottom disabled={loading || disabled} />

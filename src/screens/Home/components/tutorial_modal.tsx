@@ -2,6 +2,7 @@ import AnimatedLottieView from 'lottie-react-native'
 import React, { useEffect, useRef, useState } from 'react'
 import { RFPercentage, RFValue } from 'react-native-responsive-fontsize'
 import { Button, Dimensions, FlatList, Modal, Text, View } from 'react-native'
+import I18n from 'i18n-js';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import Touch from '@assets/lottie/touch.json'
@@ -33,9 +34,9 @@ export function Tutorial(){
   },[])
 
   const data = [
-    { text: 'Toque no perfil para visualizar mais detalhes', key: '1' },
-    { text: 'Arraste para esquerda quando não gostar do perfil', key: '2' },
-    { text: 'Arraste para direita quando gostar do perfil', key: '3' }
+    { text: I18n.t('tutorial_step_1'), key: '1' },
+    { text: I18n.t('tutorial_step_2'), key: '2' },
+    { text: I18n.t('tutorial_step_3'), key: '3' }
   ]
 
   async function scrollToNextPage() {
@@ -79,7 +80,7 @@ export function Tutorial(){
                   },
                   shadowOpacity: 0.5,
                   shadowRadius: 4.5,
-                  elevation: 4
+                  elevation: 1
                 }}>
                   <AnimatedLottieView 
                     source={item.key === '1' ? Touch : item.key === '2' ? SwipeToLeft : SwipeToRight}
@@ -89,10 +90,10 @@ export function Tutorial(){
                       width: RFPercentage(40),
                     }}
                   />
-                  <Text style={{ fontSize: RFValue(20), textAlign: 'center' }}>{item.text}</Text>
+                  <Text style={{ fontSize: RFValue(16), textAlign: 'center' }}>{item.text}</Text>
                 </View>
                 <View style={{ width: '100%', paddingHorizontal: 20, flexDirection: 'row', justifyContent: 'flex-end', marginTop: 20 }}>
-                  <Button onPress={scrollToNextPage} title={currentPage < 2 ? 'Próximo' : 'Entendi'} />
+                  <Button onPress={scrollToNextPage} title={currentPage < 2 ? I18n.t('next') : 'Ok'} />
                 </View>
               </View>
             )

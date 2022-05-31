@@ -1,6 +1,11 @@
 import React from 'react';
 import { StatusBar } from 'react-native';
 import { ThemeProvider } from 'styled-components';
+import * as Localization from 'expo-localization';
+import i18n from 'i18n-js';
+
+import en_US from './src/locales/en_US.json'
+import pt_BR from './src/locales/pt_BR.json'
 
 import { 
   useFonts, 
@@ -13,6 +18,15 @@ import { Routes } from '@routes/index';
 
 import themes from '@themes/index'
 import { AuthProvider } from '@hooks/auth'
+
+i18n.translations = {
+  en: en_US,
+  pt: pt_BR
+}
+
+i18n.locale = Localization.locale
+
+i18n.fallbacks = true
 
 export default function App() {
  

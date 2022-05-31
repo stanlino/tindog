@@ -1,4 +1,5 @@
 import { usePet } from '@hooks/pet_document'
+import I18n from 'i18n-js'
 import AnimatedLottieView from 'lottie-react-native'
 import { MotiView, AnimatePresence } from 'moti'
 import React, { useEffect, useState } from 'react'
@@ -51,7 +52,7 @@ export function PetCreated(){
                 marginBottom: 10
               }}
             />
-            <SuperSpan>Registrando seu pet</SuperSpan>
+            <SuperSpan>{I18n.t('new_profile_pet_created_loading_span')}</SuperSpan>
           </MotiView>
         )} 
         {petCreated && (
@@ -76,7 +77,7 @@ export function PetCreated(){
                 marginBottom: 10
               }}
             />
-            <SuperSpan>Pet registrado!</SuperSpan>
+            <SuperSpan>{I18n.t('new_profile_pet_created_loading_finish_span')}</SuperSpan>
           </MotiView>
         )}
       </AnimatePresence>

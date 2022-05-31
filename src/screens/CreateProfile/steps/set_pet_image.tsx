@@ -1,6 +1,7 @@
 import React, { useCallback, useState } from 'react'
 import * as ImagePicker from 'expo-image-picker';
 import { MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons'; 
+import I18n from 'i18n-js';
 
 import { SmallButton } from '@components/SmallButton'
 import { Container } from './container'
@@ -41,7 +42,7 @@ export function SetPetImage(){
         <ImageTouchable onPress={pickImage}>
           <MaterialIcons name='image' color='#0005' size={50} />
           <Span>
-            Toque para adicionar uma imagem do seu pet
+            {I18n.t('new_profile_add_image_span')}
           </Span>
         </ImageTouchable>
       }
