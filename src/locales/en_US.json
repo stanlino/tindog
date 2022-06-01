@@ -65,5 +65,6 @@
   "redirect": "Redirect",
   "close": "close",
   "email_message": "Hello, our pets matched the Tindog! Shall we write this love story?",
-  "email_subject": "Match on Tindog"
+  "email_subject": "Match on Tindog",
+  "update_span": "Installing updates"
 }

@@ -18,6 +18,7 @@ import { Routes } from '@routes/index';
 
 import themes from '@themes/index'
 import { AuthProvider } from '@hooks/auth'
+import { UpdatesProvider } from '@hooks/updates';
 
 i18n.translations = {
   en: en_US,
@@ -42,10 +43,12 @@ export default function App() {
  
   return (
     <ThemeProvider theme={themes}>
-      <AuthProvider>
-        <Routes />
-        <StatusBar translucent barStyle={'dark-content'} backgroundColor={'#0000'}/>
-      </AuthProvider>
+      <UpdatesProvider>
+        <AuthProvider>
+          <Routes />
+          <StatusBar translucent barStyle={'dark-content'} backgroundColor={'#0000'}/>
+        </AuthProvider>
+      </UpdatesProvider>
     </ThemeProvider>
   )
 }

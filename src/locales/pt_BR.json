@@ -65,5 +65,6 @@
   "redirect": "Redirecionamento",
   "close": "fechar",
   "email_message": "Olá, nosso pets deram match no Tindog! Vamos escrever essa história de amor?",
-  "email_subject": "Combinação no Tindog"
+  "email_subject": "Combinação no Tindog",
+  "update_span": "Instalando atulizações"
 }
