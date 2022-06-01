@@ -20,7 +20,10 @@ export function UpdatesProvider({ children } : { children: ReactNode }) {
       await Updates.fetchUpdateAsync()
 
       setUpdateStep('FINISH')
-      await Updates.reloadAsync()
+
+      setTimeout(async () => {
+        await Updates.reloadAsync()
+      }, 1500)
     }
 
     updateApp()

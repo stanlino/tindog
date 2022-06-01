@@ -28,7 +28,7 @@ export function UpdatesModal({ step, visible } : UpdatesModalProps){
             }}
           />
           <Span>
-            {I18n.t('update_span')}
+            {I18n.t('update_span')}...
           </Span>
         </Wrapper>
       </Container>
