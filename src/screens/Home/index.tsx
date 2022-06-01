@@ -81,7 +81,7 @@ export function Home({ navigation } : HomeScreenProps){
     const birthDate = parse(format(dateFormatted, 'dd/MM/yyyy'), "dd/MM/yyyy", new Date())
     const { years, months } = intervalToDuration({ start: birthDate, end: new Date() })
 
-    return `${years} ${I18n.t('year')}${years > 1 && 's'}${months! > 0 ? `, ${months} ${I18n.t('month')}${months > 1 && 's'}` : ''}`
+    return `${years} ${I18n.t('year')}${years! > 1 && 's'}${months! > 0 ? `, ${months} ${I18n.t('months')}` : ''}`
   }
 
   useEffect(() => {
