@@ -1,17 +1,14 @@
 import React, { useEffect } from 'react'
 
-import { 
-  CardStyleInterpolators,  
-} from "@react-navigation/stack";
 import SplashScreen from 'react-native-splash-screen';
 
 import { SignIn } from "@screens/SignIn";
 import { Welcome } from '@screens/SignIn/welcome';
 
 import { AuthRoutesParams } from 'src/types/routes';
-import { createSharedElementStackNavigator } from 'react-navigation-shared-element';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-const { Navigator, Screen } = createSharedElementStackNavigator<AuthRoutesParams>()
+const { Navigator, Screen } = createNativeStackNavigator<AuthRoutesParams>()
 
 export function AuthRoutes() {
 
@@ -23,12 +20,7 @@ export function AuthRoutes() {
     <Navigator
       screenOptions={{
         headerShown: false,
-        cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
-        gestureEnabled: false,
-        transitionSpec: {
-          open: { animation: 'timing', config: { duration: 300 } },
-          close: { animation: 'timing', config: { duration: 300 } },
-        },
+        animation: 'slide_from_right'
       }}
       initialRouteName='welcome'
     >
