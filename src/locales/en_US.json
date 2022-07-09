@@ -33,6 +33,7 @@
   "new_profile_pet_created_title": "Concluded",
   "new_profile_pet_created_loading_span": "Registering your pet",
   "new_profile_pet_created_loading_finish_span": "Registered pet",
+  "tutorial_title": "How use Tindog?",
   "tutorial_step_1": "Tap the image to view more details",
   "tutorial_step_2": "Swipe left when you don't like the profile",
   "tutorial_step_3": "Swipe right when you like the profile",

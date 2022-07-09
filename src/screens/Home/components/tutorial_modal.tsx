@@ -8,6 +8,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import Touch from '@assets/lottie/touch.json'
 import SwipeToLeft from '@assets/lottie/swipe_to_left.json'
 import SwipeToRight from '@assets/lottie/swipe_to_right.json'
+import { StatusBar } from 'expo-status-bar';
+import { ContainerModal, Content, ContentModal, ContentText, ContentTitle, Row } from './styles';
 
 const { width: screenWidth } = Dimensions.get('screen')
 
@@ -51,7 +53,8 @@ export function Tutorial(){
 
   return (
     <Modal transparent visible={visible} animationType='fade'>
-      <View style={{ flex: 1, backgroundColor: '#fff8', alignItems: 'center', justifyContent: 'center' }}>
+      <StatusBar backgroundColor='#fff6' />
+      <ContainerModal>
         <FlatList 
           data={data}
           keyExtractor={item => item.key}
@@ -63,16 +66,8 @@ export function Tutorial(){
           ref={FlatListRef}
           renderItem={({ item }) => {
             return (  
-              <View style={{ 
-                width: screenWidth, 
-                justifyContent: 'center', 
-                alignItems: 'center',
-                paddingHorizontal: 40 }}
-              >
-                <View style={{ 
-                  backgroundColor: '#fff', 
-                  padding: 10, 
-                  borderRadius: 10,
+              <ContentModal>
+                <Content style={{ 
                   shadowColor: '#000',
                   shadowOffset: {
                     width: 4,
@@ -82,6 +77,7 @@ export function Tutorial(){
                   shadowRadius: 4.5,
                   elevation: 1
                 }}>
+                  <ContentTitle>{I18n.t('tutorial_title')}</ContentTitle>
                   <AnimatedLottieView 
                     source={item.key === '1' ? Touch : item.key === '2' ? SwipeToLeft : SwipeToRight}
                     autoPlay
@@ -90,16 +86,20 @@ export function Tutorial(){
                       width: RFPercentage(40),
                     }}
                   />
-                  <Text style={{ fontSize: RFValue(16), textAlign: 'center' }}>{item.text}</Text>
-                </View>
-                <View style={{ width: '100%', paddingHorizontal: 20, flexDirection: 'row', justifyContent: 'flex-end', marginTop: 20 }}>
-                  <Button onPress={scrollToNextPage} title={currentPage < 2 ? I18n.t('next') : 'Ok'} />
-                </View>
-              </View>
+                  <ContentText>{item.text}</ContentText>
+                </Content>
+                <Row>
+                  <Button 
+                    onPress={scrollToNextPage} 
+                    title={currentPage < 2 ? I18n.t('next') : I18n.t('close')}
+                    color={'#5e2525'}
+                  />
+                </Row>
+              </ContentModal>
             )
           }}
         />
-      </View>
+      </ContainerModal>
     </Modal>
   )
 }
