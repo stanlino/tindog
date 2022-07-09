@@ -11,23 +11,23 @@ export function UpdatesProvider({ children } : { children: ReactNode }) {
   const [ hasUpdates, setHasUpdates ] = useState(false)
   const [ updateStep, setUpdateStep ] = useState<UpdateStep>('DOWNLOADING')
 
-  // useEffect(() => {
-  //   async function updateApp() {
-  //     const { isAvailable } = await Updates.checkForUpdateAsync()
-  //     if (!isAvailable) return
+  useEffect(() => {
+    async function updateApp() {
+      const { isAvailable } = await Updates.checkForUpdateAsync()
+      if (!isAvailable) return
 
-  //     setHasUpdates(true)
-  //     await Updates.fetchUpdateAsync()
+      setHasUpdates(true)
+      await Updates.fetchUpdateAsync()
 
-  //     setUpdateStep('FINISH')
+      setUpdateStep('FINISH')
 
-  //     setTimeout(async () => {
-  //       await Updates.reloadAsync()
-  //     }, 1500)
-  //   }
+      setTimeout(async () => {
+        await Updates.reloadAsync()
+      }, 1500)
+    }
 
-  //   updateApp()
-  // },[])
+    updateApp()
+  },[])
 
   return (
     <UpdatesContext.Provider value={{}}>

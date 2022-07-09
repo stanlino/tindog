@@ -23,6 +23,8 @@ export function AppRoutes() {
   const { userHasAPet } = usePet()
   const { userDocumentCreated } = useUserDocument()
 
+  const initialRouteName = userDocumentCreated ? userHasAPet ? 'home' : 'create_profile' : 'localization'
+
   useEffect(() => {
     SplashScreen.hide();
   },[])
@@ -37,7 +39,7 @@ export function AppRoutes() {
           close: { animation: 'timing', config: { duration: 300 } },
         },
       }}
-      initialRouteName={userDocumentCreated ? userHasAPet ? 'home' : 'create_profile' : 'localization'}
+      initialRouteName={initialRouteName}
     >
       <Screen 
         component={Home}
