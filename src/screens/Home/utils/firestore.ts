@@ -6,14 +6,14 @@ export function viewProfile(
   owner_pet_id: string, 
   type_of_interaction: string
 ) {  
-  // firestore()
-  //   .collection('pets')
-  //   .doc(user_pet_id)
-  //   .collection('visualized')
-  //   .doc(owner_pet_id)
-  //   .set({
-  //   type_of_interaction
-  // })
+  firestore()
+    .collection('pets')
+    .doc(user_pet_id)
+    .collection('visualized')
+    .doc(owner_pet_id)
+    .set({
+    type_of_interaction
+  })
 }
 
 export async function likeProfile(
