@@ -12,14 +12,16 @@ import {
 
 interface UserProperties {
   user_name: string
-  user_location: string
+  city: string
+  state: string
 }
 
 interface UserDocumentContextData {
   userDocument: UserProperties
   updateUserDocument({
     user_name,
-    user_location
+    city,
+    state
   }: UserProperties) : void 
   userDocumentCreated: boolean
 }
@@ -39,21 +41,25 @@ export function UserDocumentProvider({ children }: { children: ReactNode }) {
 
   function updateUserDocument({
     user_name,
-    user_location
+    city,
+    state
   }: UserProperties) {
     userDocument.user_name ?
       updateUserDoc(user.uid, {
-        user_location,
+        city,
+        state,
         user_name
       })
     : createUserDocument(user.uid, {
-      user_location,
+      city,
+      state,
       user_name
     })
 
     setUserDocument({
       user_name,
-      user_location
+      city,
+      state
     })
 
   }

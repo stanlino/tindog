@@ -32,13 +32,17 @@ interface CreatePetProps {
   birthDate: Date
 }
 
-export async function createPetDocument(user_id: string, pet_id: string, location: string, {
-  name,
-  photo,
-  species,
-  sex,
-  description,
-  birthDate
+export async function createPetDocument(
+  user_id: string, 
+  pet_id: string, 
+  city: string, 
+  state: string, {
+    name,
+    photo,
+    species,
+    sex,
+    description,
+    birthDate
 } : CreatePetProps) {
 
   const storageReference = storage().ref(`pets/${pet_id}`)
@@ -53,7 +57,8 @@ export async function createPetDocument(user_id: string, pet_id: string, locatio
     sex,
     description,
     birth_date: birthDate,
-    location
+    city,
+    state
   }
 
   await firestore()

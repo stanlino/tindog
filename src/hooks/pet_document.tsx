@@ -21,7 +21,8 @@ export interface Pet {
   user_id: string
   name: string
   photo: string
-  location: string
+  city: string
+  state: string
   species: 'dog' | 'cat'
   sex: 'female' | 'male'
   description: string
@@ -104,7 +105,11 @@ export function CurrentPetProvider({ children } : { children: ReactNode }) {
 
     const pet_id = `${user.uid}-${pets.length}`
 
-    const petDocument = await createPetDocument(user.uid, pet_id, userDocument.user_location, props)
+    const petDocument = await createPetDocument(
+      user.uid, pet_id, 
+      userDocument.city, 
+      userDocument.state, 
+      props)
     return setPets(oldPets => [...oldPets, {...petDocument, id: pet_id}])
   }
 

@@ -25,17 +25,20 @@ export async function removeTokenAndSignOut(user_uid: string) {
 
 interface UserProperties {
   user_name: string
-  user_location: string
+  city: string
+  state: string
 }
 
 export async function createUserDocument(user_uid: string, {
   user_name,
-  user_location
+  city,
+  state
 }: UserProperties) {
   const userDocumentReference = firestore().collection('users').doc(user_uid)
   const response = await userDocumentReference.set({
     user_name,
-    user_location
+    city,
+    state
   }, {
     merge: true
   })
@@ -46,12 +49,14 @@ export async function createUserDocument(user_uid: string, {
 
 export async function updateUserDocument(user_uid: string, {
   user_name,
-  user_location,
+  city,
+  state
 } : UserProperties) {
   const userDocumentReference = firestore().collection('users').doc(user_uid)
   const response = await userDocumentReference.update({
     user_name,
-    user_location
+    city,
+    state
   }).then(() => true).catch(() => false)
 
   return response
