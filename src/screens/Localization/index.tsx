@@ -38,10 +38,10 @@ export function Localization({ navigation } : LocalizationScreenProps){
     const location = await Location.getCurrentPositionAsync({})
 
     try {
-      const response = await fetch(`https://tindog-messaging-api.herokuapp.com/localization/localization?latitude=${location.coords.latitude}&longitude=${location.coords.longitude}`)
-      const text = await response.text()
+      const response = await fetch(`https://tindog-messaging-api.herokuapp.com/localization/latlng?latitude=${location.coords.latitude}&longitude=${location.coords.longitude}`)
+      const reponseJson = await response.json()
 
-      return text as unknown as string
+      return reponseJson
     } catch {
       return 'ERROR'
     } finally {
@@ -56,7 +56,8 @@ export function Localization({ navigation } : LocalizationScreenProps){
 
     updateUserDocument({
       user_name: user.displayName!,
-      user_location: user_location
+      city: user_location.city,
+      state: user_location.state
     })
 
     navigation.dispatch(StackActions.replace('create_profile'))

@@ -39,6 +39,7 @@
   "tutorial_step_3": "Arraste para a direita quando gostar do perfil",
   "no_have_profiles": "Ainda não há perfis nessa região.",
   "no_more_profiles": "Você já visualizou todos os perfis desta região.",
+  "no_more_profiles_in_tindog": "Você já visualizou todos os perfis existentes.",
   "matches_title": "Combinações",
   "no_have_matches": "Ainda não há combinações",
   "matches_span": "Combinações acontecem quando dois perfis curtem um ao outro.",
@@ -67,5 +68,10 @@
   "close": "fechar",
   "email_message": "Olá, nosso pets deram match no Tindog! Vamos escrever essa história de amor?",
   "email_subject": "Combinação no Tindog",
-  "update_span": "Instalando atulizações"
+  "update_span": "Instalando atualizações",
+  "change_scope": "Alterar local de busca",
+  "change_scope_title": "Quais perfis exibir?",
+  "change_scope_1": "Da minha cidade",
+  "change_scope_2": "Do meu estado",
+  "change_scope_3": "Todos"
 }

@@ -39,6 +39,7 @@
   "tutorial_step_3": "Swipe right when you like the profile",
   "no_have_profiles": "There are no profiles in this region yet.",
   "no_more_profiles": "You have already viewed all profiles for this region.",
+  "no_more_profiles_in_tindog": "You have already viewed all existing profiles.",
   "matches_title": "Matches",
   "no_have_matches": "There are no matches yet",
   "matches_span": "Matches happen when two profiles like each other.",
@@ -67,5 +68,10 @@
   "close": "close",
   "email_message": "Hello, our pets matched the Tindog! Shall we write this love story?",
   "email_subject": "Match on Tindog",
-  "update_span": "Installing updates"
+  "update_span": "Installing updates",
+  "change_scope": "Change search location",
+  "change_scope_title": "Which profiles to display?",
+  "change_scope_1": "My city profiles",
+  "change_scope_2": "My state profiles",
+  "change_scope_3": "All"
 }
