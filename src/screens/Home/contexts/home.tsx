@@ -42,7 +42,7 @@ export function HomeProvider({ children } : HomeProvider){
   const [petProfiles, setPetProfiles] = useState([] as Pet[])
   const [currentProfileIndex, setCurrentProfileIndex] = useState(0)
   const [isLoading, setIsLoading] = useState(true)
-  const [scope, setScope] = useState<Scope>('city')
+  const [scope, setScope] = useState<Scope>('all')
 
   const swiperRef = useRef<Swiper<Pet>>(null)
   const bottomSheetRef = useRef<BottomSheet>(null)
