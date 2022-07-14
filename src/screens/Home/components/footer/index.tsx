@@ -40,17 +40,23 @@ function HandleFooter() {
   if (isLoading) return <Span>{I18n.t('loading')}</Span>
 
   if (allProfilesViewed) return (
-    <Box>
+    <>
+      <RoundTouchable>
+        <FontAwesome name="history" size={20} color="purple" />
+      </RoundTouchable>
       <Span>{scope === 'all' ? I18n.t('no_more_profiles_in_tindog') : I18n.t('no_more_profiles')}</Span>
-      <ChangeScopeButton link />
-    </Box>
+      <ChangeScopeButton />
+    </>
   )
 
   if (emptyProfileList) return (
-    <Box>
+    <>
+      <RoundTouchable>
+        <FontAwesome name="history" size={20} color="purple" />
+      </RoundTouchable>
       <Span>{I18n.t('no_have_profiles')}</Span>
-      <ChangeScopeButton link />
-    </Box>
+      <ChangeScopeButton />
+    </>
   )
 
   return <>

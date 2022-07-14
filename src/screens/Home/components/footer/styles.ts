@@ -15,29 +15,12 @@ export const Span = styled.Text`
   text-align: center;
   font-size: ${RFValue(16)}px;
   color: #0006;
-  width: 100%;
-  padding: 0 10%;
+  flex: 1;
+  margin: 0 10px;
 `
 
 export const Box = styled.View`
   flex: 1;
-`
-
-export const InvisibleTouchable = styled.TouchableOpacity`
-  height: 40px;
-
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-`
-export const Link = styled.Text`
-  ${({ theme }) => css`
-    font-family: ${theme.FONTS.REGULAR};
-  `}
-  color: purple;
-  font-size: ${RFValue(15)}px;
-  text-align: center;
-  margin-left: 5px;
 `
 
 export const RoundTouchable = styled.TouchableOpacity`
