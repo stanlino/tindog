@@ -73,5 +73,7 @@
   "change_scope_title": "Which profiles to display?",
   "change_scope_1": "My city profiles",
   "change_scope_2": "My state profiles",
-  "change_scope_3": "All"
+  "change_scope_3": "All",
+  "history_screen_title": "History",
+  "history_screen_span": "Changed your mind? Double tap on the profile!"
 }

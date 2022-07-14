@@ -47,7 +47,11 @@ export function HomeProvider({ children } : HomeProvider){
   const swiperRef = useRef<Swiper<Pet>>(null)
   const bottomSheetRef = useRef<BottomSheet>(null)
 
-  const excludedProfiles = visualizedProfiles.concat(pets.map(pet => pet.id!))
+  const excludedProfiles = visualizedProfiles.concat(
+    pets.map(pet => ({ pet_id: pet.id!, type_of_interaction: 'like' }))
+  ).map(item => {
+    return item.pet_id
+  })
 
   const changeCurrentProfileIndex = useCallback((index: number) => {
     setCurrentProfileIndex(index)

@@ -38,15 +38,25 @@ interface CreatePetProps {
   birthDate: Date
 }
 
+
+type VisualizedProfilesDocument = {
+  type_of_interaction: 'reject' | 'like'
+}
+
+type VisualizedProfilesData = {
+  type_of_interaction: 'reject' | 'like'
+  pet_id: string
+}
+
 interface CurrentPetContextData {
   pets: Pet[]
   currentPet: Pet
   createPet(pet: CreatePetProps): Promise<void>
   updatePetDescription(description: string): Promise<void>
   updatePetPhotoInState(photo_url: string): void
-  visualizedProfiles: string[]
+  visualizedProfiles: VisualizedProfilesData[]
   userHasAPet: boolean
-  updateVisualizedProfiles(pet_id: string): void
+  updateVisualizedProfiles(pet_id: string, type_of_interaction: 'reject' | 'like'): void
 }
 
 const CurrentPetContext = createContext({} as CurrentPetContextData)
@@ -60,7 +70,7 @@ export function CurrentPetProvider({ children } : { children: ReactNode }) {
   const [viewedProfilesLoaded, setViewedProfilesLoaded] = useState(false)
 
   const [pets, setPets] = useState<Pet[]>([] as Pet[])
-  const [visualizedProfiles, setVisualizedProfiles] = useState<string[]>([]) 
+  const [visualizedProfiles, setVisualizedProfiles] = useState<VisualizedProfilesData[]>([]) 
 
   const [petIndex, setPetIndex] = useState(0)
 
@@ -92,7 +102,9 @@ export function CurrentPetProvider({ children } : { children: ReactNode }) {
       const visualizedDocuments = await fetchProfilesAlreadyViewed(currentPet.id)
       if (!visualizedDocuments) return
 
-      setVisualizedProfiles(visualizedDocuments.docs.map(doc => doc.id))
+      setVisualizedProfiles(
+        visualizedDocuments.docs.map(doc => ({...doc.data() as VisualizedProfilesDocument, pet_id: doc.id}))
+      )
       
       return setViewedProfilesLoaded(true)
     }
@@ -140,8 +152,8 @@ export function CurrentPetProvider({ children } : { children: ReactNode }) {
     setPets(petsClone)
   }
 
-  function updateVisualizedProfiles(pet_id: string) {
-    setVisualizedProfiles(oldState => [...oldState, pet_id])
+  function updateVisualizedProfiles(pet_id: string, type_of_interaction: 'reject' | 'like') {
+    setVisualizedProfiles(oldState => [...oldState, { pet_id, type_of_interaction }])
   }
 
   if (petsLoaded && viewedProfilesLoaded) {

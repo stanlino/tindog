@@ -1,14 +1,17 @@
 import React, { useCallback } from 'react'
 import I18n from 'i18n-js'
 import { FontAwesome } from '@expo/vector-icons'; 
+import { useNavigation } from '@react-navigation/native'
+import { StackNavigationProp } from '@react-navigation/stack';
 
 import { usePet } from '@hooks/pet_document'
 import { useHomeContext } from '@screens/Home/contexts/home'
 import { ChangeScopeButton } from './button'
 import { ActionButton } from './action_button'
 
+import { AppRoutesParams } from '@types_/routes';
+
 import {
-  Box,
   Container,
   RoundTouchable,
   Span
@@ -26,6 +29,8 @@ function HandleFooter() {
 
   const { visualizedProfiles } = usePet()
 
+  const { navigate } = useNavigation<StackNavigationProp<AppRoutesParams, 'home'>>()
+
   const emptyProfileList = !petProfiles[0] || currentProfileIndex === petProfiles.length
   const allProfilesViewed = visualizedProfiles.length > 0 && emptyProfileList
 
@@ -37,11 +42,15 @@ function HandleFooter() {
     swiperRef.current?.swipeRight()
   }, [])
 
+  function naviteToHistory() {
+    navigate('history')
+  }
+
   if (isLoading) return <Span>{I18n.t('loading')}</Span>
 
   if (allProfilesViewed) return (
     <>
-      <RoundTouchable>
+      <RoundTouchable onPress={naviteToHistory}>
         <FontAwesome name="history" size={20} color="purple" />
       </RoundTouchable>
       <Span>{scope === 'all' ? I18n.t('no_more_profiles_in_tindog') : I18n.t('no_more_profiles')}</Span>
@@ -51,7 +60,7 @@ function HandleFooter() {
 
   if (emptyProfileList) return (
     <>
-      <RoundTouchable>
+      <RoundTouchable onPress={naviteToHistory}>
         <FontAwesome name="history" size={20} color="purple" />
       </RoundTouchable>
       <Span>{I18n.t('no_have_profiles')}</Span>
@@ -60,7 +69,7 @@ function HandleFooter() {
   )
 
   return <>
-    <RoundTouchable>
+    <RoundTouchable onPress={naviteToHistory}>
       <FontAwesome name="history" size={20} color="purple" />
     </RoundTouchable>
     <ActionButton type='reject' action={handleSwipeToLeft} />

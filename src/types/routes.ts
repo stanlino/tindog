@@ -21,6 +21,7 @@ export type AppRoutesParams = {
   settings: undefined
   localization: undefined
   feedback: undefined
+  history: undefined
   create_profile: undefined
 }
 
@@ -31,4 +32,5 @@ export type ProfileScreenProps = StackScreenProps<AppRoutesParams, 'profile'>
 export type SettingsScreenProps = StackScreenProps<AppRoutesParams, 'settings'>
 export type LocalizationScreenProps = StackScreenProps<AppRoutesParams, 'localization'>
 export type FeedbackScreenProps = StackScreenProps<AppRoutesParams, 'feedback'>
+export type HistoryScreenProps = StackScreenProps<AppRoutesParams, 'history'>
 export type CreateProfileScreenProps = StackScreenProps<AppRoutesParams, 'create_profile'>

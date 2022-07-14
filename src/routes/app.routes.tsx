@@ -15,6 +15,7 @@ import { Settings } from '@screens/Settings';
 import { Localization } from '@screens/Localization';
 import { Feedback } from '@screens/Feedback';
 import { CreatePet } from '@screens/CreateProfile';
+import { History } from '@screens/History';
 
 const { Navigator, Screen } = createSharedElementStackNavigator<AppRoutesParams>()
 
@@ -75,6 +76,14 @@ export function AppRoutes() {
           cardStyleInterpolator: CardStyleInterpolators.forModalPresentationIOS,
         }}
       />
+
+      <Screen 
+        component={History} 
+        name='history' 
+        options={{
+          cardStyleInterpolator: CardStyleInterpolators.forModalPresentationIOS,
+        }}
+      />  
 
       <Screen
         name='matches' 
