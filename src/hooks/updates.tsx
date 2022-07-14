@@ -26,7 +26,7 @@ export function UpdatesProvider({ children } : { children: ReactNode }) {
       }, 1500)
     }
 
-    updateApp()
+    if (!__DEV__) updateApp()
   },[])
 
   return (
