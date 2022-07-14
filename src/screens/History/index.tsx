@@ -2,6 +2,8 @@ import React, { useCallback, useEffect, useState } from 'react'
 import { AntDesign } from '@expo/vector-icons'; 
 import I18n from 'i18n-js';
 import { FlatList, StatusBar } from 'react-native';
+import AnimatedLottieView from 'lottie-react-native';
+import { RFPercentage } from 'react-native-responsive-fontsize';
 
 import { Pet, usePet } from '@hooks/pet_document'
 import { HistoryScreenProps } from '@types_/routes'
@@ -9,14 +11,19 @@ import { HistoryScreenProps } from '@types_/routes'
 import { SmallButton } from '@components/SmallButton'
 import { getVisualizedProfiles } from './utils/firestore';
 
+import { Profile } from './profile';
+
+
 import { 
   Container, 
+  Content, 
+  Output, 
   Row,
   Span,
   Title,
+  Warning,
   Wrapper
 } from './styles'
-import { Profile } from './profile';
 
 export function History({ navigation } : HistoryScreenProps){
 
@@ -24,12 +31,16 @@ export function History({ navigation } : HistoryScreenProps){
 
   const [ profiles, setProfiles ] = useState<Pet[]>([])
 
+  const [ isLoading, setIsLoading ] = useState(true)
+
   useEffect(() => {
 
     async function getProfiles() {
       const recoveredProfiles = await getVisualizedProfiles(visualizedProfiles)
 
       setProfiles(recoveredProfiles)
+
+      setIsLoading(false)
     }
 
     getProfiles()
@@ -60,21 +71,52 @@ export function History({ navigation } : HistoryScreenProps){
         </SmallButton>
       </Row>
 
-      <Span>{I18n.t('history_screen_span')}</Span>
+      {profiles.length > 0 && <Span>{I18n.t('history_screen_span')}</Span>}
 
       <Wrapper>
-        <FlatList 
-          data={profiles}
-          keyExtractor={item => item.id}
-          renderItem={({ item, index }) => 
-            <Profile 
-              navigateToProfile={navigateToProfile} 
-              item={item} 
-              index={index} 
-              interaction={getInteraction(item.id)}
+        { isLoading ?
+            <AnimatedLottieView
+              source={require('@assets/lottie/cat-loading.json')}
+              style={{
+                width: RFPercentage(40),
+                alignSelf: 'center'
+              }}
+              autoPlay
+              loop
+              speed={2}
             />
-          }
-        />
+          : <FlatList 
+              data={profiles}
+              keyExtractor={item => item.id}
+              renderItem={({ item, index }) => 
+                <Profile 
+                  navigateToProfile={navigateToProfile} 
+                  item={item} 
+                  index={index} 
+                  interaction={getInteraction(item.id)}
+                />
+              }
+              ListEmptyComponent={() => {
+                return (
+                  <Content>
+                    <AnimatedLottieView
+                      source={require('@assets/lottie/dog-sleeping.json')}
+                      style={{
+                        width: RFPercentage(40),
+                      }}
+                      autoPlay
+                      loop
+                      speed={0.5}
+                    />
+                    <Output>
+                      {I18n.t('history_screen_warning_title')}
+                    </Output>
+                    <Warning>{I18n.t('history_screen_warning_span')}</Warning>
+                  </Content>
+                )
+              }}
+            />
+        }
       </Wrapper>
     </Container>
   )

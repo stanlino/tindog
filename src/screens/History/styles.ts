@@ -27,6 +27,7 @@ export const Title = styled.Text`
 export const Wrapper = styled.View`
   flex: 1;
   margin-top: 10px;
+  justify-content: center;
 `
 
 export const CardContainer = styled.View`
@@ -88,4 +89,31 @@ export const Span = styled.Text`
     color: ${COLORS.TITLE};
   `}
   font-size: ${RFValue(12)}px;
+`
+
+export const Content = styled.View`
+  flex: 1;
+  padding-top: 50px;
+  align-items: center;
+`
+
+export const Output = styled.Text`
+  ${({ theme }) => css`
+    color: ${theme.COLORS.TITLE};
+    font-family: ${theme.FONTS.BOLD};
+  `}
+  font-size: ${RFValue(20)}px;
+  text-align: center;
+  margin-top: 30px;
+`
+
+export const Warning = styled.Text`
+  text-align: center;
+  ${({ theme: { COLORS, FONTS } }) => css`
+    font-family: ${FONTS.LIGHT};
+    color: ${COLORS.TITLE};
+  `}
+  font-size: ${RFValue(12)}px;
+  text-transform: uppercase;
+  margin: 10px 20px;
 `

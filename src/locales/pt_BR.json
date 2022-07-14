@@ -75,5 +75,7 @@
   "change_scope_2": "Do meu estado",
   "change_scope_3": "Todos",
   "history_screen_title": "Histórico",
-  "history_screen_span": "Mudou de ideia? Dê dois toques sobre o perfil!"
+  "history_screen_span": "Mudou de ideia? Dê dois toques sobre o perfil!",
+  "history_screen_warning_title": "Seu histórico está vazio",
+  "history_screen_warning_span": "Deslize algum perfil para direita ou esquerda e ele aparecerá aqui."
 }

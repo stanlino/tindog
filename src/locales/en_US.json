@@ -75,5 +75,7 @@
   "change_scope_2": "My state profiles",
   "change_scope_3": "All",
   "history_screen_title": "History",
-  "history_screen_span": "Changed your mind? Double tap on the profile!"
+  "history_screen_span": "Changed your mind? Double tap on the profile!",
+  "history_screen_warning_title": "Your history is empty",
+  "history_screen_warning_span": "Swipe a profile to the right or left and it will appear here."
 }
