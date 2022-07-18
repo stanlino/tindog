@@ -1,9 +1,10 @@
-import { Pet } from '@hooks/pet_document'
+import { Pet, usePet } from '@hooks/pet_document'
 import React, { useRef } from 'react'
 import { calculateFullAge } from '../../utils/calcAge'
 import { MaterialCommunityIcons } from '@expo/vector-icons'; 
-import Animated from 'react-native-reanimated';
-import Swipeable, { SwipeableProps } from 'react-native-gesture-handler/Swipeable'
+import { State, TapGestureHandler, TapGestureHandlerStateChangeEvent } from 'react-native-gesture-handler';
+
+import { useMatch } from '@hooks/match';
 
 import {
   Card, 
@@ -14,18 +15,22 @@ import {
   ProfileLocation,
   CardContainer
 } from './styles'
-import { State, TapGestureHandler, TapGestureHandlerStateChangeEvent } from 'react-native-gesture-handler';
+import { likeProfile, unlikeProfile } from './utils/firestore';
+import { useAuth } from '@hooks/auth';
 
 interface ProfileProps {
   item: Pet
   index: number
   navigateToProfile: (pet: Pet) => void
-  interaction: 'like' | 'reject'
+  interaction: 'reject' | 'like'
 }
 
-export function Profile({ item, index, navigateToProfile, interaction} : ProfileProps){
+export function Profile({ item, index, navigateToProfile, interaction } : ProfileProps){
 
   const doubleTapRef = useRef(null)
+
+  const { updateVisualizedProfiles, currentPet } = usePet()
+  const { user } = useAuth()
 
   const onSingleTap = (event: TapGestureHandlerStateChangeEvent) => {
     if (event.nativeEvent.state === State.ACTIVE) {
@@ -35,7 +40,12 @@ export function Profile({ item, index, navigateToProfile, interaction} : Profile
 
   const onDoubleTap = (event: TapGestureHandlerStateChangeEvent) => {
     if (event.nativeEvent.state === State.ACTIVE) {
-      // faça algo a respeito stanley!!!!!!!!
+      if (interaction === 'like') {
+        likeProfile(currentPet, item, user.email!)
+      } else {
+        unlikeProfile(currentPet, item)
+      }
+      updateVisualizedProfiles(item.id, interaction === 'like' ? 'reject' : 'like')
     }
   }
 

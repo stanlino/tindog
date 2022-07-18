@@ -12,7 +12,7 @@ import { SmallButton } from '@components/SmallButton'
 import { getVisualizedProfiles } from './utils/firestore';
 
 import { Profile } from './profile';
-
+import { useMatch } from '@hooks/match';
 
 import { 
   Container, 
@@ -27,7 +27,8 @@ import {
 
 export function History({ navigation } : HistoryScreenProps){
 
-  const { visualizedProfiles } = usePet()
+  const { visualizedProfiles, currentPet } = usePet()
+  const { matchs } = useMatch()
 
   const [ profiles, setProfiles ] = useState<Pet[]>([])
 
@@ -36,7 +37,7 @@ export function History({ navigation } : HistoryScreenProps){
   useEffect(() => {
 
     async function getProfiles() {
-      const recoveredProfiles = await getVisualizedProfiles(visualizedProfiles)
+      const recoveredProfiles = await getVisualizedProfiles(visualizedProfiles, matchs, currentPet.id)
 
       setProfiles(recoveredProfiles)
 
@@ -58,7 +59,7 @@ export function History({ navigation } : HistoryScreenProps){
     const profile = visualizedProfiles.filter(item => item.pet_id === pet_id)
 
     return profile[0].type_of_interaction
-  },[])
+  },[visualizedProfiles])
 
   return (
     <Container>

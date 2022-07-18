@@ -153,7 +153,18 @@ export function CurrentPetProvider({ children } : { children: ReactNode }) {
   }
 
   function updateVisualizedProfiles(pet_id: string, type_of_interaction: 'reject' | 'like') {
-    setVisualizedProfiles(oldState => [...oldState, { pet_id, type_of_interaction }])
+
+    const stateClone = visualizedProfiles.map(item => ({ ...item }))
+
+    const foundItem = stateClone.find(item => item.pet_id === pet_id)
+
+    if (foundItem) {
+      foundItem.type_of_interaction = type_of_interaction
+
+      return setVisualizedProfiles(stateClone)
+    }
+
+    return setVisualizedProfiles(oldState => [...oldState, { pet_id, type_of_interaction }])
   }
 
   if (petsLoaded && viewedProfilesLoaded) {
