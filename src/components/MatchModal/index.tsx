@@ -95,7 +95,7 @@ export function MatchModal(){
                     {pet.name}
                   </PetName>
                 </Pet>
-                {index < 1 && <Icon name="puzzle-heart" size={50} color={'#fff'} />}
+                {index < 1 && <Icon name="puzzle-heart" size={50} color={'red'} />}
               </Match>
             ))
           }

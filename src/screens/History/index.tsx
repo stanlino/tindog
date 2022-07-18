@@ -89,6 +89,7 @@ export function History({ navigation } : HistoryScreenProps){
           : <FlatList 
               data={profiles}
               keyExtractor={item => item.id}
+              showsVerticalScrollIndicator={false}
               renderItem={({ item, index }) => 
                 <Profile 
                   navigateToProfile={navigateToProfile} 

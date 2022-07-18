@@ -69,7 +69,7 @@ export function Settings({ navigation } : SettingsScreenProps) {
           <ProfileImage source={{ uri: user.photoURL! }} />
           <ProfileBlock>
             <ProfileName>{user.displayName}</ProfileName>
-            <ProfileLocation>{userDocument.user_location}</ProfileLocation>
+            <ProfileLocation>{userDocument.city} - {userDocument.state}</ProfileLocation>
           </ProfileBlock>
         </Profile>
         <SmallButton color='#dbe9f4' onPress={() => navigation.goBack()}>
@@ -87,7 +87,7 @@ export function Settings({ navigation } : SettingsScreenProps) {
           </ListItem>
         )}
       />
-      <Version>v1.3</Version>
+      <Version>v1.4</Version>
     </Container>
   )
 }

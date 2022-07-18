@@ -40,7 +40,7 @@ export function Profile({ item, index, navigateToProfile, interaction } : Profil
 
   const onDoubleTap = (event: TapGestureHandlerStateChangeEvent) => {
     if (event.nativeEvent.state === State.ACTIVE) {
-      if (interaction === 'like') {
+      if (interaction === 'reject') {
         likeProfile(currentPet, item, user.email!)
       } else {
         unlikeProfile(currentPet, item)
