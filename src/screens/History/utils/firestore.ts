@@ -21,7 +21,7 @@ export async function getVisualizedProfiles(
 ) {
   const visualizedProfilesIds = visualizedProfiles.map(profile => (profile.pet_id))
   const profilesInMatch: string[] = []
-  
+
   matchs.forEach(match => {
     if (match.itsAMatch) {
       match.pets.forEach(petId => {
@@ -33,6 +33,8 @@ export async function getVisualizedProfiles(
   }) 
 
   const profilesAvailables = visualizedProfilesIds.filter(item => !profilesInMatch.includes(item))
+
+  if (profilesAvailables.length < 1) return []
 
   const petsReference = await firestore()
     .collection('pets')
